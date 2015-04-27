@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/templ_cadastros.xhtml">
+
+	<ui:define name="titulo">
+		<div class="barra_titulo">
+			<h1><h:outputText value="Reclamações do mês" /></h1>
+		</div>
+	</ui:define>
+	
+	<ui:define name="toolbar">
+		<h:form prependId="false" id="frmToolbar">
+			<div class="barra_ferramentas">
+				<p:commandButton title="Imprimir Relatório" icon="ui-icon-print" actionListener="#{gestorMB.imprimirRelatorio}" ajax="false"/>
+				<p:commandButton title="Gráfico" icon="ui-icon-document" actionListener="#" ajax="false"/>
+				<p:commandButton title="Pesquisa" icon="ui-icon-search" action="#" actionListener="#" ajax="false" />
+			</div>
+		</h:form>
+	</ui:define>
+		
+	<ui:define name="conteudo">
+		
+		<p:fieldset legend="Principais reclamações">
+			<p:dataTable var="bean" value="#{gestorMB.listPrincipaisReclamacoes()}">
+				<p:column>
+					<f:facet name="header">Reclamação</f:facet>
+					<h:outputText value="#{bean.tipoReclamacao}" />
+				</p:column>
+				<p:column style="width: 5%; text-align: center">
+					<f:facet name="header">%</f:facet>
+					<h:outputText value="#{bean.percentual}" />
+				</p:column>
+				<p:column style="width: 5%; text-align: center">
+					<f:facet name="header">Total</f:facet>
+					<h:outputText value="#{bean.totalReclamacoes}" />
+				</p:column>
+			</p:dataTable>
+		</p:fieldset>
+		
+		<br/>
+		
+		<p:fieldset legend="Principais reclamados">
+			<p:dataTable var="bean" value="#{gestorMB.listObjetosMaisReclamados()}">
+				<p:column>
+					<f:facet name="header">Reclamado</f:facet>
+					<h:outputText value="#{bean.objetoReclamado}" />
+				</p:column>
+				<p:column style="width: 5%; text-align: center">
+					<f:facet name="header">%</f:facet>
+					<h:outputText value="#{bean.percentual}" />
+				</p:column>
+				<p:column style="width: 5%; text-align: center">
+					<f:facet name="header">Total</f:facet>
+					<h:outputText value="#{bean.totalReclamacoes}" />
+				</p:column>
+			</p:dataTable>
+		</p:fieldset>
+		
+		<br/>
+		
+		<p:fieldset legend="Linhas mais reclamadas">
+			<p:dataTable var="bean" value="#{gestorMB.listLinhasMaisReclamadas()}">
+				<p:column>
+					<f:facet name="header">Linha</f:facet>
+					<h:outputText value="#{bean.numeroLinha}" />
+				</p:column>
+				<p:column style="width: 5%; text-align: center">
+					<f:facet name="header">%</f:facet>
+					<h:outputText value="#{bean.percentual}" />
+				</p:column>
+				<p:column style="width: 5%; text-align: center">
+					<f:facet name="header">Total</f:facet>
+					<h:outputText value="#{bean.totalReclamacoes}" />
+				</p:column>
+			</p:dataTable>
+		</p:fieldset>
+		
+		<br/>
+		
+		<p:fieldset legend="Empresas mais reclamadas">
+			<p:dataTable var="bean" value="#{gestorMB.listEmpresasMaisReclamadas()}">
+				<p:column>
+					<f:facet name="header">Empresa</f:facet>
+					<h:outputText value="#{bean.empresa}" />
+				</p:column>
+				<p:column style="width: 5%; text-align: center">
+					<f:facet name="header">%</f:facet>
+					<h:outputText value="#{bean.percentual}" />
+				</p:column>
+				<p:column style="width: 5%; text-align: center">
+					<f:facet name="header">Total</f:facet>
+					<h:outputText value="#{bean.totalReclamacoes}" />
+				</p:column>
+			</p:dataTable>
+		</p:fieldset>
+			
+	</ui:define>
+			
+</ui:composition>

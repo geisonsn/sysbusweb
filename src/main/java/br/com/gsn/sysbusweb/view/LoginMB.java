@@ -1,0 +1,78 @@
+package br.com.gsn.sysbusweb.view;
+
+import java.io.Serializable;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.persistence.NoResultException;
+
+import org.apache.commons.codec.digest.DigestUtils;
+
+import br.com.gsn.sysbusweb.business.UsuarioBC;
+import br.com.gsn.sysbusweb.domain.Usuario;
+
+@ManagedBean
+@SessionScoped
+public class LoginMB implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Inject
+	private UsuarioBC usuarioBC;
+
+	private String username;
+	
+	private String senha;
+	
+	private Usuario usuario;
+
+	public String acessar() {
+		
+		try {
+			
+			this.usuario = usuarioBC.getByUsernameEPassoword(this.username, DigestUtils.sha256Hex(this.senha));
+			
+			if (this.usuario.isAdministrador()) {
+				return "usuario_list.jsf";
+			} else if (this.usuario.isGestor()) {
+				return "gestor.jsf";
+			} else if (this.usuario.isMantenedor()) {
+				return "veiculo_list.jsf";
+			}
+		} catch (NoResultException e) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Acesso não permitido",
+					"Usuário ou senha informados incorretamente!");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+		return null;
+	}
+	
+	public String logout() {
+		return "login.jsf?faces-redirect=true";
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	
+	public Usuario getUsuario() {
+		return this.usuario;
+	}
+	
+}

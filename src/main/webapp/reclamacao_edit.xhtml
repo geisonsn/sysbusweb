@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="#{messages['button.save']}" action="#{reclamacaoEditMB.insert}"
+						rendered="#{!reclamacaoEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.save']}" action="#{reclamacaoEditMB.update}"
+						rendered="#{reclamacaoEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.delete']}" onclick="confirmation.show()"
+						rendered="#{reclamacaoEditMB.updateMode}" type="button" immediate="true" ajax="false" />
+					<p:confirmDialog message="#{messages['label.confirm.delete']}" showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.delete']}" severity="alert" widgetVar="confirmation">
+						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{reclamacaoEditMB.delete}" immediate="true"
+							ajax="false" />
+						<h:commandButton value="#{messages['button.dialog.no']}" onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<br />
+
+			<p:fieldset legend="#{messages['reclamacao.label']}">
+				<h:panelGrid id="fieldsreclamacao" columns="3">
+				
+					<h:outputLabel value="#{messages['reclamacao.label.dataOcorrencia']}: " for="dataOcorrencia" styleClass="text-input" />
+					
+					<p:calendar id="dataOcorrencia" value="#{reclamacaoEditMB.bean.dataOcorrencia}"
+					   pattern="#{messages['label.date.pattern']}" navigator="true" showButtonPanel="true"
+					   locale="#{locales.currentLocale}" title="#{messages['reclamacao.alt.dataOcorrencia']}" 
+					   maxdate="#{reclamacaoEditMB.dataMaxima}"/>
+							 
+					<p:message for="dataOcorrencia" />
+						
+					<h:outputLabel value="#{messages['reclamacao.label.hora']}: " for="hora" styleClass="text-input" />
+					
+					
+					<p:calendar id="hora" value="#{reclamacaoEditMB.bean.hora}" timeOnly="true"
+					   pattern="#{messages['label.hora.pattern']}" locale="#{locales.currentLocale}" 
+					   title="#{messages['reclamacao.alt.hora']}" mask="99:99">
+						<f:convertDateTime pattern="HHmm"/>
+						<f:converter converterId="ConversorHora"/>
+				   </p:calendar>
+			
+					<p:message for="hora" />
+						
+					<h:outputLabel value="#{messages['reclamacao.label.placaLinha']}: " for="placaLinha" styleClass="text-input" />
+					
+					<p:inputMask id="placaLinha" value="#{reclamacaoEditMB.bean.placaLinha}"
+						title="#{messages['reclamacao.alt.placaLinha']}" mask="aaa-9999" converter="ConversorPlaca" 
+						style="text-transform: uppercase;" />
+					
+					<p:message for="placaLinha" />
+						
+					<h:outputLabel value="#{messages['origemReclamacao.label']}: " for="origemReclamacao" styleClass="text-input" />
+				    <p:selectOneMenu id="origemReclamacao" value="#{reclamacaoEditMB.bean.origemReclamacao}"  effect="fade" converter="ConversorOrigemReclamacao">
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+						<f:selectItems value="#{reclamacaoEditMB.origemReclamacaoList}" var="varOrigemReclamacao" itemLabel="#{varOrigemReclamacao.descricaoFormatada}"  itemValue="#{varOrigemReclamacao}" />						
+					</p:selectOneMenu>
+					<p:message for="origemReclamacao" />								  
+								 
+					<h:outputLabel value="#{messages['linha.label']}: " for="linha" styleClass="text-input" />
+				    <p:selectOneMenu id="linha" value="#{reclamacaoEditMB.bean.linha}"  effect="fade" converter="ConversorLinha">
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+						<f:selectItems value="#{reclamacaoEditMB.linhaList}" var="varLinha" itemLabel="#{varLinha.descricao}"  itemValue="#{varLinha}" />						
+					</p:selectOneMenu>
+					<p:message for="linha" />	
+					
+					<h:outputLabel value="#{messages['reclamacao.label.descricao']}: " for="descricao" styleClass="text-input" />
+					
+					<p:inputTextarea id="descricao" value="#{reclamacaoEditMB.bean.descricao}"
+						title="#{messages['reclamacao.alt.descricao']}" />
+					
+					<p:message for="descricao" />							  
+								 
+				</h:panelGrid>
+			</p:fieldset>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

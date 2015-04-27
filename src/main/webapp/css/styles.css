@@ -1,0 +1,50 @@
+@CHARSET "UTF-8";
+
+.ui-icon-locale-pt
+	,.ui-icon-locale-en{
+	width: 32px;
+	height: 31px;
+	background-position: center;
+	display: block;
+	float: left;
+	background-repeat: no-repeat;
+}
+
+.ui-icon-locale-pt{
+	background-image: url("../images/locale_pt.png");
+}
+
+.ui-icon-locale-en{
+	background-image: url("../images/locale_en.png");
+}
+
+/* Customização manual*/
+
+/* #rodape { 
+	width:100%;
+	position:relative;
+	bottom: 0;
+	padding:10px 0px;
+	text-align: center;
+	display: block;
+} */
+
+div.barra_titulo {
+	text-align:left;
+}
+
+div.barra_titulo h1 {
+	text-align:center;
+	font-size: 2em;
+	margin: 0;
+}
+
+div.barra_ferramentas {
+	text-align: right; 
+	margin-bottom: 0;
+}
+
+div.btn-save {
+	text-align: center; 
+	margin: 10px;
+}

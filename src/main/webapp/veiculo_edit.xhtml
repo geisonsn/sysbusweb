@@ -1,0 +1,67 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/templ_cadastros.xhtml">
+	
+	<ui:define name="titulo">
+		<div class="barra_titulo">
+			<h1>
+				<h:outputText value="#{messages['veiculo.label']}"/>
+			</h1>
+		</div>
+	</ui:define>
+	
+	<ui:define name="toolbar">
+		<h:form prependId="false" id="frmToolbar">
+			<div class="barra_ferramentas">
+				<p:commandButton title="#{messages['button.back']}" icon="ui-icon-circle-arrow-w" action="#{veiculoListMB.getPreviousView}"
+					actionListener="#{veiculoListMB.clear}" ajax="false" />
+			</div>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form prependId="false" id="form">
+	
+			<p:fieldset legend="#{messages['fieldset.dados.label']}">
+				<h:panelGrid id="fieldsVeiculo" columns="3">
+				
+					<h:outputLabel value="#{messages['veiculo.label.linha']}: " for="linha" styleClass="text-input" />
+					
+					<p:selectOneMenu value="#{veiculoEditMB.bean.linha}" id="linha" converter="ConversorLinha" >
+						<f:selectItem itemLabel="Selecione"/>
+						<f:selectItems value="#{veiculoEditMB.listLinha}" var="linha" itemLabel="#{linha.descricao}" itemValue="#{linha}"/>
+					</p:selectOneMenu>
+					
+					<p:message for="linha" />
+					
+					<h:outputLabel value="#{messages['veiculo.label.numeroRegistro']}: " for="numeroRegistro" styleClass="text-input" />
+					
+					<p:inputText id="numeroRegistro" value="#{veiculoEditMB.bean.numeroRegistro}"
+						title="#{messages['veiculo.alt.numeroRegistro']}" />
+					
+					<p:message for="numeroRegistro" />
+						
+					<h:outputLabel value="#{messages['veiculo.label.placa']}: " for="placa" styleClass="text-input" />
+					
+					<p:inputMask id="placa" value="#{veiculoEditMB.bean.placa}"
+						title="#{messages['veiculo.alt.placa']}" mask="aaa-9999" converter="ConversorPlaca" 
+						style="text-transform: uppercase;"/>
+					
+					<p:message for="placa" />
+					
+				</h:panelGrid>
+				
+				<br/>
+				
+				<div class="btn-save">
+					<p:commandButton value="#{messages['button.save']}" action="#{veiculoEditMB.insert}"
+						rendered="#{!veiculoEditMB.updateMode}" ajax="false"/>
+					<p:commandButton value="#{messages['button.update']}" action="#{veiculoEditMB.update}"
+						rendered="#{veiculoEditMB.updateMode}" ajax="false" />
+				</div>
+			</p:fieldset>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/templ_cadastros.xhtml">
+
+	<ui:define name="titulo">
+		<div class="barra_titulo">
+			<h1>
+				<h:outputText value="#{messages['usuario.label']}"/>
+			</h1>
+		</div>
+	</ui:define>
+	
+	<ui:define name="toolbar">
+		<h:form prependId="false" id="frmToolbar">
+			<div class="barra_ferramentas">
+				<p:commandButton title="#{messages['button.back']}" icon="ui-icon-circle-arrow-w" action="#{usuarioListMB.getPreviousView}"
+					actionListener="#{usuarioListMB.clear}" ajax="false" />
+			</div>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form prependId="false" id="form">
+
+			<p:fieldset legend="#{messages['usuario.label']}">
+				<h:panelGrid id="fieldsusuario" columns="3">
+				
+					<h:outputLabel value="#{messages['usuario.label.nome']}: " for="nome" styleClass="text-input" />
+					
+					<p:inputText id="nome" value="#{usuarioEditMB.bean.nome}"
+						title="#{messages['usuario.alt.nome']}" />
+					
+					<p:message for="nome" />
+						
+					<h:outputLabel value="#{messages['usuario.label.sobrenome']}: " for="sobrenome" styleClass="text-input" />
+					
+					<p:inputText id="sobrenome" value="#{usuarioEditMB.bean.sobrenome}"
+						title="#{messages['usuario.alt.sobrenome']}" />
+					
+					<p:message for="sobrenome" />
+						
+					<h:outputLabel value="#{messages['usuario.label.email']}: " for="email" styleClass="text-input" />
+					
+					<p:inputText id="email" value="#{usuarioEditMB.bean.email}"
+						title="#{messages['usuario.alt.email']}" />
+					
+					<p:message for="email" />
+					
+					<h:outputLabel value="#{messages['usuario.label.username']}: " for="username" styleClass="text-input" />
+					
+					<p:inputText id="username" value="#{usuarioEditMB.bean.username}"
+						title="#{messages['usuario.alt.username']}" />
+					
+					<p:message for="username" />
+						
+					<h:outputLabel value="#{messages['usuario.label.password']}: " for="password" styleClass="text-input" />
+					
+					<p:password id="password" value="#{usuarioEditMB.bean.password}"
+						title="#{messages['usuario.alt.password']}" match="passwordConfirmacao"/>
+					
+					<p:message for="password" />
+					
+					<h:outputLabel value="Confirmação: " for="password" styleClass="text-input" />
+					
+					<p:password id="passwordConfirmacao" value="#{usuarioEditMB.bean.password}"
+						title="#{messages['usuario.alt.password']}" />
+					
+				</h:panelGrid>
+				
+				<br/>
+				
+				<div class="btn-save">
+					<p:commandButton value="#{messages['button.save']}" action="#{usuarioEditMB.insert}"
+						rendered="#{!usuarioEditMB.updateMode}" ajax="false"/>
+					<p:commandButton value="#{messages['button.update']}" action="#{usuarioEditMB.update}"
+						rendered="#{usuarioEditMB.updateMode}" ajax="false" />
+				</div>
+				
+			</p:fieldset>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

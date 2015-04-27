@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/templ_cadastros.xhtml">
+	
+	<ui:define name="titulo">
+		<div class="barra_titulo">
+			<h1>
+				<h:outputText value="#{messages['linha.label']}"/>
+			</h1>
+		</div>
+	</ui:define>
+	
+	<ui:define name="toolbar">
+		<h:form prependId="false" id="frmToolbar">
+			<div class="barra_ferramentas">
+				<p:commandButton title="#{messages['button.back']}" icon="ui-icon-circle-arrow-w" action="#{linhaListMB.getPreviousView}"
+					actionListener="#{linhaListMB.clear}" ajax="false" />
+			</div>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form prependId="false" id="form">
+	
+			<p:fieldset legend="#{messages['fieldset.dados.label']}">
+				<h:panelGrid id="fieldsLinha" columns="3">
+				
+					<h:outputLabel value="#{messages['linha.label.descricao']}: " for="descricao" styleClass="text-input" />
+					
+					<p:inputText id="descricao" value="#{linhaEditMB.bean.descricao}"
+						title="#{messages['linha.alt.descricao']}" />
+					
+					<p:message for="descricao" />
+						
+					<h:outputLabel value="#{messages['linha.label.numero']}: " for="numero" styleClass="text-input" />
+					
+					<p:inputText id="numero" value="#{linhaEditMB.bean.numero}"
+						title="#{messages['linha.alt.numero']}" />
+					
+					<p:message for="numero" />
+					
+					<h:outputLabel value="#{messages['linha.label.empresa']}: " for="empresa" styleClass="text-input" />
+					
+					<p:selectOneMenu value="#{linhaEditMB.bean.empresa}" id="empresa" converter="ConversorEmpresa">
+						<f:selectItem itemLabel="Selecione"/>
+						<f:selectItems value="#{linhaEditMB.listEmpresa}" var="empresa" itemLabel="#{empresa.nome}" itemValue="#{empresa}" />
+					</p:selectOneMenu>
+					
+					<p:message for="empresa" />
+					
+					<h:outputLabel value="#{messages['linha.label.tipolinha']}: " for="tipoLinha" styleClass="text-input" />
+					
+					<p:selectOneMenu value="#{linhaEditMB.bean.tipoLinha}" id="tipoLinha" converter="ConversorTipoLinha">
+						<f:selectItem itemLabel="Selecione"/>
+						<f:selectItems value="#{linhaEditMB.listTipoLinha}" var="tipoLinha" itemLabel="#{tipoLinha.descricao}" itemValue="#{tipoLinha}"/>
+					</p:selectOneMenu>
+					
+					<p:message for="tipoLinha" />
+					
+					<h:outputLabel value="#{messages['linha.label.terminal']}: " for="terminal" styleClass="text-input" />
+					
+					<p:selectOneMenu value="#{linhaEditMB.bean.terminal}" id="terminal" converter="ConversorTerminal">
+						<f:selectItem itemLabel="Selecione"/>
+						<f:selectItems value="#{linhaEditMB.listTerminal}" var="terminal" itemLabel="#{terminal.descricao}" itemValue="#{terminal}"/>
+					</p:selectOneMenu>
+					
+					<p:message for="terminal" />
+					
+				</h:panelGrid>
+				
+				<br/>
+				
+				<div class="btn-save">
+					<p:commandButton value="#{messages['button.save']}" action="#{linhaEditMB.insert}"
+						rendered="#{!linhaEditMB.updateMode}" ajax="false"/>
+					<p:commandButton value="#{messages['button.update']}" action="#{linhaEditMB.update}"
+						rendered="#{linhaEditMB.updateMode}" ajax="false" />
+				</div>
+			</p:fieldset>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

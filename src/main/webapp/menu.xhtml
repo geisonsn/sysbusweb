@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:form>
+		<p:menubar>
+
+			<p:submenu label="#{messages['menu.cadastros']}" rendered="#{loginMB.usuario.administrador || loginMB.usuario.mantenedor}">
+				
+				<p:submenu label="Reclamação">
+					<p:menuitem value="#{messages['menu.tipoReclamacao']}" url="/tipoReclamacao_list.jsf"></p:menuitem>
+					<p:menuitem value="#{messages['menu.objetoReclamado']}" url="/objetoReclamado_list.jsf"></p:menuitem>
+					<p:menuitem value="#{messages['menu.origemReclamacao']}" url="/origemReclamacao_list.jsf"></p:menuitem>
+					<p:menuitem value="#{messages['menu.reclamacao']}" url="/reclamacao_list.jsf"></p:menuitem>
+				</p:submenu>
+				
+				<p:submenu label="Veículo">
+					<p:menuitem value="#{messages['menu.tipoLinha']}" url="/tipoLinha_list.jsf"></p:menuitem>
+					<p:menuitem value="#{messages['menu.terminal']}" url="/terminal_list.jsf"></p:menuitem>
+					<p:menuitem value="#{messages['menu.empresa']}" url="/empresa_list.jsf"></p:menuitem>
+					<p:menuitem value="#{messages['menu.linha']}" url="/linha_list.jsf"></p:menuitem>
+					<p:menuitem value="#{messages['menu.veiculo']}" url="/veiculo_list.jsf"></p:menuitem>
+				</p:submenu>
+				
+			</p:submenu>
+			
+			<p:submenu label="Segurança" rendered="#{loginMB.usuario.administrador}">
+				<p:menuitem value="#{messages['menu.usuario']}" url="/usuario_list.jsf"></p:menuitem>
+			</p:submenu>
+			
+			<p:submenu label="Relatórios" rendered="#{loginMB.usuario.gestor || loginMB.usuario.administrador}">
+				<p:menuitem value="Relatório 1" url="#"/>
+				<p:menuitem value="Relatório 2" url="#"/>
+			</p:submenu>
+			
+			<f:facet name="options">
+				<div id="logout">
+					Usuário: #{loginMB.usuario.username} | <h:commandLink title="Sair" value="Sair" action="#{loginMB.logout}"/>
+				</div>
+      		 	</f:facet>
+		</p:menubar>
+	</h:form>
+
+</ui:composition>

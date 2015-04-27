@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/templ_cadastros.xhtml">
+
+	<ui:define name="titulo">
+		<div class="barra_titulo">
+			<h1><h:outputText value="#{messages['usuario.label']}" /></h1>
+		</div>
+	</ui:define>
+	
+	<ui:define name="toolbar">
+		<h:form prependId="false" id="frmToolbar">
+			<div class="barra_ferramentas">
+				<p:commandButton title="#{messages['button.new']}" icon="ui-icon-document" action="#{usuarioListMB.getNextView}"
+					actionListener="#{usuarioListMB.clear}" ajax="false" />
+			</div>
+		</h:form>
+	</ui:define>
+	
+	
+	<ui:define name="conteudo">
+		<h:form prependId="false" id="form">
+		
+			<p:fieldset legend="Pesquisa">
+				<p:outputLabel value="#{messages['usuario.label.nome']}"></p:outputLabel>
+				<p:inputText id="descricao" value="#{usuarioListMB.nome}"/>
+				<p:commandButton action="#{usuarioListMB.pesquisar}" icon="ui-icon-search" ajax="false"/>
+			</p:fieldset>
+			
+			<br />
+			
+			<p:dataTable id="grid" var="bean" value="#{usuarioListMB.listUsuario}">
+				
+				<p:column sortBy="#{bean.nome}">
+					<f:facet name="header">#{messages['usuario.label.nome']}</f:facet>
+					<h:outputText value="#{bean.nome}" />
+				</p:column>
+					
+				<p:column sortBy="#{bean.sobrenome}">
+					<f:facet name="header">#{messages['usuario.label.sobrenome']}</f:facet>
+					<h:outputText value="#{bean.sobrenome}" />
+				</p:column>
+					
+				<p:column sortBy="#{bean.username}">
+					<f:facet name="header">#{messages['usuario.label.username']}</f:facet>
+					<h:outputText value="#{bean.username}" />
+				</p:column>
+					
+				<p:column sortBy="#{bean.email}">
+					<f:facet name="header">#{messages['usuario.label.email']}</f:facet>
+					<h:outputText value="#{bean.email}" />
+				</p:column>
+				
+				<p:column headerText="#{messages['list.label.acoes']}" style="width: 11%; text-align: center">
+					<p:commandButton action="#{usuarioListMB.getNextView}" actionListener="#{usuarioListMB.clear}" 
+						icon="ui-icon-pencil"	title="#{messages['botao.alterar.title']}" alt="#{messages['botao.alterar.alt']}">
+						<f:param name="id" value="#{bean.id}" />
+					</p:commandButton>
+					<p:commandButton action="#{usuarioListMB.perfilUsuario}" 
+						icon="ui-icon-person"	title="Perfil" alt="Perfil" ajax="false">
+						<f:param name="idUsuario" value="#{bean.id}" />
+					</p:commandButton>
+					<p:commandButton icon="ui-icon-trash" title="#{messages['botao.excluir.title']}" 
+						alt="#{messages['botao.excluir.alt']}" oncomplete="PF('confirmacao').show()" immediate="true">
+						<f:setPropertyActionListener target="#{usuarioListMB.objetoExcluido}" value="#{bean}" />
+					</p:commandButton>
+					
+					<p:confirmDialog widgetVar="confirmacao" header="#{messages['label.dialog.delete']}"
+						message="Remover" closeOnEscape="true">
+						<p:commandButton value="#{messages['button.dialog.yes']}"
+							styleClass="ui-confirmdialog-yes" partialSubmit="true"
+							icon="ui-icon-check" update=":form:grid"
+							actionListener="#{usuarioListMB.deletar}"
+							onclick="PF('confirmacao').hide();" />
+						<p:commandButton value="#{messages['button.dialog.no']}"
+							type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+							onclick="PF('confirmacao').hide();" />
+					</p:confirmDialog>
+					
+				</p:column>
+				
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+	
+</ui:composition>

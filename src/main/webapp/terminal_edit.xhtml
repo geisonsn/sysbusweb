@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/templ_cadastros.xhtml">
+
+	<ui:define name="titulo">
+		<div class="barra_titulo">
+			<h1><h:outputText value="#{messages['terminal.label']}" /></h1>
+		</div>
+	</ui:define>
+	
+	<ui:define name="toolbar">
+		<h:form prependId="false" id="frmToolbar">
+			<div class="barra_ferramentas">
+				<p:commandButton title="#{messages['button.new']}" icon="ui-icon-circle-arrow-w" action="#{terminalListMB.getPreviousView}"
+					actionListener="#{terminalListMB.clear}" ajax="false" />
+			</div>
+		</h:form>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form prependId="false" id="form">
+
+			<p:fieldset legend="Dados">
+				<h:panelGrid id="fieldsTerminal" columns="3">
+				
+					<h:outputLabel value="#{messages['terminal.label.descricao']}: " for="descricao" styleClass="text-input" />
+					
+					<p:inputText id="descricao" value="#{terminalEditMB.bean.descricao}"
+						title="#{messages['terminal.alt.descricao']}" />
+					
+					<p:message for="descricao" />
+					
+					<h:outputLabel value="Endereço: " for="endereco" styleClass="text-input" />
+					
+					<p:autoComplete id="endereco" value="#{terminalEditMB.logradouro}" completeMethod="#{logradouroMB.findLogradouro}"
+								minQueryLength="4" var="logradouro" itemLabel="#{logradouro.logradouroFormatado}" itemValue="#{logradouro}"
+								converter="ConversorLogradouro" forceSelection="true" placeholder="Logradouro, Bairro" cache="true"
+								scrollHeight="150" required="true" requiredMessage="Não pode ser nulo">
+						<f:ajax event="itemSelect" listener="#{terminalEditMB.onItemSelected}"/>
+					</p:autoComplete>
+					
+					<p:message for="endereco" />
+					
+				</h:panelGrid>
+				
+				<div class="btn-save">
+					<p:commandButton value="#{messages['button.save']}" action="#{terminalEditMB.insert}"
+						rendered="#{!terminalEditMB.updateMode}" ajax="false"/>
+					<p:commandButton value="#{messages['button.update']}" action="#{terminalEditMB.update}"
+						rendered="#{terminalEditMB.updateMode}" ajax="false" />
+				</div>
+					
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+	
+</ui:composition>
