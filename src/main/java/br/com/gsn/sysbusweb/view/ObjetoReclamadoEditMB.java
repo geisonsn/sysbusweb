@@ -6,9 +6,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
-import javax.persistence.RollbackException;
-
-import org.hibernate.exception.ConstraintViolationException;
 
 import br.com.gsn.sysbusweb.business.ObjetoReclamadoBC;
 import br.com.gsn.sysbusweb.business.TipoReclamacaoBC;
@@ -18,7 +15,6 @@ import br.gov.frameworkdemoiselle.annotation.PreviousView;
 import br.gov.frameworkdemoiselle.exception.ExceptionHandler;
 import br.gov.frameworkdemoiselle.stereotype.ViewController;
 import br.gov.frameworkdemoiselle.template.AbstractEditPageBean;
-import br.gov.frameworkdemoiselle.transaction.TransactionException;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @ViewController
@@ -95,7 +91,7 @@ public class ObjetoReclamadoEditMB extends
 				"Já existe um registro com os dados informados");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
-
+/*
 	@ExceptionHandler
 	public void capturaExcecao(TransactionException e) {
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -122,5 +118,5 @@ public class ObjetoReclamadoEditMB extends
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 				"Falha no sistema", "Falha desconhecida");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+	}*/
 }
