@@ -14,8 +14,8 @@
 		<p:dialog widgetVar="login" header="Login" closeOnEscape="false" modal="false" visible="true" closable="false" resizable="false">
 			Usuário<br/><p:inputText value="#{loginMB.username}"/><br/>
 			Senha<br/><p:password value="#{loginMB.senha}"/><br/><br/>
-			<div style="text-align:center"><p:commandButton value="Entrar" action="#{loginMB.acessar}" update="messages"/></div>
-			<p:growl id="messages" globalOnly="true" autoUpdate="true" />
+			<div style="text-align:center"><p:commandButton value="Entrar" action="#{loginMB.login}" update="messages"/></div>
+			<p:growl id="messages" globalOnly="true" autoUpdate="true" showDetail="true"/>
 		</p:dialog>
 	</h:form>
 	

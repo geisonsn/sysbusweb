@@ -3,6 +3,7 @@ package br.com.gsn.sysbusweb.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +22,8 @@ import br.com.gsn.sysbusweb.domain.enums.PerfilEnum;
 @NamedQueries({
 	@NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
 	@NamedQuery(name = "Usuario.findByNome", query = "SELECT u FROM Usuario u where upper(u.nome) like :nome"),
-	@NamedQuery(name = "Usuario.getByUsernameEPassword", query = "SELECT u FROM Usuario u where u.nome = :username and u.password = :password")
+	@NamedQuery(name = "Usuario.getByUsernameEPassword", query = "SELECT u FROM Usuario u where u.username = :username and u.password = :password"),
+	@NamedQuery(name = "Usuario.getByUsernameEEmail", query = "SELECT u FROM Usuario u where lower(u.username) = :username or u.email = :email")
 })
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -44,7 +46,7 @@ public class Usuario implements Serializable {
 	@NotEmpty
 	private String email;
 
-	@OneToMany(mappedBy = "usuario")
+	@OneToMany(mappedBy = "usuario", orphanRemoval = true)
 	private List<PerfilUsuario> listPerfilUsuario;
 
 	public Usuario() {

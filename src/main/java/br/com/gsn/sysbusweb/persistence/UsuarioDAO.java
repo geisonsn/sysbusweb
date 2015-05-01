@@ -27,6 +27,14 @@ public class UsuarioDAO extends JPACrud<Usuario, Long> {
 				.getSingleResult();
 	}
 	
+	public Usuario getByUsernameEEmail(String username, String email) {
+		return (Usuario)getEntityManager()
+				.createNamedQuery("Usuario.getByUsernameEEmail")
+				.setParameter("username", username.toLowerCase())
+				.setParameter("email", email)
+				.getSingleResult();
+	}
+	
 	
 
 }

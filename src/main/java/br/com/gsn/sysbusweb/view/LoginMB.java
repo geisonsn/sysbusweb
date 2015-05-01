@@ -9,8 +9,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
 import br.com.gsn.sysbusweb.business.UsuarioBC;
 import br.com.gsn.sysbusweb.domain.Usuario;
 
@@ -29,11 +27,11 @@ public class LoginMB implements Serializable {
 	
 	private Usuario usuario;
 
-	public String acessar() {
+	public String login() {
 		
 		try {
 			
-			this.usuario = usuarioBC.getByUsernameEPassoword(this.username, DigestUtils.sha256Hex(this.senha));
+			this.usuario = usuarioBC.getByUsernameEPassoword(this.username, this.senha);
 			
 			if (this.usuario.isAdministrador()) {
 				return "usuario_list.jsf";
