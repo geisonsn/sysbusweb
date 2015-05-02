@@ -40,9 +40,9 @@ public class OrigemReclamacaoEditMB extends	AbstractEditPageBean<OrigemReclamaca
 	
 	private List<OrigemReclamacao> reclamacoesCadastradas2;
     
-    private DualListModel<TipoReclamacao> reclamacoes = new DualListModel<>();
+    private DualListModel<TipoReclamacao> reclamacoes = new DualListModel<TipoReclamacao>();
     
-    private DualListModel<OrigemReclamacao> reclamacoes2 = new DualListModel<>();
+    private DualListModel<OrigemReclamacao> reclamacoes2 = new DualListModel<OrigemReclamacao>();
     
     private ObjetoReclamadoEnum objetoReclamado;
 	
@@ -116,10 +116,10 @@ public class OrigemReclamacaoEditMB extends	AbstractEditPageBean<OrigemReclamaca
     
     private void carregarPickedList2(ObjetoReclamadoEnum objetoReclamado) {
     	
-    	List<TipoReclamacao> listTipoReclamacao = new ArrayList<>();
+    	List<TipoReclamacao> listTipoReclamacao = new ArrayList<TipoReclamacao>();
     	
-    	List<OrigemReclamacao> disponiveis = new ArrayList<>();
-    	List<OrigemReclamacao> selecionadas = new ArrayList<>();
+    	List<OrigemReclamacao> disponiveis = new ArrayList<OrigemReclamacao>();
+    	List<OrigemReclamacao> selecionadas = new ArrayList<OrigemReclamacao>();
     	
     	
     	if (!ObjetoReclamadoEnum.SELECIONE.equals(objetoReclamado)) {
@@ -130,20 +130,20 @@ public class OrigemReclamacaoEditMB extends	AbstractEditPageBean<OrigemReclamaca
     		selecionadas = reclamacoesCadastradas2 = origemReclamacaoBC.findByObjetoReclamado(objetoReclamado);
     		
     	}
-		reclamacoes2 = new DualListModel<>(disponiveis, selecionadas);
+		reclamacoes2 = new DualListModel<OrigemReclamacao>(disponiveis, selecionadas);
 	}
     
     private void carregarPickedList(ObjetoReclamadoEnum objetoReclamado) {
     	
-    	List<TipoReclamacao> disponiveis = new ArrayList<>();
-    	List<TipoReclamacao> selecionadas = new ArrayList<>();
+    	List<TipoReclamacao> disponiveis = new ArrayList<TipoReclamacao>();
+    	List<TipoReclamacao> selecionadas = new ArrayList<TipoReclamacao>();
     	
     	if (!ObjetoReclamadoEnum.SELECIONE.equals(objetoReclamado)) {
     		disponiveis = tipoReclamacaoBC.listTipoReclamacaoNaoCadastradasAoObjetoReclamado(objetoReclamado);
     		selecionadas = reclamacoesCadastradas = tipoReclamacaoBC
     				.listTipoReclamacaoCadastradasAoObjetoReclamado(objetoReclamado);
     	}
-    	reclamacoes = new DualListModel<>(disponiveis, selecionadas);
+    	reclamacoes = new DualListModel<TipoReclamacao>(disponiveis, selecionadas);
     }
     
     @ExceptionHandler

@@ -74,7 +74,7 @@ public class OrigemReclamacaoBC extends DelegateCrud<OrigemReclamacao, Long, Ori
 			List<TipoReclamacao> reclamacoesCadastradas,
 			List<TipoReclamacao> reclamacoesSelecionadas) {
 		
-		List<TipoReclamacao> list = new ArrayList<>();
+		List<TipoReclamacao> list = new ArrayList<TipoReclamacao>();
 		
 		for (TipoReclamacao selecionada : reclamacoesSelecionadas) {
 			boolean isNova = true;
@@ -96,7 +96,7 @@ public class OrigemReclamacaoBC extends DelegateCrud<OrigemReclamacao, Long, Ori
 			List<TipoReclamacao> reclamacoesCadastradas,
 			List<TipoReclamacao> reclamacoesSelecionadas) {
 		
-		List<Long> list = new ArrayList<>();
+		List<Long> list = new ArrayList<Long>();
 		
 		for (TipoReclamacao cadastrada : reclamacoesCadastradas) {
 			boolean isRemovida = true;

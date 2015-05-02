@@ -26,7 +26,7 @@ public class LinhaResource {
 	public List<LinhaDTO> list() {
 		List<Linha> list = bc.findAll();
 		
-		List<LinhaDTO> listRetorno = new ArrayList<>();
+		List<LinhaDTO> listRetorno = new ArrayList<LinhaDTO>();
 		for (Linha linha : list) {
 			ModelMapper mapper = new ModelMapper();
 			listRetorno.add(mapper.map(linha, LinhaDTO.class));
