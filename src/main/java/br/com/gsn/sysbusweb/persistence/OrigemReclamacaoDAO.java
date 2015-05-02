@@ -30,4 +30,10 @@ public class OrigemReclamacaoDAO extends JPACrud<OrigemReclamacao, Long> {
 		query.setParameter("objetoReclamado", objetoReclamado);
 		return query.executeUpdate();
 	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<OrigemReclamacao> findAll() {
+		return getEntityManager().createNamedQuery("OrigemReclamacao.findAll").getResultList();
+	}
 }

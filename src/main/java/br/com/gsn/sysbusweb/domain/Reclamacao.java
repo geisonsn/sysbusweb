@@ -10,17 +10,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import br.com.gsn.sysbusweb.util.Util;
 import br.com.gsn.sysbusweb.util.Util.FormatoData;
+import br.com.gsn.sysbusweb.util.Util.FormatoHora;
 
 @Entity
 @Table(name="reclamacao")
-@NamedQuery(name="Reclamacao.findAll", query="SELECT r FROM Reclamacao r")
+@NamedQueries({
+	@NamedQuery(name="Reclamacao.findAll", query="SELECT r FROM Reclamacao r inner join r.linha as l " 
+					+ "order by r.dataRegistro desc, l.numero, r.dataOcorrencia, r.origemReclamacao.tipoReclamacao.descricao"),
+	@NamedQuery(name = "Reclamacao.findByPeriodo", query= "SELECT r FROM  Reclamacao r inner join r.linha as l " 
+					+ "WHERE r.dataRegistro between :dataInicio and :dataFim "
+					+ "order by r.dataRegistro desc, l.numero, r.dataOcorrencia, r.origemReclamacao.tipoReclamacao.descricao")
+	
+})
 
 public class Reclamacao implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -29,10 +39,12 @@ public class Reclamacao implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	@Column(name="data_ocorrencia")
 	private Date dataOcorrencia;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_registro")
 	private Date dataRegistro;
 
@@ -44,6 +56,7 @@ public class Reclamacao implements Serializable {
 	@Column(name="placa_linha")
 	private String placaLinha;
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name="id_origem_reclamacao")
 	private OrigemReclamacao origemReclamacao;
@@ -74,6 +87,10 @@ public class Reclamacao implements Serializable {
 	public Date getDataRegistro() {
 		return this.dataRegistro;
 	}
+	
+	public String getDataRegistroFormatada() {
+		return Util.formatarData(this.dataRegistro, FormatoData.Completo);
+	}
 
 	public void setDataRegistro(Date dataRegistro) {
 		this.dataRegistro = dataRegistro;
@@ -94,9 +111,17 @@ public class Reclamacao implements Serializable {
 	public void setHora(Date hora) {
 		this.hora = hora;
 	}
+	
+	public String getHoraFormatada() {
+		return Util.formatarHora(this.hora, FormatoHora.Simples);
+	}
 
 	public String getPlacaLinha() {
 		return this.placaLinha;
+	}
+	
+	public String getPlacaFormatada() {
+		return Util.formatarPlaca(this.placaLinha);
 	}
 
 	public void setPlacaLinha(String placaLinha) {
@@ -121,7 +146,7 @@ public class Reclamacao implements Serializable {
 	
 	public String getDataOcorrenciaFormatada() {
 		return Util.formatarData(this.dataOcorrencia, 
-				FormatoData.Basico);
+				FormatoData.Simples);
 	}
 
 }

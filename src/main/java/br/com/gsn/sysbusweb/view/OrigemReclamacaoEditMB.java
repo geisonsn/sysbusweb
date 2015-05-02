@@ -99,6 +99,7 @@ public class OrigemReclamacaoEditMB extends	AbstractEditPageBean<OrigemReclamaca
 		ObjetoReclamadoEnum itemSelecionado = (ObjetoReclamadoEnum)((SelectOneMenu)event.getSource()).getValue();
 		carregarPickedList(itemSelecionado);
 	}
+    
     private void carregarPickedList(ObjetoReclamadoEnum objetoReclamado) {
     	
     	List<TipoReclamacao> disponiveis = new ArrayList<TipoReclamacao>();

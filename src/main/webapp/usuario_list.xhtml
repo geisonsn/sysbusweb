@@ -31,7 +31,7 @@
 			
 			<br />
 			
-			<p:dataTable id="grid" var="bean" value="#{usuarioListMB.listUsuario}">
+			<p:dataTable id="grid" var="bean" value="#{usuarioListMB.listUsuario}" paginator="true" rows="8">
 				
 				<p:column sortBy="#{bean.nome}">
 					<f:facet name="header">#{messages['usuario.label.nome']}</f:facet>

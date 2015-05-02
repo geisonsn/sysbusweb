@@ -13,7 +13,37 @@ public final class Util {
 	
 	private Util() {}
 	
+	public static String emptyToNull(String string) {
+		if (StringUtils.isBlank(string)) {
+			return null;
+		}
+		return string;
+	}
+	
+	public static String capitalize(String string) {
+		if (StringUtils.isBlank(string)) {
+			return null;
+		}
+		return string.toUpperCase();
+	}
+	
+	public static String uncapitalize(String string) {
+		
+		if (StringUtils.isBlank(string)) {
+			return null;
+		}
+		
+		return string.toLowerCase();
+	}
+	
 	public static String formatarData(Date data, FormatoData formato) {
+		if (data == null) {
+			return StringUtils.EMPTY;
+		}
+		return formato.format(data);
+	}
+	
+	public static String formatarHora(Date data, FormatoHora formato) {
 		if (data == null) {
 			return StringUtils.EMPTY;
 		}
@@ -35,7 +65,7 @@ public final class Util {
 	private static PlacaFormatter formatadorDePlaca = new PlacaFormatter();
 	
 	public enum FormatoData {
-		Basico {
+		Simples {
 			@Override
 			public String format(Date data) {
 				return formatoDataBasica.format(data);
@@ -52,6 +82,28 @@ public final class Util {
 		private static DateFormat formatoDataCompleta = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 		
 		public abstract String format(Date data);
+	}
+	
+	public enum FormatoHora {
+		
+		Simples {
+			@Override
+			String format(Date data) {
+				return formatoHoraSimples.format(data);
+			}
+		},
+		Completo {
+			@Override
+			String format(Date data) {
+				return formatoHoraCompleta.format(data);
+			}
+		};
+
+		private static DateFormat formatoHoraSimples = new SimpleDateFormat("HH:mm");
+		private static DateFormat formatoHoraCompleta = new SimpleDateFormat("HH:mm:ss");
+		
+		abstract String format(Date data);
+		
 	}
 	
 }

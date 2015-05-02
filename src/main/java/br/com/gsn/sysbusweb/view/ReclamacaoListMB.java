@@ -1,5 +1,6 @@
 package br.com.gsn.sysbusweb.view;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @ViewController
 @NextView("./reclamacao_edit.jsf")
-@PreviousView("./reclamacao_list.jsf")
+@PreviousView("./reclamacao_list.jsf?faces-redirect=true")
 public class ReclamacaoListMB extends AbstractListPageBean<Reclamacao, Long> {
 
 	private static final long serialVersionUID = 1L;
@@ -28,7 +29,25 @@ public class ReclamacaoListMB extends AbstractListPageBean<Reclamacao, Long> {
 	
 	private Reclamacao objetoExcluido;
 	
+	private Date dataInicio, dataFim;
 	
+	
+	public Date getDataInicio() {
+		return dataInicio;
+	}
+
+	public void setDataInicio(Date dataInicio) {
+		this.dataInicio = dataInicio;
+	}
+
+	public Date getDataFim() {
+		return dataFim;
+	}
+
+	public void setDataFim(Date dataFim) {
+		this.dataFim = dataFim;
+	}
+
 	public List<Reclamacao> getListReclamacao() {
 		return listReclamacao;
 	}
@@ -75,6 +94,18 @@ public class ReclamacaoListMB extends AbstractListPageBean<Reclamacao, Long> {
 	public void deletar() {
 		this.reclamacaoBC.delete(objetoExcluido.getId());
 		this.listReclamacao = handleResultList();
+	}
+	
+	public Date getDataMaxima() {
+		return new Date();
+	}
+	
+	public void pesquisar() {
+		if (dataInicio == null || dataFim == null) {
+			this.listReclamacao = this.handleResultList();
+		} else {
+			this.listReclamacao = reclamacaoBC.pesquisar(this.dataInicio, this.dataFim);
+		}
 	}
 
 }

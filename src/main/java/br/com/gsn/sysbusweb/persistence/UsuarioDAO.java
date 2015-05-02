@@ -11,6 +11,12 @@ public class UsuarioDAO extends JPACrud<Usuario, Long> {
 
 	private static final long serialVersionUID = 1L;
 	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Usuario> findAll() {
+		return (List<Usuario>) getEntityManager().createNamedQuery("Usuario.findAll").getResultList();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Usuario> findByNome(String nome) {
 		return (List<Usuario>)getEntityManager()

@@ -2,6 +2,7 @@ package br.com.gsn.sysbusweb.persistence;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.com.gsn.sysbusweb.domain.Reclamacao;
@@ -13,6 +14,21 @@ import br.gov.frameworkdemoiselle.template.JPACrud;
 public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 
 	private static final long serialVersionUID = 1L;
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Reclamacao> findAll() {
+		return getEntityManager().createNamedQuery("Reclamacao.findAll").getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Reclamacao> findByPeriodo(Date dataInicio, Date dataFim) {
+		return (List<Reclamacao>) getEntityManager()
+				.createNamedQuery("Reclamacao.findByPeriodo")
+				.setParameter("dataInicio", dataInicio)
+				.setParameter("dataFim", dataFim)
+				.getResultList();
+	}
 	
 	@SuppressWarnings("unchecked")
 	public List<ReclamacaoDTO> listObjetosMaisReclamados() {

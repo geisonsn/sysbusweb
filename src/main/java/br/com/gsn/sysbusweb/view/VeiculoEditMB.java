@@ -5,13 +5,12 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 
-import org.apache.commons.lang.StringUtils;
-
 import br.com.gsn.sysbusweb.business.LinhaBC;
 import br.com.gsn.sysbusweb.business.VeiculoBC;
 import br.com.gsn.sysbusweb.domain.Linha;
 import br.com.gsn.sysbusweb.domain.Veiculo;
 import br.com.gsn.sysbusweb.util.MessagesUtil;
+import br.com.gsn.sysbusweb.util.Util;
 import br.gov.frameworkdemoiselle.annotation.PreviousView;
 import br.gov.frameworkdemoiselle.exception.ExceptionHandler;
 import br.gov.frameworkdemoiselle.stereotype.ViewController;
@@ -43,7 +42,7 @@ public class VeiculoEditMB extends AbstractEditPageBean<Veiculo, Long> {
 	@Override
 	@Transactional
 	public String insert() {
-		capitalizarPlaca();
+		this.getBean().setPlaca(Util.capitalize(this.getBean().getPlaca()));
 		this.veiculoBC.insert(getBean());
 		return getPreviousView();
 	}
@@ -51,17 +50,11 @@ public class VeiculoEditMB extends AbstractEditPageBean<Veiculo, Long> {
 	@Override
 	@Transactional
 	public String update() {
-		capitalizarPlaca();
+		this.getBean().setPlaca(Util.capitalize(this.getBean().getPlaca()));
 		this.veiculoBC.update(getBean());
 		return getPreviousView();
 	}
 	
-	private void capitalizarPlaca() {
-		if (!StringUtils.isBlank(getBean().getPlaca())) {
-			getBean().setPlaca(getBean().getPlaca().toUpperCase());
-		}
-	}
-
 	@Override
 	protected Veiculo handleLoad(Long id) {
 		return this.veiculoBC.load(id);

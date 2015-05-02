@@ -1,5 +1,6 @@
 package br.com.gsn.sysbusweb.business;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.gsn.sysbusweb.domain.Reclamacao;
@@ -12,6 +13,10 @@ import br.gov.frameworkdemoiselle.template.DelegateCrud;
 public class ReclamacaoBC extends DelegateCrud<Reclamacao, Long, ReclamacaoDAO> {
 
 	private static final long serialVersionUID = 1L;
+	
+	public List<Reclamacao> pesquisar(Date dataInicio, Date dataFim) {
+		return getDelegate().findByPeriodo(dataInicio, dataFim);
+	}
 
 	public List<ReclamacaoDTO> listObjetosMaisReclamados() {
 		return getDelegate().listObjetosMaisReclamados();

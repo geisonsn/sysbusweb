@@ -33,16 +33,16 @@
 					<p:calendar id="dataOcorrencia" value="#{reclamacaoEditMB.bean.dataOcorrencia}"
 					   pattern="#{messages['label.date.pattern']}" navigator="true" showButtonPanel="true"
 					   locale="#{locales.currentLocale}" title="#{messages['reclamacao.alt.dataOcorrencia']}" 
-					   maxdate="#{reclamacaoEditMB.dataMaxima}"/>
+					   maxdate="#{reclamacaoEditMB.dataMaxima}"
+					   size="13" mask="99/99/9999"/>
 							 
 					<p:message for="dataOcorrencia" />
 						
 					<h:outputLabel value="#{messages['reclamacao.label.hora']}: " for="hora" styleClass="text-input" />
 					
-					
 					<p:calendar id="hora" value="#{reclamacaoEditMB.bean.hora}" timeOnly="true"
 					   pattern="#{messages['label.hora.pattern']}" locale="#{locales.currentLocale}" 
-					   title="#{messages['reclamacao.alt.hora']}" mask="99:99">
+					   title="#{messages['reclamacao.alt.hora']}" mask="99:99" size="6">
 						<f:convertDateTime pattern="HHmm"/>
 						<f:converter converterId="ConversorHora"/>
 				   </p:calendar>
@@ -53,14 +53,25 @@
 					
 					<p:inputMask id="placaLinha" value="#{reclamacaoEditMB.bean.placaLinha}"
 						title="#{messages['reclamacao.alt.placaLinha']}" mask="aaa-9999" converter="ConversorPlaca" 
-						style="text-transform: uppercase;" />
+						style="text-transform: uppercase;" size="9"/>
 					
 					<p:message for="placaLinha" />
 						
+					<h:outputLabel value="#{messages['reclamacao.label.objetoReclamado']}: " for="objetoReclamado" styleClass="text-input" />
+					<p:selectOneMenu value="#{reclamacaoEditMB.objetoReclamado}" converter="omnifaces.GenericEnumConverter"
+						style="width: 100%" id="objetoReclamado">
+						<f:selectItems value="#{reclamacaoEditMB.comboObjetoReclamado}" var="objetoReclamado" itemValue="#{objetoReclamado}"
+							itemLabel="#{objetoReclamado.descricao}">
+						</f:selectItems>
+						<p:ajax event="change" listener="#{reclamacaoEditMB.changeObjetoReclamado}" process="@this" update="origemReclamacao"/>
+					</p:selectOneMenu>
+					<p:message for="objetoReclamado" />
+													  
 					<h:outputLabel value="#{messages['origemReclamacao.label']}: " for="origemReclamacao" styleClass="text-input" />
-				    <p:selectOneMenu id="origemReclamacao" value="#{reclamacaoEditMB.bean.origemReclamacao}"  effect="fade" converter="ConversorOrigemReclamacao">
+				    <p:selectOneMenu id="origemReclamacao" value="#{reclamacaoEditMB.bean.origemReclamacao}"  effect="fade" converter="ConversorOrigemReclamacao"
+				    	style="width: 100%">
 						<f:selectItem itemLabel="Selecione" itemValue="" />
-						<f:selectItems value="#{reclamacaoEditMB.origemReclamacaoList}" var="varOrigemReclamacao" itemLabel="#{varOrigemReclamacao.descricaoFormatada}"  itemValue="#{varOrigemReclamacao}" />						
+						<f:selectItems value="#{reclamacaoEditMB.comboOrigemReclamacao}" var="varOrigemReclamacao" itemLabel="#{varOrigemReclamacao.tipoReclamacao.descricao}"  itemValue="#{varOrigemReclamacao}" />						
 					</p:selectOneMenu>
 					<p:message for="origemReclamacao" />								  
 								 

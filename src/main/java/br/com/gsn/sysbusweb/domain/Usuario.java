@@ -19,8 +19,8 @@ import br.com.gsn.sysbusweb.domain.enums.PerfilEnum;
 @Entity
 @Table(name = "usuario")
 @NamedQueries({
-	@NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
-	@NamedQuery(name = "Usuario.findByNome", query = "SELECT u FROM Usuario u where upper(u.nome) like :nome"),
+	@NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u order by u.nome, u.sobrenome, u.username, u.email"),
+	@NamedQuery(name = "Usuario.findByNome", query = "SELECT u FROM Usuario u where upper(u.nome) like :nome order by u.nome, u.sobrenome, u.username, u.email"),
 	@NamedQuery(name = "Usuario.getByUsernameEPassword", query = "SELECT u FROM Usuario u where u.username = :username and u.password = :password"),
 	@NamedQuery(name = "Usuario.getByUsernameEEmail", query = "SELECT u FROM Usuario u where lower(u.username) = :username or u.email = :email")
 })
