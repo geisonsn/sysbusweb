@@ -2,63 +2,83 @@
 
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/templ_cadastros.xhtml">
 
-	<ui:define name="body">
-		<h:form>
-			<p:toolbar>
-				<p:toolbarGroup align="left">
-					<p:commandButton title="#{messages['button.new']}" icon="ui-icon-document" action="#{reclamacaoListMB.getNextView}"
-						actionListener="#{reclamacaoListMB.clear}" ajax="false" />
+	<ui:define name="titulo">
+		<div class="barra_titulo">
+			<h1><h:outputText value="#{messages['reclamacao.label']}" /></h1>
+		</div>
+	</ui:define>
+	
+	<ui:define name="toolbar">
+		<h:form prependId="false" id="frmToolbar">
+			<div class="barra_ferramentas">
+				<p:commandButton title="#{messages['button.new']}" icon="ui-icon-document" action="#{reclamacaoListMB.getNextView}"
+					actionListener="#{reclamacaoListMB.clear}" ajax="false" />
+			</div>
+		</h:form>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form prependId="false" id="form">
+			
+			<p:dataTable id="grid" var="bean" value="#{reclamacaoListMB.listReclamacao}">
 
-					<p:commandButton title="#{messages['button.delete']}" icon="ui-icon-trash" onclick="confirmation.show()"
-						type="button" immediate="true" ajax="false" />
-
-					<p:confirmDialog message="#{messages['label.confirm.delete']}" showEffect="bounce" hideEffect="explode"
-						header="#{messages['label.dialog.alert']}!" severity="alert" widgetVar="confirmation">
-
-						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{reclamacaoListMB.deleteSelection}"
-							actionListener="#{reclamacaoListMB.clear}" />
-						<h:commandButton value="#{messages['button.dialog.no']}" onclick="confirmation.hide()" type="button" />
-					</p:confirmDialog>
-				</p:toolbarGroup>
-			</p:toolbar>
-			<p:dataTable id="list" var="bean" value="#{reclamacaoListMB.resultList}">
-				<f:facet name="header">#{messages['reclamacao.list.table.title']}</f:facet>
-				<p:column style="width:2%;">
-					<h:selectBooleanCheckbox value="#{reclamacaoListMB.selection[bean.id]}"></h:selectBooleanCheckbox>
+				<p:column sortBy="#{bean.origemReclamacao}">
+					<f:facet name="header">#{messages['reclamacao.label.origemReclamacao']}</f:facet>
+					<h:outputText value="#{bean.origemReclamacao.tipoReclamacao.descricao}" />
+				</p:column>
+				
+				<p:column sortBy="#{bean.origemReclamacao}">
+					<f:facet name="header">#{messages['reclamacao.label.objetoReclamado']}</f:facet>
+					<h:outputText value="#{bean.origemReclamacao.objetoReclamado.descricao}" />
 				</p:column>
 				
 				<p:column sortBy="#{bean.dataOcorrencia}">
 					<f:facet name="header">#{messages['reclamacao.label.dataOcorrencia']}</f:facet>
-					<h:commandLink action="#{reclamacaoListMB.getNextView}" actionListener="#{reclamacaoListMB.clear}">
-						<h:outputText value="#{bean.dataOcorrencia}" />
-						<f:param name="id" value="#{bean.id}" />
-					</h:commandLink>
-				</p:column>
-					
-				<p:column sortBy="#{bean.descricao}">
-					<f:facet name="header">#{messages['reclamacao.label.descricao']}</f:facet>
-					<h:commandLink action="#{reclamacaoListMB.getNextView}" actionListener="#{reclamacaoListMB.clear}">
-						<h:outputText value="#{bean.descricao}" />
-						<f:param name="id" value="#{bean.id}" />
-					</h:commandLink>
+					<h:outputText value="#{bean.dataOcorrenciaFormatada}" />
 				</p:column>
 					
 				<p:column sortBy="#{bean.hora}">
 					<f:facet name="header">#{messages['reclamacao.label.hora']}</f:facet>
-					<h:commandLink action="#{reclamacaoListMB.getNextView}" actionListener="#{reclamacaoListMB.clear}">
-						<h:outputText value="#{bean.hora}" />
-						<f:param name="id" value="#{bean.id}" />
-					</h:commandLink>
+					<h:outputText value="#{bean.hora}" />
 				</p:column>
 					
 				<p:column sortBy="#{bean.placaLinha}">
 					<f:facet name="header">#{messages['reclamacao.label.placaLinha']}</f:facet>
-					<h:commandLink action="#{reclamacaoListMB.getNextView}" actionListener="#{reclamacaoListMB.clear}">
-						<h:outputText value="#{bean.placaLinha}" />
+					<h:outputText value="#{bean.placaLinha}" />
+				</p:column>
+				
+				<p:column sortBy="#{bean.descricao}">
+					<f:facet name="header">#{messages['reclamacao.label.descricao']}</f:facet>
+					<h:outputText value="#{bean.descricao}" />
+				</p:column>
+				
+				<p:column headerText="#{messages['list.label.acoes']}" width="8%">
+				
+					<p:commandButton action="#{reclamacaoListMB.getNextView}" actionListener="#{reclamacaoListMB.clear}" 
+						icon="ui-icon-pencil"	title="#{messages['botao.alterar.title']}" alt="#{messages['botao.alterar.alt']}">
 						<f:param name="id" value="#{bean.id}" />
-					</h:commandLink>
+					</p:commandButton>
+					
+					<p:commandButton icon="ui-icon-trash" title="#{messages['botao.excluir.title']}" 
+						alt="#{messages['botao.excluir.alt']}" oncomplete="PF('confirmacao').show()" immediate="true"
+						rendered="#{loginMB.usuario.administrador}">
+						<f:setPropertyActionListener target="#{reclamacaoListMB.objetoExcluido}" value="#{bean}" />
+					</p:commandButton>
+					
+					<p:confirmDialog widgetVar="confirmacao" header="#{messages['label.dialog.delete']}"
+						message="Remover" closeOnEscape="true">
+						<p:commandButton value="#{messages['button.dialog.yes']}"
+							styleClass="ui-confirmdialog-yes" partialSubmit="true"
+							icon="ui-icon-check" update=":form:grid"
+							actionListener="#{reclamacaoListMB.deletar}"
+							onclick="PF('confirmacao').hide();" />
+						<p:commandButton value="#{messages['button.dialog.no']}"
+							type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+							onclick="PF('confirmacao').hide();" />
+					</p:confirmDialog>
+					
 				</p:column>
 					
 			</p:dataTable>

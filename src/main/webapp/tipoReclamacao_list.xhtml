@@ -31,11 +31,6 @@
 			<p:dataTable id="list" var="bean" value="#{tipoReclamacaoListMB.listTipoReclamacao}" paginator="true" rows="8" 
 				emptyMessage="#{messages['list.semdados']} ">
 				
-				<p:column sortBy="#{bean.id}">
-					<f:facet name="header">ID</f:facet>
-					<h:outputText value="#{bean.id}" />
-				</p:column>
-					
 				<p:column sortBy="#{bean.descricao}">
 					<f:facet name="header">#{messages['tipoReclamacao.label.descricao']}</f:facet>
 					<h:outputText value="#{bean.descricao}" />

@@ -3,6 +3,7 @@ package br.com.gsn.sysbusweb.persistence;
 import java.util.List;
 
 import br.com.gsn.sysbusweb.domain.TipoReclamacao;
+import br.com.gsn.sysbusweb.domain.enums.ObjetoReclamadoEnum;
 import br.gov.frameworkdemoiselle.stereotype.PersistenceController;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 
@@ -18,5 +19,22 @@ public class TipoReclamacaoDAO extends JPACrud<TipoReclamacao, Long> {
 				.setParameter("descricao", "%" + descricao.toUpperCase() + "%")
 				.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<TipoReclamacao> listTipoReclamacaoCadastradasAoObjetoReclamado(ObjetoReclamadoEnum objetoReclamado) {
+		return (List<TipoReclamacao>)getEntityManager()
+				.createNamedQuery("TipoReclamacao.cadastradasAoObjetoReclamado")
+				.setParameter("objetoReclamado", objetoReclamado)
+				.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<TipoReclamacao> listTipoReclamacaoNaoCadastradasAoObjetoReclamado(ObjetoReclamadoEnum objetoReclamado) {
+		return (List<TipoReclamacao>)getEntityManager()
+				.createNamedQuery("TipoReclamacao.naoCadastradasAoObjetoReclamado")
+				.setParameter("objetoReclamado", objetoReclamado)
+				.getResultList();
+	}
+	
 
 }

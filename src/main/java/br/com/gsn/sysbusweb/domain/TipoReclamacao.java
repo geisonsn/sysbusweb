@@ -16,7 +16,20 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name="tipo_reclamacao")
 @NamedQueries({
 	@NamedQuery(name="TipoReclamacao.findAll", query="SELECT t FROM TipoReclamacao t"),
-	@NamedQuery(name = "TipoReclamacao.findByDescricao", query = "SELECT t FROM TipoReclamacao t WHERE UPPER(t.descricao) LIKE :descricao")
+	@NamedQuery(name = "TipoReclamacao.findByDescricao", query = "SELECT t FROM TipoReclamacao t WHERE UPPER(t.descricao) LIKE :descricao"),
+	
+	@NamedQuery(name = "TipoReclamacao.cadastradasAoObjetoReclamado", query = "select t from TipoReclamacao t where t.id in ( "
+									+ "select o.tipoReclamacao.id from OrigemReclamacao o " 
+									+ "inner join o.tipoReclamacao as t " 
+									+ "where o.objetoReclamado = :objetoReclamado) "
+									+ "order by t.descricao "),
+	
+	@NamedQuery(name = "TipoReclamacao.naoCadastradasAoObjetoReclamado", query = "select t from TipoReclamacao t where t.id not in ( " 
+									+ "select o.tipoReclamacao.id from OrigemReclamacao o " 
+									+ "inner join o.tipoReclamacao as t " 
+									+ "where o.objetoReclamado = :objetoReclamado) "
+									+ "order by t.descricao ")
+
 })
 public class TipoReclamacao implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -82,7 +95,10 @@ public class TipoReclamacao implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "TipoReclamacao [id=" + id + ", descricao=" + descricao + "]";
+	}
 
 }

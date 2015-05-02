@@ -15,6 +15,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import br.com.gsn.sysbusweb.util.Util;
+import br.com.gsn.sysbusweb.util.Util.FormatoData;
+
 @Entity
 @Table(name="reclamacao")
 @NamedQuery(name="Reclamacao.findAll", query="SELECT r FROM Reclamacao r")
@@ -114,6 +117,11 @@ public class Reclamacao implements Serializable {
 
 	public void setLinha(Linha linha) {
 		this.linha = linha;
+	}
+	
+	public String getDataOcorrenciaFormatada() {
+		return Util.formatarData(this.dataOcorrencia, 
+				FormatoData.Basico);
 	}
 
 }

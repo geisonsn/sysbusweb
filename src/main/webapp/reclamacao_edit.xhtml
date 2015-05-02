@@ -2,28 +2,28 @@
 
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/main.xhtml">
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/templ_cadastros.xhtml">
 
-	<ui:define name="body">
-		<h:form prependId="false">
-			<p:toolbar>
-				<p:toolbarGroup align="left">
-					<p:commandButton value="#{messages['button.save']}" action="#{reclamacaoEditMB.insert}"
-						rendered="#{!reclamacaoEditMB.updateMode}" ajax="false" />
-					<p:commandButton value="#{messages['button.save']}" action="#{reclamacaoEditMB.update}"
-						rendered="#{reclamacaoEditMB.updateMode}" ajax="false" />
-					<p:commandButton value="#{messages['button.delete']}" onclick="confirmation.show()"
-						rendered="#{reclamacaoEditMB.updateMode}" type="button" immediate="true" ajax="false" />
-					<p:confirmDialog message="#{messages['label.confirm.delete']}" showEffect="bounce" hideEffect="explode"
-						header="#{messages['label.dialog.delete']}" severity="alert" widgetVar="confirmation">
-						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{reclamacaoEditMB.delete}" immediate="true"
-							ajax="false" />
-						<h:commandButton value="#{messages['button.dialog.no']}" onclick="confirmation.hide()" type="button" />
-					</p:confirmDialog>
-				</p:toolbarGroup>
-			</p:toolbar>
+	<ui:define name="titulo">
+		<div class="barra_titulo">
+			<h1>
+				<h:outputText value="#{messages['reclamacao.label']}"/>
+			</h1>
+		</div>
+	</ui:define>
+	
+	<ui:define name="toolbar">
+		<h:form prependId="false" id="frmToolbar">
+			<div class="barra_ferramentas">
+				<p:commandButton title="#{messages['button.back']}" icon="ui-icon-circle-arrow-w" action="#{reclamacaoListMB.getPreviousView}"
+					actionListener="#{reclamacaoListMB.clear}" ajax="false" />
+			</div>
+		</h:form>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form prependId="false" id="form">
 
-			<br />
 
 			<p:fieldset legend="#{messages['reclamacao.label']}">
 				<h:panelGrid id="fieldsreclamacao" columns="3">
@@ -79,6 +79,15 @@
 					<p:message for="descricao" />							  
 								 
 				</h:panelGrid>
+				
+				<br/>
+				
+				<div class="btn-save">
+					<p:commandButton value="#{messages['button.save']}" action="#{reclamacaoEditMB.insert}"
+						rendered="#{!reclamacaoEditMB.updateMode}" ajax="false"/>
+					<p:commandButton value="#{messages['button.update']}" action="#{reclamacaoEditMB.update}"
+						rendered="#{reclamacaoEditMB.updateMode}" ajax="false" />
+				</div>
 			</p:fieldset>
 			
 		</h:form>

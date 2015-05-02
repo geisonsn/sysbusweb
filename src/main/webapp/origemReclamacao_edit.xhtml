@@ -1,7 +1,8 @@
 
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/templ_cadastros.xhtml">
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/templ_cadastros.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
 	
 	<ui:define name="titulo">
 		<div class="barra_titulo">
@@ -26,41 +27,40 @@
 			<p:fieldset legend="#{messages['fieldset.dados.label']}">
 			
 				<h:panelGrid id="fieldsOrigemReclamacao" columns="2">
-					
 					<p:column>
 						<h:outputLabel value="#{messages['origemReclamacao.label.objetoReclamado']}: " for="objetoReclamado" styleClass="text-input" />
 					</p:column>
+					
 					<p:column>
-						<p:selectOneMenu value="#{origemReclamacaoEditMB.objetoReclamado}" converter="ConversorObjetoReclamado"
-						style="width: 100%" id="idObjetoReclamado">
+						<p:selectOneMenu value="#{origemReclamacaoEditMB.objetoReclamado}" converter="omnifaces.GenericEnumConverter"
+						style="width: 100%" id="objetoReclamado">
 							<f:selectItems value="#{origemReclamacaoEditMB.comboObjetoReclamado}" var="objetoReclamado" itemValue="#{objetoReclamado}"
 								itemLabel="#{objetoReclamado.descricao}">
 							</f:selectItems>
-							<f:ajax event="change" listener="#{origemReclamacaoEditMB.changeObjetoReclamado}" render="grid"/>
+							<p:ajax event="change" listener="#{origemReclamacaoEditMB.changeObjetoReclamadoEnum}" process="@this" update="minhasReclamacoes"/>
 						</p:selectOneMenu>
+					</p:column>					
+					
+					<br/>
+					
+					<p:column>
+						<p:pickList id="minhasReclamacoes" value="#{origemReclamacaoEditMB.reclamacoes}" var="reclamacao" 
+							itemLabel="#{reclamacao.descricao}" itemValue="#{reclamacao}" converter="ConversorTipoReclamacao"
+							required="true" requiredMessage="Selecione ao menos um item">
+							<f:facet name="sourceCaption">Disponíveis</f:facet>
+							<f:facet name="targetCaption">Associados</f:facet>
+						</p:pickList>
 					</p:column>
 					
 				</h:panelGrid>
 			
 				<br/>
 			
-				<p:dataTable id="grid" var="bean" value="#{origemReclamacaoEditMB.listOrigemReclamacao}" paginator="true" 
-					emptyMessage="Nenhum registro encontrado">
-							
-					<p:column sortBy="#{bean.tipoReclamacao.descricao}">
-						<f:facet name="header">#{messages['origemReclamacao.label.tipoReclamacao']}</f:facet>
-						<h:outputText value="#{bean.tipoReclamacao.descricao}" />
-					</p:column>
-				
-				</p:dataTable>
-			
-				
 				<div class="btn-save">
-					<p:commandButton value="#{messages['button.save']}" action="#{objetoReclamadoEditMB.insert}"
-						rendered="#{!objetoReclamadoEditMB.updateMode}" ajax="true">
-					</p:commandButton>
+					<p:commandButton value="#{messages['button.save']}" action="#{origemReclamacaoEditMB.salvar}"
+						rendered="#{!objetoReclamadoEditMB.updateMode}"/>
 					<p:commandButton value="#{messages['button.update']}" action="#{objetoReclamadoEditMB.update}"
-						rendered="#{objetoReclamadoEditMB.updateMode}" ajax="true" />
+						rendered="#{objetoReclamadoEditMB.updateMode}"/>
 				</div>
 			</p:fieldset>
 		</h:form>

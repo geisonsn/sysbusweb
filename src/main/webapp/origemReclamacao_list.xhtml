@@ -25,12 +25,11 @@
 			<p:fieldset legend="#{messages['fieldset.pesquisa.label']}">
 				
 				<p:outputLabel value="#{messages['origemReclamacao.label']}"/><br/>
-				<p:selectOneMenu value="#{origemReclamacaoListMB.objetoReclamadoBean}" converter="ConversorObjetoReclamado"
+				<p:selectOneMenu value="#{origemReclamacaoListMB.objetoReclamado}" converter="omnifaces.GenericEnumConverter"
 					style="width: 40%" id="objetoReclamado">
-					<f:selectItem itemLabel="Selecione"/>
-					<f:selectItems value="#{origemReclamacaoListMB.comboObjetoReclamadoBean}" var="objetoReclamado" 
+					<f:selectItems value="#{origemReclamacaoListMB.comboObjetoReclamado}" var="objetoReclamado" 
 						itemValue="#{objetoReclamado}" itemLabel="#{objetoReclamado.descricao}"/>
-					<f:ajax event="change" listener="#{origemReclamacaoListMB.changeObjetoReclamadoBean}" render="grid"/>
+					<f:ajax event="change" listener="#{origemReclamacaoListMB.changeObjetoReclamado}" render="grid"/>
 				</p:selectOneMenu>
 			</p:fieldset>
 			

@@ -69,21 +69,13 @@ public class OrigemReclamacaoListMB extends AbstractListPageBean<OrigemReclamaca
 		this.carregarListaOrigemReclamacao(itemSelecionado);
 	}
 	
-	private void carregarListaOrigemReclamacao(ObjetoReclamadoEnum objetoReclamado) {
-		if (objetoReclamado != null) {
-			this.listOrigemReclamacao = origemReclamacaoBC.findByObjetoReclamado(objetoReclamado);
-		} else {
-			listOrigemReclamacao = null;
-		}
-	}
-	
 	public void changeObjetoReclamadoBean(AjaxBehaviorEvent event) {
-		ObjetoReclamado itemSelecionado = (ObjetoReclamado)((SelectOneMenu)event.getSource()).getValue();
+		ObjetoReclamadoEnum itemSelecionado = (ObjetoReclamadoEnum)((SelectOneMenu)event.getSource()).getValue();
 		
 		this.carregarListaOrigemReclamacao(itemSelecionado);
 	}
 	
-	private void carregarListaOrigemReclamacao(ObjetoReclamado objetoReclamado) {
+	private void carregarListaOrigemReclamacao(ObjetoReclamadoEnum objetoReclamado) {
 		if (objetoReclamado != null) {
 			this.listOrigemReclamacao = origemReclamacaoBC.findByObjetoReclamado(objetoReclamado);
 		} else {
@@ -92,7 +84,7 @@ public class OrigemReclamacaoListMB extends AbstractListPageBean<OrigemReclamaca
 	}
 	
 	public List<ObjetoReclamadoEnum> getComboObjetoReclamado() {
-		return  ObjetoReclamadoEnum.list();
+		return  ObjetoReclamadoEnum.list(Boolean.TRUE);
 	}
 	
 	public List<OrigemReclamacao> getListOrigemReclamacao() {
@@ -126,7 +118,5 @@ public class OrigemReclamacaoListMB extends AbstractListPageBean<OrigemReclamaca
 	public void setObjetoReclamadoBean(ObjetoReclamado objetoReclamadoBean) {
 		this.objetoReclamadoBean = objetoReclamadoBean;
 	}
-	
-	
-
+    
 }

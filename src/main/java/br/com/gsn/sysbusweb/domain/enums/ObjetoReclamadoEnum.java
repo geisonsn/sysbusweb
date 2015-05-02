@@ -7,7 +7,8 @@ import java.util.List;
 
 public enum ObjetoReclamadoEnum {
 	
-	MOTORISTA("Motorista"), 
+	SELECIONE("Selecione"),
+	MOTORISTA("Motorista"),
 	COBRADOR("Cobrador"),
 	VEICULO("Veículo"), 
 	OUTROS("Outros");
@@ -26,17 +27,25 @@ public enum ObjetoReclamadoEnum {
 		return values()[index];
 	}
 	
+	public static List<ObjetoReclamadoEnum> list(boolean semOutros) {
+		return construirListaObjetoReclamado(semOutros);
+	}
+	
 	public static List<ObjetoReclamadoEnum> list() {
-		return construirListaObjetoReclamado();
+		return construirListaObjetoReclamado(true);
 	}
 
-	private static List<ObjetoReclamadoEnum> construirListaObjetoReclamado() {
+	private static List<ObjetoReclamadoEnum> construirListaObjetoReclamado(boolean semOutros) {
 		
 		List<ObjetoReclamadoEnum> list = Arrays.asList(values());
 		
 		ordenarPorDescricao(list);
 		
 		ajustarLista(list);
+		
+		if (semOutros) {
+			list = list.subList(0, OUTROS.ordinal());
+		}
 		
 		return list;
 	}
@@ -59,10 +68,20 @@ public enum ObjetoReclamadoEnum {
 			lista.set(index, elementoDir);
 			lista.set(index + 1, elementoEsq);
 		}
+		
+		//Põe a opção 'Selecione' no início e ajusta outros elementos na lista
+		int indexSelecioneOrdenado = lista.indexOf(SELECIONE);
+		for (int index = indexSelecioneOrdenado; index > 0; index--) {
+			ObjetoReclamadoEnum elementoEsq = lista.get(index-1);
+			ObjetoReclamadoEnum elementoDir = lista.get(index);
+			lista.set(index -1 , elementoDir);
+			lista.set(index, elementoEsq);
+		}
+		
 	}
 	
 	/*public static void main(String[] args) {
-		List<ObjetoReclamadoEnum> list = ObjetoReclamadoEnum.list();
+		List<ObjetoReclamadoEnum> list = ObjetoReclamadoEnum.list(true);
 		for (ObjetoReclamadoEnum objetoReclamadoEnum : list) {
 			System.out.println("ObjetoReclamado [" + objetoReclamadoEnum.name() + ", " + objetoReclamadoEnum.ordinal() + "]");
 		}
