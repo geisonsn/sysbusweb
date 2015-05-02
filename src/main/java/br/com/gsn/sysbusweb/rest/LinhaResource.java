@@ -32,6 +32,8 @@ public class LinhaResource {
 			listRetorno.add(mapper.map(linha, LinhaDTO.class));
 		}
 		
+		System.out.println("Teste");
+		
 		return listRetorno;
 	}
 	
