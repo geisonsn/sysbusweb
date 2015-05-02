@@ -23,9 +23,11 @@ public class OrigemReclamacaoDAO extends JPACrud<OrigemReclamacao, Long> {
 				.getResultList();
 	}
 	
-	public int removeByTipoReclamacao(List<Long> ids) {
-		Query query = getEntityManager().createQuery("delete from OrigemReclamacao o where o.tipoReclamacao.id in (:ids)");
+	public int removeByTipoReclamacao(ObjetoReclamadoEnum objetoReclamado, List<Long> ids) {
+		Query query = getEntityManager().createQuery("delete from OrigemReclamacao o where o.tipoReclamacao.id in (:ids) "
+				+ "and o.objetoReclamado = :objetoReclamado");
 		query.setParameter("ids", ids);
+		query.setParameter("objetoReclamado", objetoReclamado);
 		return query.executeUpdate();
 	}
 }

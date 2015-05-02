@@ -2,7 +2,12 @@
 package br.com.gsn.sysbusweb.business;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import org.apache.commons.lang.ArrayUtils;
 
 import br.com.gsn.sysbusweb.domain.OrigemReclamacao;
 import br.com.gsn.sysbusweb.domain.TipoReclamacao;
@@ -15,43 +20,31 @@ import br.gov.frameworkdemoiselle.template.DelegateCrud;
 public class OrigemReclamacaoBC extends DelegateCrud<OrigemReclamacao, Long, OrigemReclamacaoDAO> {
 	private static final long serialVersionUID = 1L;
 	
+	@Inject
+	private TipoReclamacaoBC tipoReclamacaoBC;
+	
 	public List<OrigemReclamacao> findByObjetoReclamado(ObjetoReclamadoEnum objetoReclamado) {
 		return getDelegate().findByObjetoReclamado(objetoReclamado);
 	}
 	
-	public void salvarReclamacoes2(ObjetoReclamadoEnum objetoReclamado,
-			List<OrigemReclamacao> reclamacoesCadastradas,
-			List<OrigemReclamacao> reclamacoesSelecionadas) {
+	public void salvarReclamacoes(ObjetoReclamadoEnum objetoReclamado, List<TipoReclamacao> reclamacoesSelecionadas) {
 		
-		/*List<TipoReclamacao> novas = this.recuperarReclamacoesIncluidas(reclamacoesCadastradas, 
-				reclamacoesSelecionadas);
-		
-		this.salvarReclamacoes(objetoReclamado, novas);
-		
-		List<Long> removidas = this.recuperarReclamacoesRemovidas(reclamacoesCadastradas, 
-				reclamacoesSelecionadas);
-		
-		this.removerReclamacoes(objetoReclamado, removidas);*/
-		
-	}
-	
-	public void salvarReclamacoes(ObjetoReclamadoEnum objetoReclamado,
-			List<TipoReclamacao> reclamacoesCadastradas,
-			List<TipoReclamacao> reclamacoesSelecionadas) {
+		List<TipoReclamacao> reclamacoesCadastradas = tipoReclamacaoBC
+			.listTipoReclamacaoCadastradasAoObjetoReclamado(objetoReclamado);
 		
 		List<TipoReclamacao> novas = this.recuperarReclamacoesIncluidas(reclamacoesCadastradas, 
-				reclamacoesSelecionadas);
+			reclamacoesSelecionadas);
 		
-		this.salvarReclamacoes(objetoReclamado, novas);
+		this.salvarReclamacao(objetoReclamado, novas);
 		
 		List<Long> removidas = this.recuperarReclamacoesRemovidas(reclamacoesCadastradas, 
-				reclamacoesSelecionadas);
+			reclamacoesSelecionadas);
 		
 		this.removerReclamacoes(objetoReclamado, removidas);
 		
 	}
 
-	private void salvarReclamacoes(ObjetoReclamadoEnum objetoReclamado,
+	private void salvarReclamacao(ObjetoReclamadoEnum objetoReclamado,
 			List<TipoReclamacao> novas) {
 		
 		for (TipoReclamacao tipoReclamacao : novas) {
@@ -66,13 +59,18 @@ public class OrigemReclamacaoBC extends DelegateCrud<OrigemReclamacao, Long, Ori
 			List<Long> removidas) {
 		
 		if (!removidas.isEmpty()) {
-			getDelegate().removeByTipoReclamacao(removidas);
+			getDelegate().removeByTipoReclamacao(objetoReclamado, removidas);
 		}
 	}
 	
 	private List<TipoReclamacao> recuperarReclamacoesIncluidas(
 			List<TipoReclamacao> reclamacoesCadastradas,
 			List<TipoReclamacao> reclamacoesSelecionadas) {
+		
+		//Se ainda não existem reclamações cadastradas todas as selecionadas são elegíveis para a inserção
+		if (reclamacoesCadastradas.isEmpty()) {
+			return reclamacoesSelecionadas;
+		}
 		
 		List<TipoReclamacao> list = new ArrayList<TipoReclamacao>();
 		
@@ -95,6 +93,12 @@ public class OrigemReclamacaoBC extends DelegateCrud<OrigemReclamacao, Long, Ori
 	private List<Long> recuperarReclamacoesRemovidas(
 			List<TipoReclamacao> reclamacoesCadastradas,
 			List<TipoReclamacao> reclamacoesSelecionadas) {
+		
+		//Se ainda não existe reclamações cadastradas nenhuma remoção ocorrerá
+		if (reclamacoesCadastradas.isEmpty()) {
+			return Arrays.asList(ArrayUtils.EMPTY_LONG_OBJECT_ARRAY);
+//			return new ArrayList<Long>();
+		}
 		
 		List<Long> list = new ArrayList<Long>();
 		

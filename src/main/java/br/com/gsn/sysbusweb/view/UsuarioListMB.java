@@ -20,7 +20,7 @@ import br.gov.frameworkdemoiselle.util.Parameter;
 
 @ViewController
 @NextView("./usuario_edit.jsf")
-@PreviousView("./usuario_list.jsf")
+@PreviousView("./usuario_list.jsf?faces-redirect=true")
 public class UsuarioListMB extends AbstractListPageBean<Usuario, Long> {
 
 	private static final long serialVersionUID = 1L;

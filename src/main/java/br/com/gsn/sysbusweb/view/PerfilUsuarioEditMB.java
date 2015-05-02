@@ -18,7 +18,7 @@ import br.gov.frameworkdemoiselle.transaction.Transactional;
 import br.gov.frameworkdemoiselle.util.Parameter;
 
 @ViewController
-@PreviousView("./usuario_list.jsf")
+@PreviousView("./usuario_list.jsf?faces-redirect=true")
 public class PerfilUsuarioEditMB extends AbstractEditPageBean<PerfilUsuario, Long> {
 
 	private static final long serialVersionUID = 1L;

@@ -13,7 +13,7 @@
 	<ui:define name="toolbar">
 		<h:form prependId="false" id="frmToolbar">
 			<div class="barra_ferramentas">
-				<p:commandButton title="#{messages['button.new']}" icon="ui-icon-document" action="#{origemReclamacaoListMB.getNextView}"
+				<p:commandButton title="Associar reclamação" icon="ui-icon-transferthick-e-w" action="#{origemReclamacaoListMB.getNextView}"
 					actionListener="#{origemReclamacaoListMB.clear}" ajax="false" />
 			</div>
 		</h:form>
@@ -24,13 +24,14 @@
 		
 			<p:fieldset legend="#{messages['fieldset.pesquisa.label']}">
 				
-				<p:outputLabel value="#{messages['origemReclamacao.label']}"/><br/>
+				<p:outputLabel value="#{messages['origemReclamacao.label']}" for="objetoReclamado"/><br/>
 				<p:selectOneMenu value="#{origemReclamacaoListMB.objetoReclamado}" converter="omnifaces.GenericEnumConverter"
 					style="width: 40%" id="objetoReclamado">
 					<f:selectItems value="#{origemReclamacaoListMB.comboObjetoReclamado}" var="objetoReclamado" 
 						itemValue="#{objetoReclamado}" itemLabel="#{objetoReclamado.descricao}"/>
-					<f:ajax event="change" listener="#{origemReclamacaoListMB.changeObjetoReclamado}" render="grid"/>
+					<p:ajax event="change" listener="#{origemReclamacaoListMB.changeObjetoReclamado}" process="@this" update="grid"/>
 				</p:selectOneMenu>
+						
 			</p:fieldset>
 			
 			<br />
@@ -38,11 +39,6 @@
 			<p:dataTable id="grid" var="bean" value="#{origemReclamacaoListMB.listOrigemReclamacao}" paginator="true" 
 				emptyMessage="Nenhum registro encontrado">
 						
-				<p:column sortBy="#{bean.id}">
-					<f:facet name="header">ID</f:facet>
-					<h:outputText value="#{bean.id}" />
-				</p:column>
-				
 				<p:column sortBy="#{bean.tipoReclamacao.descricao}">
 					<f:facet name="header">#{messages['origemReclamacao.label.tipoReclamacao']}</f:facet>
 					<h:outputText value="#{bean.tipoReclamacao.descricao}" />

@@ -16,7 +16,7 @@ import br.gov.frameworkdemoiselle.template.AbstractEditPageBean;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @ViewController
-@PreviousView("./usuario_list.jsf")
+@PreviousView("./usuario_list.jsf?faces-redirect=true")
 public class UsuarioEditMB extends AbstractEditPageBean<Usuario, Long> {
 
 	private static final long serialVersionUID = 1L;

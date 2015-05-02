@@ -8,9 +8,7 @@ import javax.inject.Inject;
 
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 
-import br.com.gsn.sysbusweb.business.ObjetoReclamadoBC;
 import br.com.gsn.sysbusweb.business.OrigemReclamacaoBC;
-import br.com.gsn.sysbusweb.domain.ObjetoReclamado;
 import br.com.gsn.sysbusweb.domain.OrigemReclamacao;
 import br.com.gsn.sysbusweb.domain.enums.ObjetoReclamadoEnum;
 import br.gov.frameworkdemoiselle.annotation.NextView;
@@ -29,14 +27,9 @@ public class OrigemReclamacaoListMB extends AbstractListPageBean<OrigemReclamaca
 	@Inject
 	private OrigemReclamacaoBC origemReclamacaoBC;
 	
-	@Inject
-	private ObjetoReclamadoBC objetoReclamadoBC;
-	
 	private List<OrigemReclamacao> listOrigemReclamacao;
 	
 	private ObjetoReclamadoEnum objetoReclamado;
-	
-	private ObjetoReclamado objetoReclamadoBean;
 	
 	private OrigemReclamacao objetoExcluido;
 	
@@ -69,12 +62,6 @@ public class OrigemReclamacaoListMB extends AbstractListPageBean<OrigemReclamaca
 		this.carregarListaOrigemReclamacao(itemSelecionado);
 	}
 	
-	public void changeObjetoReclamadoBean(AjaxBehaviorEvent event) {
-		ObjetoReclamadoEnum itemSelecionado = (ObjetoReclamadoEnum)((SelectOneMenu)event.getSource()).getValue();
-		
-		this.carregarListaOrigemReclamacao(itemSelecionado);
-	}
-	
 	private void carregarListaOrigemReclamacao(ObjetoReclamadoEnum objetoReclamado) {
 		if (objetoReclamado != null) {
 			this.listOrigemReclamacao = origemReclamacaoBC.findByObjetoReclamado(objetoReclamado);
@@ -84,39 +71,19 @@ public class OrigemReclamacaoListMB extends AbstractListPageBean<OrigemReclamaca
 	}
 	
 	public List<ObjetoReclamadoEnum> getComboObjetoReclamado() {
-		return  ObjetoReclamadoEnum.list(Boolean.TRUE);
+		return ObjetoReclamadoEnum.list(Boolean.TRUE);
 	}
 	
 	public List<OrigemReclamacao> getListOrigemReclamacao() {
 		return listOrigemReclamacao;
 	}
-	
-	public OrigemReclamacao getObjetoExcluido() {
-		return objetoExcluido;
-	}
-
-	public void setObjetoExcluido(OrigemReclamacao objetoExcluido) {
-		this.objetoExcluido = objetoExcluido;
-	}
 
 	public ObjetoReclamadoEnum getObjetoReclamado() {
 		return objetoReclamado;
 	}
-	
-	public ObjetoReclamadoEnum setObjetoReclamado() {
-		return objetoReclamado;
-	}
-	
-	public List<ObjetoReclamado> getComboObjetoReclamadoBean() {
-		return objetoReclamadoBC.findAll();
-	}
 
-	public ObjetoReclamado getObjetoReclamadoBean() {
-		return objetoReclamadoBean;
-	}
-
-	public void setObjetoReclamadoBean(ObjetoReclamado objetoReclamadoBean) {
-		this.objetoReclamadoBean = objetoReclamadoBean;
+	public void setObjetoReclamado(ObjetoReclamadoEnum objetoReclamado) {
+		this.objetoReclamado = objetoReclamado;
 	}
     
 }

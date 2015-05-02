@@ -18,8 +18,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "linha")
 @NamedQueries({
-	@NamedQuery(name = "Linha.findAll", query = "SELECT l FROM Linha l"),
-	@NamedQuery(name = "Linha.findByDescricaoByNumero", query = "SELECT l FROM Linha l WHERE UPPER(l.descricao) LIKE :descricao and UPPER(l.numero) LIKE :numero")
+	@NamedQuery(name = "Linha.findAll", query = "SELECT l FROM Linha l order by l.numero, l.descricao"),
+	@NamedQuery(name = "Linha.findByDescricaoByNumero", query = "SELECT l FROM Linha l WHERE UPPER(l.descricao) LIKE :descricao and UPPER(l.numero) LIKE :numero "
+														+ " ORDER BY l.numero, l.descricao ")
 })
 public class Linha implements Serializable {
 	private static final long serialVersionUID = 1L;

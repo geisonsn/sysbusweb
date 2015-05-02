@@ -36,24 +36,10 @@ public class OrigemReclamacaoEditMB extends	AbstractEditPageBean<OrigemReclamaca
 	@Inject
 	private TipoReclamacaoBC tipoReclamacaoBC;
 	
-	private List<TipoReclamacao> reclamacoesCadastradas;
-	
-	private List<OrigemReclamacao> reclamacoesCadastradas2;
-    
     private DualListModel<TipoReclamacao> reclamacoes = new DualListModel<TipoReclamacao>();
-    
-    private DualListModel<OrigemReclamacao> reclamacoes2 = new DualListModel<OrigemReclamacao>();
     
     private ObjetoReclamadoEnum objetoReclamado;
 	
-	public DualListModel<OrigemReclamacao> getReclamacoes2() {
-		return reclamacoes2;
-	}
-    
-    public void setReclamacoes2(DualListModel<OrigemReclamacao> reclamacoes) {
-		this.reclamacoes2 = reclamacoes;
-	}
-    
     public DualListModel<TipoReclamacao> getReclamacoes() {
     	return reclamacoes;
     }
@@ -83,9 +69,9 @@ public class OrigemReclamacaoEditMB extends	AbstractEditPageBean<OrigemReclamaca
 
 	@Transactional
 	public void salvar() {
-		List<TipoReclamacao> target = reclamacoes.getTarget();
-//		List<OrigemReclamacao> target = reclamacoes.getTarget();
-		origemReclamacaoBC.salvarReclamacoes(objetoReclamado, reclamacoesCadastradas, target);
+		List<TipoReclamacao> reclamacoesSelecionadas = reclamacoes.getTarget();
+		
+		origemReclamacaoBC.salvarReclamacoes(objetoReclamado, reclamacoesSelecionadas);
 		
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
 				"Registros salvos", "Operação realizada com sucesso");
@@ -109,41 +95,21 @@ public class OrigemReclamacaoEditMB extends	AbstractEditPageBean<OrigemReclamaca
 		return this.origemReclamacaoBC.load(id);
 	}
 	
-    public void changeObjetoReclamadoEnum(AjaxBehaviorEvent event) {
+    public void changeObjetoReclamado(AjaxBehaviorEvent event) {
 		ObjetoReclamadoEnum itemSelecionado = (ObjetoReclamadoEnum)((SelectOneMenu)event.getSource()).getValue();
 		carregarPickedList(itemSelecionado);
 	}
-    
-    private void carregarPickedList2(ObjetoReclamadoEnum objetoReclamado) {
-    	
-    	List<TipoReclamacao> listTipoReclamacao = new ArrayList<TipoReclamacao>();
-    	
-    	List<OrigemReclamacao> disponiveis = new ArrayList<OrigemReclamacao>();
-    	List<OrigemReclamacao> selecionadas = new ArrayList<OrigemReclamacao>();
-    	
-    	
-    	if (!ObjetoReclamadoEnum.SELECIONE.equals(objetoReclamado)) {
-    		listTipoReclamacao = tipoReclamacaoBC.listTipoReclamacaoNaoCadastradasAoObjetoReclamado(objetoReclamado);
-    		for (TipoReclamacao tipoReclamacao : listTipoReclamacao) {
-    			disponiveis.add(new OrigemReclamacao(objetoReclamado, tipoReclamacao));
-			}
-    		selecionadas = reclamacoesCadastradas2 = origemReclamacaoBC.findByObjetoReclamado(objetoReclamado);
-    		
-    	}
-		reclamacoes2 = new DualListModel<OrigemReclamacao>(disponiveis, selecionadas);
-	}
-    
     private void carregarPickedList(ObjetoReclamadoEnum objetoReclamado) {
     	
     	List<TipoReclamacao> disponiveis = new ArrayList<TipoReclamacao>();
-    	List<TipoReclamacao> selecionadas = new ArrayList<TipoReclamacao>();
+    	List<TipoReclamacao> associadas = new ArrayList<TipoReclamacao>();
     	
     	if (!ObjetoReclamadoEnum.SELECIONE.equals(objetoReclamado)) {
     		disponiveis = tipoReclamacaoBC.listTipoReclamacaoNaoCadastradasAoObjetoReclamado(objetoReclamado);
-    		selecionadas = reclamacoesCadastradas = tipoReclamacaoBC
-    				.listTipoReclamacaoCadastradasAoObjetoReclamado(objetoReclamado);
+    		associadas = tipoReclamacaoBC.listTipoReclamacaoCadastradasAoObjetoReclamado(objetoReclamado);
     	}
-    	reclamacoes = new DualListModel<TipoReclamacao>(disponiveis, selecionadas);
+    	
+    	reclamacoes = new DualListModel<TipoReclamacao>(disponiveis, associadas);
     }
     
     @ExceptionHandler
@@ -152,7 +118,7 @@ public class OrigemReclamacaoEditMB extends	AbstractEditPageBean<OrigemReclamaca
     	String mensagem = "";
     	if (e.getCause() instanceof ConstraintViolationException) {
     		titulo = "Registro em uso";
-    		mensagem = "Registro adicionado não pode ser removido pois está em uso";
+    		mensagem = "Você está tentando remover um registro em uso";
     	}
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, titulo, mensagem);
 		FacesContext.getCurrentInstance().addMessage(null, msg);

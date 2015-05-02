@@ -37,7 +37,7 @@
 							<f:selectItems value="#{origemReclamacaoEditMB.comboObjetoReclamado}" var="objetoReclamado" itemValue="#{objetoReclamado}"
 								itemLabel="#{objetoReclamado.descricao}">
 							</f:selectItems>
-							<p:ajax event="change" listener="#{origemReclamacaoEditMB.changeObjetoReclamadoEnum}" process="@this" update="minhasReclamacoes"/>
+							<p:ajax event="change" listener="#{origemReclamacaoEditMB.changeObjetoReclamado}" process="@this" update="minhasReclamacoes"/>
 						</p:selectOneMenu>
 					</p:column>					
 					

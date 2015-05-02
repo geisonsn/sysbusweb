@@ -17,5 +17,11 @@ public class VeiculoDAO extends JPACrud<Veiculo, Long> {
 				.setParameter("numeroRegistro", "%" + numeroRegistro + "%")
 				.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Veiculo> findAll() {
+		return getEntityManager().createNamedQuery("Veiculo.findAll").getResultList();
+	}
 
 }

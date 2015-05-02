@@ -17,5 +17,11 @@ public class LinhaDAO extends JPACrud<Linha, Long> {
 				.setParameter("numero", "%" + numero.toUpperCase() + "%")
 				.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Linha> findAll() {
+		return getEntityManager().createNamedQuery("Linha.findAll").getResultList();
+	}
 
 }

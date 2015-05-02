@@ -16,12 +16,15 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import br.com.gsn.sysbusweb.util.Util;
+
 @Entity
 @Table(name = "veiculo")
 @NamedQueries({
-		@NamedQuery(name = "Veiculo.findAll", query = "SELECT v FROM Veiculo v"),
+		@NamedQuery(name = "Veiculo.findAll", query = "SELECT v FROM Veiculo v order by v.linha.numero, v.numeroRegistro"),
 		@NamedQuery(name = "Veiculo.findByCampos", query = "SELECT v FROM Veiculo v inner join v.linha as l  "
-				+ " WHERE v.numeroRegistro LIKE :numeroRegistro and UPPER(l.descricao) LIKE :linha") })
+				+ " WHERE v.numeroRegistro LIKE :numeroRegistro and UPPER(l.descricao) LIKE :linha "
+				+ " ORDER BY l.numero, v.numeroRegistro") })
 public class Veiculo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -61,6 +64,10 @@ public class Veiculo implements Serializable {
 
 	public String getPlaca() {
 		return this.placa;
+	}
+	
+	public String getPlacaFormatada() {
+		return Util.formatarPlaca(this.placa);
 	}
 
 	public void setPlaca(String placa) {

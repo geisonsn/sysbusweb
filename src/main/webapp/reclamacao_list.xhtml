@@ -54,7 +54,8 @@
 					<h:outputText value="#{bean.descricao}" />
 				</p:column>
 				
-				<p:column headerText="#{messages['list.label.acoes']}" width="8%">
+				<p:column headerText="#{messages['list.label.acoes']}" width="#{loginMB.usuario.administrador ? '8%' : '6%'}"
+					style="text-align: center">
 				
 					<p:commandButton action="#{reclamacaoListMB.getNextView}" actionListener="#{reclamacaoListMB.clear}" 
 						icon="ui-icon-pencil"	title="#{messages['botao.alterar.title']}" alt="#{messages['botao.alterar.alt']}">
