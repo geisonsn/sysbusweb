@@ -34,11 +34,11 @@ public class LoginMB implements Serializable {
 			this.usuario = usuarioBC.getByUsernameEPassoword(this.username, this.senha);
 			
 			if (this.usuario.isAdministrador()) {
-				return "usuario_list.jsf";
+				return "usuario_list.jsf?faces-redirect=true";
 			} else if (this.usuario.isGestor()) {
-				return "gestor.jsf";
+				return "gestor.jsf?faces-redirect=true";
 			} else if (this.usuario.isMantenedor()) {
-				return "veiculo_list.jsf";
+				return "veiculo_list.jsf?faces-redirect=true";
 			}
 		} catch (NoResultException e) {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,

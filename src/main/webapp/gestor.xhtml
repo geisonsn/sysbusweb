@@ -6,7 +6,7 @@
 
 	<ui:define name="titulo">
 		<div class="barra_titulo">
-			<h1><h:outputText value="Reclamações do mês" /></h1>
+			<h1><h:outputText value="Reclamações do mês de #{gestorMB.mesCorrente}" /></h1>
 		</div>
 	</ui:define>
 	
@@ -14,8 +14,10 @@
 		<h:form prependId="false" id="frmToolbar">
 			<div class="barra_ferramentas">
 				<p:commandButton title="Imprimir Relatório" icon="ui-icon-print" actionListener="#{gestorMB.imprimirRelatorio}" ajax="false"/>
-				<p:commandButton title="Gráfico" icon="ui-icon-document" actionListener="#" ajax="false"/>
+				<p:commandButton title="Gráfico" icon="ui-icon-document" action="gestor_grafico_mes?faces-redirect=true"  
+				ajax="false" />
 				<p:commandButton title="Pesquisa" icon="ui-icon-search" action="#" actionListener="#" ajax="false" />
+				
 			</div>
 		</h:form>
 	</ui:define>

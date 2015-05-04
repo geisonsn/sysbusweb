@@ -12,9 +12,9 @@ import br.com.gsn.sysbusweb.domain.enums.TipoLogradouroEnum;
 	@NamedQuery(name = "Logradouro.findAll", query = "SELECT l FROM Logradouro l"),
 	@NamedQuery(name = "Logradouro.findByNomeByBairro", 
 		query = "select l from Logradouro l inner join l.bairro as b "
-		+ " where upper(l.nome) like :logradouro and upper(l.nomeAntigo) like :logradouro "
-		+ " and upper(l.nomePopular) like :logradouro and upper(b.nome) like :bairro "
-		+ " order by l.nome, b.nome ")
+		+ "where (upper(l.nome) like :logradouro or upper(l.nomeAntigo) like :logradouro or upper(l.nomePopular) like :logradouro) "
+		+ "and upper(b.nome) like :bairro "
+		+ "order by l.nome, b.nome ")
 })
 public class Logradouro implements Serializable {
 	private static final long serialVersionUID = 1L;

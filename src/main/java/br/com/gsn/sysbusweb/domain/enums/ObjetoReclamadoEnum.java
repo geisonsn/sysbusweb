@@ -32,7 +32,7 @@ public enum ObjetoReclamadoEnum {
 	}
 	
 	public static List<ObjetoReclamadoEnum> list() {
-		return construirListaObjetoReclamado(true);
+		return construirListaObjetoReclamado(false);
 	}
 
 	private static List<ObjetoReclamadoEnum> construirListaObjetoReclamado(boolean semOutros) {

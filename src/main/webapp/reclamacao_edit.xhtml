@@ -58,11 +58,10 @@
 					<p:message for="placaLinha" />
 						
 					<h:outputLabel value="#{messages['reclamacao.label.objetoReclamado']}: " for="objetoReclamado" styleClass="text-input" />
-					<p:selectOneMenu value="#{reclamacaoEditMB.objetoReclamado}" converter="omnifaces.GenericEnumConverter"
-						style="width: 100%" id="objetoReclamado">
+					<p:selectOneMenu value="#{reclamacaoEditMB.bean.objetoReclamado}" converter="omnifaces.GenericEnumConverter"
+						style="width: 100%" id="objetoReclamado" validator="ObjetoReclamadoValidator">
 						<f:selectItems value="#{reclamacaoEditMB.comboObjetoReclamado}" var="objetoReclamado" itemValue="#{objetoReclamado}"
-							itemLabel="#{objetoReclamado.descricao}">
-						</f:selectItems>
+							itemLabel="#{objetoReclamado.descricao}"/>
 						<p:ajax event="change" listener="#{reclamacaoEditMB.changeObjetoReclamado}" process="@this" update="origemReclamacao"/>
 					</p:selectOneMenu>
 					<p:message for="objetoReclamado" />

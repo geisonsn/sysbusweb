@@ -49,10 +49,9 @@ public class ReclamacaoEditMB extends AbstractEditPageBean<Reclamacao, Long> {
 		carregarDados();
 	}
 
-
 	private void carregarDados() {
 		if (isUpdateMode()) {
-			ObjetoReclamadoEnum objetoReclamado = getBean().getOrigemReclamacao().getObjetoReclamado();
+			ObjetoReclamadoEnum objetoReclamado = getBean().getObjetoReclamado();
 			carregarComboOrigemReclamacao(objetoReclamado);
 			this.setObjetoReclamado(objetoReclamado);
 		}
@@ -72,7 +71,7 @@ public class ReclamacaoEditMB extends AbstractEditPageBean<Reclamacao, Long> {
 	}
     
 	public List<ObjetoReclamadoEnum> getComboObjetoReclamado() {
-		return ObjetoReclamadoEnum.list(Boolean.TRUE);
+		return ObjetoReclamadoEnum.list();
 	}
 	
 	public List<Linha> getLinhaList(){

@@ -2,6 +2,7 @@ package br.com.gsn.sysbusweb.view;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import br.com.gsn.sysbusweb.business.ReclamacaoBC;
 import br.com.gsn.sysbusweb.domain.dto.ReclamacaoDTO;
+import br.com.gsn.sysbusweb.domain.enums.Mes;
 import br.gov.frameworkdemoiselle.stereotype.ViewController;
 
 @ViewController
@@ -64,4 +66,7 @@ public class GestorMB implements Serializable {
 		}
 	}
 
+	public String getMesCorrente() {
+    	return Mes.getFromOrdinal(Calendar.getInstance().get(Calendar.MONTH)).getDescricao();
+    }
 }

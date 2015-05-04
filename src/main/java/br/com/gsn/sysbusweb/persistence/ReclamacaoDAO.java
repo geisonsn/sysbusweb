@@ -7,6 +7,7 @@ import java.util.List;
 
 import br.com.gsn.sysbusweb.domain.Reclamacao;
 import br.com.gsn.sysbusweb.domain.dto.ReclamacaoDTO;
+import br.com.gsn.sysbusweb.domain.enums.ObjetoReclamadoEnum;
 import br.gov.frameworkdemoiselle.stereotype.PersistenceController;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 
@@ -23,11 +24,65 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 	
 	@SuppressWarnings("unchecked")
 	public List<Reclamacao> findByPeriodo(Date dataInicio, Date dataFim) {
+		
 		return (List<Reclamacao>) getEntityManager()
 				.createNamedQuery("Reclamacao.findByPeriodo")
 				.setParameter("dataInicio", dataInicio)
 				.setParameter("dataFim", dataFim)
 				.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ReclamacaoDTO> listReclamadosPorMes(int mes) {
+		
+		StringBuffer sql = new StringBuffer();
+		
+		sql
+			.append(" select count(rec.objeto_reclamado) as reclamacoes, rec.objeto_reclamado as reclamado ")
+			.append(" from reclamacao rec ")
+			.append(" where month(rec.data_registro) = :mes ")
+			.append(" group by rec.objeto_reclamado ");
+		
+		/*sql
+			.append("select count(objeto_reclamado) as total, '"+ ObjetoReclamadoEnum.MOTORISTA.getDescricao() + "' as objeto_reclamado ")
+			.append("from reclamacao ")
+			.append("where month(data_registro) = :mes ")
+			.append("and objeto_reclamado = " + ObjetoReclamadoEnum.MOTORISTA.ordinal() + " ")
+			.append("union all ")
+			.append("select count(objeto_reclamado) as total, '"+ ObjetoReclamadoEnum.COBRADOR.getDescricao() + "' as objeto_reclamado ")
+			.append("from reclamacao ")
+			.append("where month(data_registro) = :mes ")
+			.append("and objeto_reclamado = " + ObjetoReclamadoEnum.COBRADOR.ordinal() + " ")
+			.append("union all ")
+			.append("select count(objeto_reclamado) as total, '"+ ObjetoReclamadoEnum.VEICULO.getDescricao() + "' as objeto_reclamado ")
+			.append("from reclamacao ")
+			.append("where month(data_registro) = :mes ")
+			.append("and objeto_reclamado = " + ObjetoReclamadoEnum.VEICULO.ordinal() + " ")
+			.append("union all ")
+			.append("select count(objeto_reclamado) as total, '"+ ObjetoReclamadoEnum.OUTROS.getDescricao() + "' as objeto_reclamado ")
+			.append("from reclamacao ")
+			.append("where month(data_registro) = :mes ")
+			.append("and objeto_reclamado = " + ObjetoReclamadoEnum.OUTROS.ordinal() + " ");*/
+		
+		List<Object[]> resultList = getEntityManager()
+				.createNativeQuery(sql.toString())
+				.setParameter("mes", mes)
+				.getResultList();
+		
+		List<ReclamacaoDTO> list = new ArrayList<ReclamacaoDTO>();
+		
+		for (Object object : resultList) {
+			BigInteger reclamacoes = (BigInteger)((Object[])object)[0];
+			String reclamado = ObjetoReclamadoEnum.getFromOrdinal((Integer)((Object[])object)[1]).getDescricao();
+//			String reclamado = (String)((Object[])object)[1];
+			
+			list.add(new ReclamacaoDTO.Builder(0)
+				.objetoReclamado(reclamado)
+				.totalReclamacoes(reclamacoes.intValue())
+				.build());
+		}
+		
+		return list;
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -22,7 +22,7 @@
 	
 	<ui:define name="conteudo">
 		<h:form prependId="false" id="form">
-			
+		
 			<p:fieldset legend="#{messages['fieldset.pesquisa.label']}">
 			
 				<o:validateAllOrNone id="allOrNone" components="dataInicio dataFim" message="Preencha ambos os campos ou deixe ambos em branco"/>
@@ -74,14 +74,14 @@
 					<h:outputText value="#{bean.linha.numero}" />
 				</p:column>
 				
+				<p:column sortBy="#{bean.objetoReclamado.descricao}">
+					<f:facet name="header">#{messages['reclamacao.label.objetoReclamado']}</f:facet>
+					<h:outputText value="#{bean.objetoReclamado.descricao}" />
+				</p:column>
+				
 				<p:column sortBy="#{bean.origemReclamacao.tipoReclamacao.descricao}">
 					<f:facet name="header">Reclamação</f:facet>
 					<h:outputText value="#{bean.origemReclamacao.tipoReclamacao.descricao}" />
-				</p:column>
-				
-				<p:column sortBy="#{bean.origemReclamacao.objetoReclamado.descricao}">
-					<f:facet name="header">#{messages['reclamacao.label.objetoReclamado']}</f:facet>
-					<h:outputText value="#{bean.origemReclamacao.objetoReclamado.descricao}" />
 				</p:column>
 				
 				<p:column sortBy="#{bean.dataOcorrenciaFormatada}" style="width: 12%; text-align: center">
@@ -133,6 +133,7 @@
 				</p:column>
 					
 			</p:dataTable>
+			
 		</h:form>
 
 	</ui:define>
