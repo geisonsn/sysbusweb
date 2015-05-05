@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rel_mensal_reclamacao" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a8784c45-9137-470a-89af-0ee8392c8317">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="periodoPesquisado" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="dataRegistro" class="java.lang.String"/>
+	<field name="numeroLinha" class="java.lang.String"/>
+	<field name="objetoReclamado" class="java.lang.String"/>
+	<field name="tipoReclamacao" class="java.lang.String"/>
+	<field name="dataOcorrencia" class="java.lang.String"/>
+	<field name="horaOcorrencia" class="java.lang.String"/>
+	<field name="placaVeiculo" class="java.lang.String"/>
+	<field name="detalhesReclamacao" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="63" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="33" uuid="e2921e90-09ee-42b5-a79f-3f0d93aa2737"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório de reclamações]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="33" width="555" height="20" uuid="f7e44fd3-e36d-4cd2-890f-2d1c4408bf41"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Período: " + $P{periodoPesquisado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="84" height="22" uuid="ed56ac32-9df3-41a0-8f14-2591f9b4d8ad"/>
+				<box bottomPadding="0">
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Registrado em]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="0" width="42" height="22" uuid="7ca67145-8db6-49ba-9344-2acdb7f6c906"/>
+				<box bottomPadding="0">
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Linha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="126" y="0" width="64" height="22" uuid="938b1cb5-e9ea-4248-8933-348e56f6ff45"/>
+				<box bottomPadding="0">
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Reclamado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="0" width="84" height="22" uuid="a562d867-0605-4595-ae30-39a62c19d753"/>
+				<box bottomPadding="0">
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Reclamação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="274" y="0" width="65" height="22" uuid="1d4f71d9-97b5-4f7c-b1f7-87df396ecb8e"/>
+				<box bottomPadding="0">
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Ocorrido em]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="339" y="0" width="39" height="22" uuid="da6da787-300c-420f-8ef5-0a4b6223a58c"/>
+				<box bottomPadding="0">
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Hora]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="378" y="0" width="56" height="22" uuid="1df49a1f-2d2b-49cd-95d6-c33cb9dd422b"/>
+				<box bottomPadding="0">
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Placa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="434" y="0" width="121" height="22" uuid="ccaf173b-325f-46f3-b5a0-fac34974b42b"/>
+				<box bottomPadding="0">
+					<topPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Detalhes]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="84" height="15" uuid="ab0da129-aeec-42e7-9496-7019d668dfc7">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{dataRegistro}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="84" y="0" width="42" height="15" uuid="171a00e8-0daa-4650-bd57-ba8fffb565fd">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{numeroLinha}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="126" y="0" width="64" height="15" uuid="fe476276-4117-4000-ba3b-67286ec83d99">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{objetoReclamado}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="190" y="0" width="84" height="15" uuid="bea8ff70-c1c5-4879-b6d8-5038d8d346f8">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{tipoReclamacao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="274" y="0" width="65" height="15" uuid="47f8f118-fbab-416b-9a68-80a375ca9503">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{dataOcorrencia}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="339" y="0" width="39" height="15" uuid="9ce7d7f7-e9bd-4f00-98d6-4b51843f7936">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{horaOcorrencia}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="378" y="0" width="56" height="15" uuid="16e5bfe2-67f2-42ed-8cdc-71d85b3c1faf">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{placaVeiculo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="434" y="0" width="121" height="15" uuid="60bb5811-a795-4612-b81c-85b1a1dc60a2">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{detalhesReclamacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="435" y="0" width="80" height="20" uuid="5d374af5-b5ad-45e1-94e9-918bd19bea96"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="0" width="40" height="20" uuid="1ce72d2f-6068-47d5-bccd-9fa461391f79"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="224" height="20" uuid="18f88bee-0503-4115-9d3b-66259eb4cbde"/>
+				<textFieldExpression><![CDATA["Impresso em: " + new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

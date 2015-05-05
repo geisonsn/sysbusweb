@@ -32,6 +32,25 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 				.getResultList();
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	public List<Reclamacao> findByMes(int mes) {
+		
+		StringBuffer sql = new StringBuffer();
+		sql
+			.append("SELECT r FROM  Reclamacao r ") 
+			.append("left join r.linha as l ")
+			.append("left join r.origemReclamacao as o ") 
+			.append("left join o.tipoReclamacao as t ")
+			.append("WHERE month(r.dataRegistro) = :mes ")
+			.append("order by r.dataRegistro desc, l.numero, r.dataOcorrencia, t.descricao");
+		
+		return (List<Reclamacao>) getEntityManager()
+				.createQuery(sql.toString())
+				.setParameter("mes", mes)
+				.getResultList();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<ReclamacaoDTO> listReclamadosPorMes(int mes) {
 		

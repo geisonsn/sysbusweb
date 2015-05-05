@@ -2,6 +2,7 @@ package br.com.gsn.sysbusweb.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
@@ -34,6 +35,10 @@ public final class Util {
 		}
 		
 		return string.toLowerCase();
+	}
+	
+	public static int getMesCorrente() {
+		return Calendar.getInstance().get(Calendar.MONTH);
 	}
 	
 	public static String formatarData(Date data, FormatoData formato) {
@@ -79,7 +84,7 @@ public final class Util {
 		};
 		
 		private static DateFormat formatoDataBasica = new SimpleDateFormat("dd/MM/yyyy");
-		private static DateFormat formatoDataCompleta = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+		private static DateFormat formatoDataCompleta = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
 		public abstract String format(Date data);
 	}

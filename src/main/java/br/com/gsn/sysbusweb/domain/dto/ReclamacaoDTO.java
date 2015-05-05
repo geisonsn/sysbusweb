@@ -11,6 +11,11 @@ public class ReclamacaoDTO implements Serializable {
 	private String empresa;
 	private String numeroLinha;
 	private String tipoReclamacao;
+	private String dataRegistro;
+	private String dataOcorrencia;
+	private String horaOcorrencia;
+	private String placaVeiculo;
+	private String detalhesReclamacao; 
 	private Integer totalReclamacoes;
 	private double percentual;
 	
@@ -46,6 +51,50 @@ public class ReclamacaoDTO implements Serializable {
 
 	public void setTipoReclamacao(String tipoReclamacao) {
 		this.tipoReclamacao = tipoReclamacao;
+	}
+	
+	public String getDataRegistro() {
+		return dataRegistro;
+	}
+
+	public void setDataRegistro(String dataRegistro) {
+		this.dataRegistro = dataRegistro;
+	}
+
+	public String getDataOcorrencia() {
+		return dataOcorrencia;
+	}
+
+	public void setDataOcorrencia(String dataOcorrencia) {
+		this.dataOcorrencia = dataOcorrencia;
+	}
+
+	public String getHoraOcorrencia() {
+		return horaOcorrencia;
+	}
+
+	public void setHoraOcorrencia(String horaOcorrencia) {
+		this.horaOcorrencia = horaOcorrencia;
+	}
+
+	public String getPlacaVeiculo() {
+		return placaVeiculo;
+	}
+
+	public void setPlacaVeiculo(String placaVeiculo) {
+		this.placaVeiculo = placaVeiculo;
+	}
+
+	public String getDetalhesReclamacao() {
+		return detalhesReclamacao;
+	}
+
+	public void setDetalhesReclamacao(String detalhesReclamacao) {
+		this.detalhesReclamacao = detalhesReclamacao;
+	}
+
+	public void setPercentual(double percentual) {
+		this.percentual = percentual;
 	}
 
 	public Integer getTotalReclamacoes() {

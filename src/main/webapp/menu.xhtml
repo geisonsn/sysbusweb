@@ -26,9 +26,9 @@
 				<p:menuitem value="#{messages['menu.usuario']}" url="/usuario_list.jsf"></p:menuitem>
 			</p:submenu>
 			
-			<p:submenu label="Relatórios" rendered="#{loginMB.usuario.gestor || loginMB.usuario.administrador}">
-				<p:menuitem value="Relatório 1" url="#"/>
-				<p:menuitem value="Relatório 2" url="#"/>
+			<p:submenu label="Relatórios" rendered="#{loginMB.usuario.gestor || loginMB.usuario.administrador}" >
+				<p:menuitem value="Reclamações po período" url="/reclamacao_por_periodo.jsf"/>
+				<p:menuitem value="Reclamações por mês" url="/reclamacao_por_mes.jsf"/>
 			</p:submenu>
 			
 			<f:facet name="options">

@@ -31,13 +31,13 @@ import br.com.gsn.sysbusweb.util.Util.FormatoHora;
 					+ "left join r.origemReclamacao as o " 
 					+ "left join o.tipoReclamacao as t "
 					+ "order by r.dataRegistro desc, l.numero, r.dataOcorrencia, t.descricao"),
+					
 	@NamedQuery(name = "Reclamacao.findByPeriodo", query= "SELECT r FROM  Reclamacao r " 
 					+ "left join r.linha as l "
 					+ "left join r.origemReclamacao as o " 
 					+ "left join o.tipoReclamacao as t "
 					+ "WHERE r.dataRegistro between :dataInicio and :dataFim "
 					+ "order by r.dataRegistro desc, l.numero, r.dataOcorrencia, t.descricao")
-	
 })
 
 public class Reclamacao implements Serializable {
@@ -141,6 +141,10 @@ public class Reclamacao implements Serializable {
 
 	public ObjetoReclamadoEnum getObjetoReclamado() {
 		return objetoReclamado;
+	}
+	
+	public String getObjetoReclamadoToString() {
+		return objetoReclamado.getDescricao();
 	}
 
 	public void setObjetoReclamado(ObjetoReclamadoEnum objetoReclamado) {

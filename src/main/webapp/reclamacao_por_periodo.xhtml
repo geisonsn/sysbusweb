@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/templ_cadastros.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">
+		<div class="barra_titulo">
+			<h1><h:outputText value="Reclamações por período" /></h1>
+		</div>
+	</ui:define>
+	
+	<ui:define name="toolbar">
+		<h:form prependId="false" id="frmToolbar">
+			<div class="barra_ferramentas">
+				<p:commandButton actionListener="#{gestorMB.imprimirRelatorioPorPeriodo}" ajax="false" 
+					icon="ui-icon-print"	title="Imprimir" alt="Imprimir" rendered="#{not empty gestorMB.listReclamacoesPorPeriodo}">
+				</p:commandButton>
+			</div>
+		</h:form>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form prependId="false" id="form">
+		
+			<p:fieldset legend="#{messages['fieldset.pesquisa.label']}">
+			
+				<o:validateAllOrNone id="allOrNone" components="dataInicio dataFim" message="Preencha ambos os campos ou deixe ambos em branco"/>
+			
+				<h:panelGrid id="fieldsreclamacao" columns="4">
+					<p:column>
+						<o:outputLabel for="dataInicio" value="Data início">&#160;</o:outputLabel>
+						<p:calendar id="dataInicio" value="#{gestorMB.dataInicio}"
+						   pattern="#{messages['label.date.pattern']}" navigator="true" showButtonPanel="true"
+						   locale="#{locales.currentLocale}" title="Data início" 
+						   maxdate="#{gestorMB.dataMaxima}"
+						   size="13" mask="99/99/9999"/>
+							 
+						<p:message for="dataInicio" />
+					</p:column>
+					
+					<p:column>
+						<o:outputLabel for="dataFim" value="Data fim">&#160;</o:outputLabel>
+						<p:calendar id="dataFim" value="#{gestorMB.dataFim}"
+						   pattern="#{messages['label.date.pattern']}" navigator="true" showButtonPanel="true"
+						   locale="#{locales.currentLocale}" title="Data fim" 
+						   maxdate="#{gestorMB.dataMaxima}"
+						   size="13" mask="99/99/9999"/>
+								 
+						<p:message for="dataFim" />
+					</p:column>
+					
+					<p:columnGroup>
+						<p:commandButton action="#{gestorMB.pesquisarReclamacoesPorPeriodo}" icon="ui-icon-search" update="grid frmToolbar"/>
+					</p:columnGroup>
+					
+					<h:panelGroup>
+						<h:message for="allOrNone"/>
+					</h:panelGroup>
+				</h:panelGrid>
+			</p:fieldset>
+			
+			<br/>
+			
+			<p:dataTable id="grid" var="bean" value="#{gestorMB.listReclamacoesPorPeriodo}" paginator="true" rows="8">
+				
+				<p:column sortBy="#{bean.dataOcorrenciaFormatada}" style="width: 12%; text-align: center">
+					<f:facet name="header">Registrado em</f:facet>
+					<h:outputText value="#{bean.dataRegistroFormatada}" />
+				</p:column>
+				
+				<p:column sortBy="#{bean.linha.numero}" style="width: 8%; text-align: center">
+					<f:facet name="header">#{messages['reclamacao.label.linha']}</f:facet>
+					<h:outputText value="#{bean.linha.numero}" />
+				</p:column>
+				
+				<p:column sortBy="#{bean.objetoReclamado.descricao}">
+					<f:facet name="header">#{messages['reclamacao.label.objetoReclamado']}</f:facet>
+					<h:outputText value="#{bean.objetoReclamado.descricao}" />
+				</p:column>
+				
+				<p:column sortBy="#{bean.origemReclamacao.tipoReclamacao.descricao}">
+					<f:facet name="header">Reclamação</f:facet>
+					<h:outputText value="#{bean.origemReclamacao.tipoReclamacao.descricao}" />
+				</p:column>
+				
+				<p:column sortBy="#{bean.dataOcorrenciaFormatada}" style="width: 12%; text-align: center">
+					<f:facet name="header">Ocorrido em</f:facet>
+					<h:outputText value="#{bean.dataOcorrenciaFormatada}" />
+				</p:column>
+					
+				<p:column sortBy="#{bean.horaFormatada}" style="width: 8%; text-align: center">
+					<f:facet name="header">#{messages['reclamacao.label.hora']}</f:facet>
+					<h:outputText value="#{bean.horaFormatada}" />
+				</p:column>
+					
+				<p:column sortBy="#{bean.placaFormatada}" style="width: 8%; text-align: center">
+					<f:facet name="header">#{messages['reclamacao.label.placaLinha']}</f:facet>
+					<h:outputText value="#{bean.placaFormatada}" />
+				</p:column>
+				
+				<p:column sortBy="#{bean.descricao}">
+					<f:facet name="header">#{messages['reclamacao.label.descricao']}</f:facet>
+					<h:outputText value="#{bean.descricao}" />
+				</p:column>
+				
+			</p:dataTable>
+			
+		</h:form>
+
+	</ui:define>
+</ui:composition>

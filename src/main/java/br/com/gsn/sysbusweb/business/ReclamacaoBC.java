@@ -18,9 +18,14 @@ public class ReclamacaoBC extends DelegateCrud<Reclamacao, Long, ReclamacaoDAO> 
 		return getDelegate().findByPeriodo(dataInicio, dataFim);
 	}
 	
+	public List<Reclamacao> listReclamacoesPorMes(int mes) {
+		return getDelegate().findByMes(mes);
+	}
+	
 	public List<ReclamacaoDTO> listReclamadosPorMes(int mes) {
 		return getDelegate().listReclamadosPorMes(mes);
 	}
+	
 
 	public List<ReclamacaoDTO> listObjetosMaisReclamados() {
 		return getDelegate().listObjetosMaisReclamados();

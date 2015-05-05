@@ -1,5 +1,6 @@
 package br.com.gsn.sysbusweb.view;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -104,8 +105,15 @@ public class ReclamacaoListMB extends AbstractListPageBean<Reclamacao, Long> {
 		if (dataInicio == null || dataFim == null) {
 			this.listReclamacao = this.handleResultList();
 		} else {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(dataFim);
+			calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 
+					calendar.get(Calendar.DAY_OF_MONTH), 23, 59, 59);
+			
+			this.dataFim = calendar.getTime();
 			this.listReclamacao = reclamacaoBC.pesquisar(this.dataInicio, this.dataFim);
+			
 		}
 	}
-
+	
 }
