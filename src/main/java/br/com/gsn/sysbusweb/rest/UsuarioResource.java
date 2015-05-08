@@ -17,6 +17,8 @@ import javax.ws.rs.core.Response.Status;
 
 import org.modelmapper.ModelMapper;
 
+import com.google.gson.Gson;
+
 import br.com.gsn.sysbusweb.business.UsuarioBC;
 import br.com.gsn.sysbusweb.domain.Usuario;
 import br.com.gsn.sysbusweb.domain.dto.UsuarioDTO;
@@ -50,8 +52,16 @@ public class UsuarioResource {
 	@Path("/{username}/{password}")
 	public Response login(@PathParam("username") String username, @PathParam("password") String password) {
 		try {
-			usuarioBC.getByUsernameEPassoword(username, password);
-			return Response.status(Status.OK).entity("OK").build();
+			Usuario usuario = usuarioBC.getByUsernameEPassoword(username, password);
+			UsuarioDTO usuarioDTO = new UsuarioDTO();
+			
+			ModelMapper mapper = new ModelMapper();
+			mapper.map(usuario, usuarioDTO);
+			
+			Gson gson = new Gson();
+			String json = gson.toJson(usuarioDTO);
+			
+			return Response.status(Status.OK).entity(json).build();
 		} catch (NoResultException e) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
