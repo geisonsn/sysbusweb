@@ -48,7 +48,7 @@ public class UsuarioResource {
 	
 	
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{username}/{password}")
 	public Response login(@PathParam("username") String username, @PathParam("password") String password) {
 		try {
