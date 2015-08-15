@@ -2,7 +2,8 @@ package br.com.gsn.sysbusweb.domain.dto;
 
 import java.io.Serializable;
 
-public class UsuarioDTO implements Serializable {
+
+public class UsuarioDTO extends InformationRequest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -17,7 +18,7 @@ public class UsuarioDTO implements Serializable {
 	private String password;
 
 	private String email;
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -65,5 +66,4 @@ public class UsuarioDTO implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 }

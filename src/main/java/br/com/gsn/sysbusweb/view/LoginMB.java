@@ -39,6 +39,11 @@ public class LoginMB implements Serializable {
 				return "gestor.jsf?faces-redirect=true";
 			} else if (this.usuario.isMantenedor()) {
 				return "veiculo_list.jsf?faces-redirect=true";
+			} else {
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Acesso não permitido",
+						"Este usuário não possui privilégios para acessar o sistema");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
 			}
 		} catch (NoResultException e) {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,

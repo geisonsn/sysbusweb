@@ -2,7 +2,10 @@ package br.com.gsn.sysbusweb.persistence;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import br.com.gsn.sysbusweb.domain.Usuario;
+import br.com.gsn.sysbusweb.domain.enums.PerfilEnum;
 import br.gov.frameworkdemoiselle.stereotype.PersistenceController;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 
@@ -33,7 +36,23 @@ public class UsuarioDAO extends JPACrud<Usuario, Long> {
 				.getSingleResult();
 	}
 	
-	public Usuario getByUsernameEEmail(String username, String email) {
+	public Usuario getClienteByEmailEPassword(String email, String password) {
+		
+		StringBuffer jpql = new StringBuffer(" select usuario from PerfilUsuario perfil ")
+			.append(" inner join perfil.usuario as usuario ")
+			.append(" where usuario.email = :email ")
+			.append(" and usuario.password = :password ")
+			.append(" and perfil.perfil = :perfil");
+		
+		return (Usuario)getEntityManager()
+				.createQuery(jpql.toString())
+				.setParameter("email", email)
+				.setParameter("password", password)
+				.setParameter("perfil", PerfilEnum.CLIENTE)
+				.getSingleResult();
+	}
+	
+	public Usuario getByUsernameEEmail(String username, String email) throws NoResultException {
 		return (Usuario)getEntityManager()
 				.createNamedQuery("Usuario.getByUsernameEEmail")
 				.setParameter("username", username.toLowerCase())
@@ -41,6 +60,10 @@ public class UsuarioDAO extends JPACrud<Usuario, Long> {
 				.getSingleResult();
 	}
 	
-	
-
+	public Usuario getByEmail(String email) {
+		return (Usuario) getEntityManager()
+			.createNamedQuery(Usuario.GET_BY_EMAIL)
+			.setParameter("email", email)
+			.getSingleResult();
+	}
 }

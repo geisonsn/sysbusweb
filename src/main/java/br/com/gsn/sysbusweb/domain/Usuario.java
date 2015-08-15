@@ -22,11 +22,14 @@ import br.com.gsn.sysbusweb.domain.enums.PerfilEnum;
 	@NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u order by u.nome, u.sobrenome, u.username, u.email"),
 	@NamedQuery(name = "Usuario.findByNome", query = "SELECT u FROM Usuario u where upper(u.nome) like :nome order by u.nome, u.sobrenome, u.username, u.email"),
 	@NamedQuery(name = "Usuario.getByUsernameEPassword", query = "SELECT u FROM Usuario u where u.username = :username and u.password = :password"),
-	@NamedQuery(name = "Usuario.getByUsernameEEmail", query = "SELECT u FROM Usuario u where lower(u.username) = :username or u.email = :email")
+	@NamedQuery(name = "Usuario.getByUsernameEEmail", query = "SELECT u FROM Usuario u where lower(u.username) = :username or u.email = :email"),
+	@NamedQuery(name = Usuario.GET_BY_EMAIL, query = "SELECT u FROM Usuario u where u.email = :email")
 })
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public static final String GET_BY_EMAIL = "Usuario.getByEmail";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -109,28 +112,36 @@ public class Usuario implements Serializable {
 	
 	public boolean isAdministrador() {
 		for (PerfilUsuario perfilUsuario : listPerfilUsuario) {
-			return perfilUsuario.getPerfil() == PerfilEnum.ADMINISTRADOR;
+			if (perfilUsuario.getPerfil() == PerfilEnum.ADMINISTRADOR) {
+				return true;
+			}
 		}
 		return false;
 	}
 	
 	public boolean isMantenedor() {
 		for (PerfilUsuario perfilUsuario : listPerfilUsuario) {
-			return perfilUsuario.getPerfil() == PerfilEnum.MANTENEDOR;
+			if (perfilUsuario.getPerfil() == PerfilEnum.MANTENEDOR) {
+				return true;
+			}
 		}
 		return false;
 	}
 	
 	public boolean isGestor() {
 		for (PerfilUsuario perfilUsuario : listPerfilUsuario) {
-			return perfilUsuario.getPerfil() == PerfilEnum.GESTOR;
+			if (perfilUsuario.getPerfil() == PerfilEnum.GESTOR) {
+				return true;
+			}
 		}
 		return false;
 	}
 	
 	public boolean isCliente() {
 		for (PerfilUsuario perfilUsuario : listPerfilUsuario) {
-			return perfilUsuario.getPerfil() == PerfilEnum.CLIENTE;
+			if (perfilUsuario.getPerfil() == PerfilEnum.CLIENTE) {
+				return true;
+			}
 		}
 		return false;
 	}

@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import br.com.gsn.sysbusweb.business.UsuarioBC;
 import br.com.gsn.sysbusweb.domain.Usuario;
 import br.com.gsn.sysbusweb.domain.dto.UsuarioDTO;
+import br.com.gsn.sysbusweb.exception.ClienteExistenteException;
 
 @Path("usuario")
 public class UsuarioResource {
@@ -49,11 +50,12 @@ public class UsuarioResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{username}/{password}")
-	public Response login(@PathParam("username") String username, @PathParam("password") String password) {
+	@Path("/{email}/{password}")
+	public Response login(@PathParam("email") String email, @PathParam("password") String password) {
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		try {
-			Usuario usuario = usuarioBC.getByUsernameEPassoword(username, password);
-			UsuarioDTO usuarioDTO = new UsuarioDTO();
+			
+			Usuario usuario = usuarioBC.getClienteByEmailEPassword(email, password);
 			
 			ModelMapper mapper = new ModelMapper();
 			mapper.map(usuario, usuarioDTO);
@@ -63,30 +65,28 @@ public class UsuarioResource {
 			
 			return Response.status(Status.OK).entity(json).build();
 		} catch (NoResultException e) {
-			return Response.status(Status.NOT_FOUND).build();
+			usuarioDTO.setMessage("Usuário não cadastrado");
+			return Response.status(Status.NOT_FOUND).entity(usuarioDTO).build();
 		}
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response insert(UsuarioDTO usuarioParam) {
-		
-		try {
-			usuarioBC.getByUsernameEEmail(usuarioParam.getUsername(), usuarioParam.getEmail());
-			String mensagem = "Usuário já cadastrado";
-			
-			return Response.status(Status.CONFLICT).entity(mensagem).build();
-		} catch (NoResultException e) {
-		}
 		
 		ModelMapper mapper = new ModelMapper();
 		
 		Usuario usuario = mapper.map(usuarioParam, Usuario.class);
 		
-		Long id = usuarioBC.saveCliente(usuario).getId();
-		
-		return Response.status(Status.CREATED).entity(id).build();
+		try {
+			usuario = usuarioBC.saveCliente(usuario);
+			mapper.map(usuario, usuarioParam);
+			return Response.status(Status.CREATED).entity(usuarioParam).build();
+		} catch (ClienteExistenteException e) {
+			usuarioParam.setMessage(e.getMessage());
+			return Response.status(Status.CONFLICT).entity(usuarioParam).build();
+		}
 	}
 
 }
