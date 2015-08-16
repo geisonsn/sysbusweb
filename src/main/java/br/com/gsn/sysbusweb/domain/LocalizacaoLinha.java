@@ -34,7 +34,7 @@ public class LocalizacaoLinha implements Serializable {
 
 	private String longitude;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_hora_registro")
 	private Date dataHoraRegistro;
 
@@ -77,7 +77,7 @@ public class LocalizacaoLinha implements Serializable {
 	public void setDataHoraRegistro(Date dataHoraRegistro) {
 		this.dataHoraRegistro = dataHoraRegistro;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

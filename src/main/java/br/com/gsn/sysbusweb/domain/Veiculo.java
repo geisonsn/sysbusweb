@@ -21,13 +21,19 @@ import br.com.gsn.sysbusweb.util.Util;
 @Entity
 @Table(name = "veiculo")
 @NamedQueries({
-		@NamedQuery(name = "Veiculo.findAll", query = "SELECT v FROM Veiculo v order by v.linha.numero, v.numeroRegistro"),
-		@NamedQuery(name = "Veiculo.findByCampos", query = "SELECT v FROM Veiculo v inner join v.linha as l  "
-				+ " WHERE v.numeroRegistro LIKE :numeroRegistro and UPPER(l.descricao) LIKE :linha "
-				+ " ORDER BY l.numero, v.numeroRegistro") })
+	@NamedQuery(name = "Veiculo.findAll", query = "SELECT v FROM Veiculo v order by v.linha.numero, v.numeroRegistro"),
+	@NamedQuery(name = "Veiculo.findByCampos", query = "SELECT v FROM Veiculo v inner join v.linha as l  "
+			+ " WHERE v.numeroRegistro LIKE :numeroRegistro and UPPER(l.descricao) LIKE :linha "
+			+ " ORDER BY l.numero, v.numeroRegistro"),
+	@NamedQuery(name = Veiculo.FIND_BY_NUMERO_LINHA, query = "select v from Veiculo v "
+			+ " where v.linha.numero = :numeroLinha "
+			+ " order by v.numeroRegistro ")
+})
 public class Veiculo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public static final String FIND_BY_NUMERO_LINHA = "Veiculo.findByNumeroLinha";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -125,5 +131,4 @@ public class Veiculo implements Serializable {
 			return false;
 		return true;
 	}
-
 }

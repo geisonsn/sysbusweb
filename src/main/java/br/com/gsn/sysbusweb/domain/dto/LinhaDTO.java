@@ -8,7 +8,13 @@ public class LinhaDTO implements Serializable {
 
 	private Long id;
 
-	private String numero;
+	private Long idVeiculo;
+	
+	private String descricao;
+
+	private String numeroLinha;
+
+	private String numeroRegistro;
 
 	public Long getId() {
 		return id;
@@ -17,13 +23,36 @@ public class LinhaDTO implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public String getNumero() {
-		return numero;
+	
+	public Long getIdVeiculo() {
+		return idVeiculo;
 	}
 
-	public void setNumero(String numero) {
-		this.numero = numero;
+	public void setIdVeiculo(Long idVeiculo) {
+		this.idVeiculo = idVeiculo;
 	}
 
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public String getNumeroLinha() {
+		return numeroLinha;
+	}
+
+	public void setNumeroLinha(String numeroLinha) {
+		this.numeroLinha = numeroLinha;
+	}
+
+	public String getNumeroRegistro() {
+		return numeroRegistro;
+	}
+
+	public void setNumeroRegistro(String numeroRegistro) {
+		this.numeroRegistro = numeroRegistro;
+	}
 }

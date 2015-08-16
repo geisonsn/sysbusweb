@@ -17,8 +17,6 @@ import javax.ws.rs.core.Response.Status;
 
 import org.modelmapper.ModelMapper;
 
-import com.google.gson.Gson;
-
 import br.com.gsn.sysbusweb.business.UsuarioBC;
 import br.com.gsn.sysbusweb.domain.Usuario;
 import br.com.gsn.sysbusweb.domain.dto.UsuarioDTO;
@@ -60,10 +58,7 @@ public class UsuarioResource {
 			ModelMapper mapper = new ModelMapper();
 			mapper.map(usuario, usuarioDTO);
 			
-			Gson gson = new Gson();
-			String json = gson.toJson(usuarioDTO);
-			
-			return Response.status(Status.OK).entity(json).build();
+			return Response.status(Status.OK).entity(usuarioDTO).build();
 		} catch (NoResultException e) {
 			usuarioDTO.setMessage("Usuário não cadastrado");
 			return Response.status(Status.NOT_FOUND).entity(usuarioDTO).build();

@@ -14,5 +14,9 @@ public class VeiculoBC extends DelegateCrud<Veiculo, Long, VeiculoDAO> {
 	public List<Veiculo> findByLinhaByNumero(String linha, String numeroRegistro) {
 		return getDelegate().findByLinhaByNumero(linha, numeroRegistro);
 	}
+	
+	public List<Veiculo> findByNumeroLinha(String numeroLinha) {
+		return getDelegate().findByNumeroLinha(numeroLinha);
+	}
 
 }

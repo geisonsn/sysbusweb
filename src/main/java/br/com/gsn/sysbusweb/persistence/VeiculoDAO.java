@@ -23,5 +23,13 @@ public class VeiculoDAO extends JPACrud<Veiculo, Long> {
 	public List<Veiculo> findAll() {
 		return getEntityManager().createNamedQuery("Veiculo.findAll").getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Veiculo> findByNumeroLinha(String numeroLinha) {
+		return ((List<Veiculo>)getEntityManager()
+			.createNamedQuery(Veiculo.FIND_BY_NUMERO_LINHA)
+			.setParameter("numeroLinha", numeroLinha)
+			.getResultList());
+	}
 
 }
