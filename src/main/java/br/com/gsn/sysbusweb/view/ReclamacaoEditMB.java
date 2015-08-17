@@ -99,7 +99,7 @@ public class ReclamacaoEditMB extends AbstractEditPageBean<Reclamacao, Long> {
 	public String insert() {
 		this.getBean().setDataRegistro(new Date());
 		this.getBean().setPlacaLinha(Util.capitalize(this.getBean().getPlacaLinha()));
-		this.getBean().setDescricao(Util.emptyToNull(this.getBean().getDescricao()));
+		this.getBean().setDescricao(Util.blankToNull(this.getBean().getDescricao()));
 		this.reclamacaoBC.insert(this.getBean());
 		return getPreviousView();
 	}
@@ -108,7 +108,7 @@ public class ReclamacaoEditMB extends AbstractEditPageBean<Reclamacao, Long> {
 	@Transactional
 	public String update() {
 		this.getBean().setPlacaLinha(Util.capitalize(this.getBean().getPlacaLinha()));
-		this.getBean().setDescricao(Util.emptyToNull(this.getBean().getDescricao()));
+		this.getBean().setDescricao(Util.blankToNull(this.getBean().getDescricao()));
 		this.reclamacaoBC.update(this.getBean());
 		return getPreviousView();
 	}

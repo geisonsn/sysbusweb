@@ -31,7 +31,7 @@ public class LocalizacaoLinhaDTO extends InformationRequest implements Serializa
 		this.numeroRegistro = numeroRegistro;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.dataHoraRegistro = Dates.format(dataHoraRegistro, Dates.FORMAT_PT_BR_COMPLETE);
+		this.dataHoraRegistro = Dates.format(dataHoraRegistro, Dates.FORMAT_PT_BR_DATE_HOUR);
 	}
 
 	public LocalizacaoLinhaDTO(String message) {

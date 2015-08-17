@@ -27,6 +27,15 @@ public enum ObjetoReclamadoEnum {
 		return values()[index];
 	}
 	
+	public static ObjetoReclamadoEnum getFromName(String name) {
+		for (ObjetoReclamadoEnum objetoReclamado : values()) {
+			if (objetoReclamado.name().equalsIgnoreCase(name)) {
+				return objetoReclamado;
+			}
+		}
+		return null;
+	}
+	
 	public static List<ObjetoReclamadoEnum> list(boolean semOutros) {
 		return construirListaObjetoReclamado(semOutros);
 	}
@@ -79,12 +88,5 @@ public enum ObjetoReclamadoEnum {
 		}
 		
 	}
-	
-	/*public static void main(String[] args) {
-		List<ObjetoReclamadoEnum> list = ObjetoReclamadoEnum.list(true);
-		for (ObjetoReclamadoEnum objetoReclamadoEnum : list) {
-			System.out.println("ObjetoReclamado [" + objetoReclamadoEnum.name() + ", " + objetoReclamadoEnum.ordinal() + "]");
-		}
-	}*/
 	
 }

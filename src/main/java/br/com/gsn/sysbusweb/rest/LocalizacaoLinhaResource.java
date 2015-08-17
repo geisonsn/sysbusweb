@@ -1,7 +1,6 @@
 package br.com.gsn.sysbusweb.rest;
 
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -56,19 +55,11 @@ public class LocalizacaoLinhaResource {
 				map().setVeiculo(new Veiculo());
 				map().getVeiculo().setId(source.getIdVeiculo());
 				map().setDataHoraRegistro(null);
-				try {
-					if (source.getDataHoraRegistro() != null) {
-						Date date = Dates.parse(source.getDataHoraRegistro(), Dates.FORMAT_PT_BR_COMPLETE);
-						map().setDataHoraRegistro(date);
-					}
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
 			}
 		});
 		
 		LocalizacaoLinha localizacao = mapper.map(localizacaoParam, LocalizacaoLinha.class);
-		
+		localizacao.setDataHoraRegistro(Dates.parse(localizacaoParam.getDataHoraRegistro(), Dates.FORMAT_PT_BR_DATE_HOUR));
 		localizacao = localizacaoLinhaBC.insert(localizacao);
 		
 		localizacaoParam = new LocalizacaoLinhaDTO("Localizacao cadastrada com sucesso");

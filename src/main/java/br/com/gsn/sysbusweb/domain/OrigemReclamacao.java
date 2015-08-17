@@ -19,11 +19,14 @@ import br.com.gsn.sysbusweb.domain.enums.ObjetoReclamadoEnum;
 @Entity
 @Table(name = "origem_reclamacao")
 @NamedQueries({
-		@NamedQuery(name = "OrigemReclamacao.findAll", query = "SELECT o FROM OrigemReclamacao o order by o.objetoReclamado, o.tipoReclamacao.descricao"),
-		@NamedQuery(name = "OrigemReclamacao.findByObjetoReclamado", query = "SELECT o FROM OrigemReclamacao o WHERE o.objetoReclamado = :objetoReclamado order by o.tipoReclamacao.descricao") })
+		@NamedQuery(name = OrigemReclamacao.FIND_ALL, query = "SELECT o FROM OrigemReclamacao o order by o.objetoReclamado, o.tipoReclamacao.descricao"),
+		@NamedQuery(name = OrigemReclamacao.FIND_BY_OBJETO_RECLAMADO, query = "SELECT o FROM OrigemReclamacao o WHERE o.objetoReclamado = :objetoReclamado order by o.tipoReclamacao.descricao") })
 public class OrigemReclamacao implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public static final String FIND_ALL = "OrigemReclamacao.findAll";
+	public static final String FIND_BY_OBJETO_RECLAMADO = "OrigemReclamacao.findByObjetoReclamado";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

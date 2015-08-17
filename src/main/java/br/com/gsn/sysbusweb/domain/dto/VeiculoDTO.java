@@ -2,31 +2,46 @@ package br.com.gsn.sysbusweb.domain.dto;
 
 import java.io.Serializable;
 
-public class LinhaDTO extends InformationRequest implements Serializable {
+import br.com.gsn.sysbusweb.domain.Veiculo;
+
+public class VeiculoDTO extends InformationRequest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long idLinha;
 
+	private Long idVeiculo;
+
 	private String descricaoLinha;
 
 	private String numeroLinha;
 
-	private String nomeEmpresa;
+	private String numeroRegistro;
 
-	public LinhaDTO() {
-	}
+	public VeiculoDTO(){}
 	
-	public LinhaDTO(String message) {
+	public VeiculoDTO(String message) {
 		setMessage(message);
 	}
 	
+	public VeiculoDTO(Veiculo veiculo) {
+		
+	}
+
 	public Long getIdLinha() {
 		return idLinha;
 	}
 
 	public void setIdLinha(Long idLinha) {
 		this.idLinha = idLinha;
+	}
+
+	public Long getIdVeiculo() {
+		return idVeiculo;
+	}
+
+	public void setIdVeiculo(Long idVeiculo) {
+		this.idVeiculo = idVeiculo;
 	}
 
 	public String getDescricaoLinha() {
@@ -45,12 +60,12 @@ public class LinhaDTO extends InformationRequest implements Serializable {
 		this.numeroLinha = numeroLinha;
 	}
 
-	public String getNomeEmpresa() {
-		return nomeEmpresa;
+	public String getNumeroRegistro() {
+		return numeroRegistro;
 	}
 
-	public void setNomeEmpresa(String nomeEmpresa) {
-		this.nomeEmpresa = nomeEmpresa;
+	public void setNumeroRegistro(String numeroRegistro) {
+		this.numeroRegistro = numeroRegistro;
 	}
 
 }

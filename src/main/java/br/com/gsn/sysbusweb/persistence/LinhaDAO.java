@@ -12,7 +12,7 @@ public class LinhaDAO extends JPACrud<Linha, Long> {
 	@SuppressWarnings("unchecked")
 	public List<Linha> findByDescricaoByNumero(String descricao, String numero) {
 		return (List<Linha>)getEntityManager()
-				.createNamedQuery("Linha.findByDescricaoByNumero")
+				.createNamedQuery(Linha.FIND_BY_DESCRICAO_BY_NUMERO)
 				.setParameter("descricao", "%" + descricao.toUpperCase() + "%")
 				.setParameter("numero", "%" + numero.toUpperCase() + "%")
 				.getResultList();
@@ -21,7 +21,7 @@ public class LinhaDAO extends JPACrud<Linha, Long> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Linha> findAll() {
-		return getEntityManager().createNamedQuery("Linha.findAll").getResultList();
+		return getEntityManager().createNamedQuery(Linha.FIND_ALL).getResultList();
 	}
 
 }

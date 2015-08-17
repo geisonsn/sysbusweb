@@ -14,7 +14,7 @@ public final class Util {
 	
 	private Util() {}
 	
-	public static String emptyToNull(String string) {
+	public static String blankToNull(String string) {
 		if (StringUtils.isBlank(string)) {
 			return null;
 		}

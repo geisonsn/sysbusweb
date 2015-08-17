@@ -18,7 +18,7 @@ public class OrigemReclamacaoDAO extends JPACrud<OrigemReclamacao, Long> {
 	public List<OrigemReclamacao> findByObjetoReclamado(ObjetoReclamadoEnum objetoReclamado) {
 		
 		return (List<OrigemReclamacao>)getEntityManager()
-				.createNamedQuery("OrigemReclamacao.findByObjetoReclamado")
+				.createNamedQuery(OrigemReclamacao.FIND_BY_OBJETO_RECLAMADO)
 				.setParameter("objetoReclamado", objetoReclamado)
 				.getResultList();
 	}
@@ -34,6 +34,6 @@ public class OrigemReclamacaoDAO extends JPACrud<OrigemReclamacao, Long> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<OrigemReclamacao> findAll() {
-		return getEntityManager().createNamedQuery("OrigemReclamacao.findAll").getResultList();
+		return getEntityManager().createNamedQuery(OrigemReclamacao.FIND_ALL).getResultList();
 	}
 }

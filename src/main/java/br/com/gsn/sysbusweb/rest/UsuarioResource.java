@@ -1,8 +1,5 @@
 package br.com.gsn.sysbusweb.rest;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
@@ -27,24 +24,6 @@ public class UsuarioResource {
 	
 	@Inject
 	private UsuarioBC usuarioBC;
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<UsuarioDTO> findAll() {
-		
-		List<UsuarioDTO> listRetorno = new ArrayList<UsuarioDTO>();
-		
-		List<Usuario> list = usuarioBC.findAll();
-		
-		for (Usuario usuario : list) {
-			ModelMapper mapper = new ModelMapper();
-			UsuarioDTO map = mapper.map(usuario, UsuarioDTO.class);
-			listRetorno.add(map);
-		}
-		
-		return listRetorno;
-	}
-	
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

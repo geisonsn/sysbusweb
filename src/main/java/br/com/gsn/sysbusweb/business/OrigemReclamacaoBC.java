@@ -3,16 +3,20 @@ package br.com.gsn.sysbusweb.business;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.modelmapper.PropertyMap;
 
 import br.com.gsn.sysbusweb.domain.OrigemReclamacao;
 import br.com.gsn.sysbusweb.domain.TipoReclamacao;
+import br.com.gsn.sysbusweb.domain.dto.OrigemReclamacaoDTO;
 import br.com.gsn.sysbusweb.domain.enums.ObjetoReclamadoEnum;
 import br.com.gsn.sysbusweb.persistence.OrigemReclamacaoDAO;
+import br.com.gsn.sysbusweb.util.ModelMapperUtil;
 import br.gov.frameworkdemoiselle.stereotype.BusinessController;
 import br.gov.frameworkdemoiselle.template.DelegateCrud;
 
@@ -25,6 +29,25 @@ public class OrigemReclamacaoBC extends DelegateCrud<OrigemReclamacao, Long, Ori
 	
 	public List<OrigemReclamacao> findByObjetoReclamado(ObjetoReclamadoEnum objetoReclamado) {
 		return getDelegate().findByObjetoReclamado(objetoReclamado);
+	}
+	
+	public List<OrigemReclamacaoDTO> findByObjetoReclamado(String objetoReclamado) {
+		
+		List<OrigemReclamacao> listOrigemReclamacao = getDelegate()
+			.findByObjetoReclamado(ObjetoReclamadoEnum.getFromName(objetoReclamado));
+		
+		if (listOrigemReclamacao.isEmpty()) {
+			return Collections.emptyList();
+		}
+		
+		return ModelMapperUtil.map(listOrigemReclamacao, OrigemReclamacaoDTO.class, 
+					new PropertyMap<OrigemReclamacao, OrigemReclamacaoDTO>() {
+			@Override
+			protected void configure() {
+				map().setIdOrigemReclamacao(source.getId());
+				map().setIdTipoReclamacao(source.getTipoReclamacao().getId());
+			}
+		});
 	}
 	
 	public void salvarReclamacoes(ObjetoReclamadoEnum objetoReclamado, List<TipoReclamacao> reclamacoesSelecionadas) {
