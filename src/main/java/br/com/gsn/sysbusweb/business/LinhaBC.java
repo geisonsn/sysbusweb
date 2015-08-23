@@ -28,4 +28,14 @@ public class LinhaBC extends DelegateCrud<Linha, Long, LinhaDAO> {
 		
 		return ModelMapperUtil.map(linhas, LinhaDTO.class);
 	}
+	
+	public List<LinhaDTO> findByNumeroLinha(String numeroLinha) {
+		List<Linha> linhas = getDelegate().findByNumeroLinha(numeroLinha);
+		
+		if (linhas.isEmpty()) {
+			return Collections.emptyList();
+		}
+		
+		return ModelMapperUtil.map(linhas, LinhaDTO.class);
+	}
 }

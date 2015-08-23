@@ -20,13 +20,15 @@ import org.hibernate.validator.constraints.NotEmpty;
 @NamedQueries({
 	@NamedQuery(name = Linha.FIND_ALL, query = "SELECT l FROM Linha l order by l.numero, l.descricao"),
 	@NamedQuery(name = Linha.FIND_BY_DESCRICAO_BY_NUMERO, query = "SELECT l FROM Linha l WHERE UPPER(l.descricao) LIKE :descricao and UPPER(l.numero) LIKE :numero "
-														+ " ORDER BY l.numero, l.descricao ")
+														+ " ORDER BY l.numero, l.descricao "),
+	@NamedQuery(name = Linha.FIND_BY_NUMERO, query = "select l from Linha l where l.numero like :numero ")							
 })
 public class Linha implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String FIND_ALL = "Linha.findAll";
 	public static final String FIND_BY_DESCRICAO_BY_NUMERO = "Linha.findByDescricaoByNumero";
+	public static final String FIND_BY_NUMERO = "Linha.findByNumero";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
