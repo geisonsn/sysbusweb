@@ -27,6 +27,10 @@ public class LinhaBC extends DelegateCrud<Linha, Long, LinhaDAO> {
 		return convertToDTO(linhas);
 	}
 	
+	public Linha getByNumeroLinha(String numero) {
+		return getDelegate().getByNumeroLinha(numero);
+	}
+	
 	public List<LinhaDTO> findByNumeroLinha(String numeroLinha) {
 		List<Linha> linhas = getDelegate().findByNumeroLinha(numeroLinha);
 		

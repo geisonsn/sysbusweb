@@ -30,5 +30,12 @@ public class LinhaDAO extends JPACrud<Linha, Long> {
 				.setParameter("numero", MatchMode.START.toMatchString(numeroLinha))
 				.getResultList();
 	}
+	
+	public Linha getByNumeroLinha(String numero) {
+		return getEntityManager()
+				.createNamedQuery(Linha.GET_BY_NUMERO, Linha.class)
+				.setParameter("numero", numero)
+				.getSingleResult();
+	}
 
 }

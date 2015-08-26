@@ -11,7 +11,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import br.com.gsn.sysbusweb.domain.PerfilUsuario;
 import br.com.gsn.sysbusweb.domain.Usuario;
 import br.com.gsn.sysbusweb.domain.enums.PerfilEnum;
-import br.com.gsn.sysbusweb.exception.ClienteExistenteException;
+import br.com.gsn.sysbusweb.exception.UsuarioExistenteException;
 import br.com.gsn.sysbusweb.persistence.UsuarioDAO;
 import br.gov.frameworkdemoiselle.stereotype.BusinessController;
 import br.gov.frameworkdemoiselle.template.DelegateCrud;
@@ -48,17 +48,17 @@ public class UsuarioBC extends DelegateCrud<Usuario, Long, UsuarioDAO> {
 	 * Realiza o cadastro de um cliente (usuário do aplicativo) na base de dados
 	 * @param usuario
 	 * @return usuario cadastrado
-	 * @throws ClienteExistenteException caso o usuário já exista
+	 * @throws UsuarioExistenteException caso o usuário já exista
 	 */
 	@Transactional
-	public Usuario saveCliente(Usuario usuario) throws ClienteExistenteException {
+	public Usuario saveCliente(Usuario usuario) throws UsuarioExistenteException {
 		
 		try {
 			
 			Usuario usuarioBuscado = this.getByEmail(usuario.getEmail());
 			
 			if (usuarioBuscado.isCliente()) {
-				throw new ClienteExistenteException("Usuário já cadastrado");
+				throw new UsuarioExistenteException("Usuário já cadastrado");
 			} else {
 				this.insertPerfilCliente(usuarioBuscado);
 			}

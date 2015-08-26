@@ -11,7 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -21,7 +20,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 	@NamedQuery(name = Linha.FIND_ALL, query = "SELECT l FROM Linha l order by l.numero, l.descricao"),
 	@NamedQuery(name = Linha.FIND_BY_DESCRICAO_BY_NUMERO, query = "SELECT l FROM Linha l WHERE UPPER(l.descricao) LIKE :descricao and UPPER(l.numero) LIKE :numero "
 														+ " ORDER BY l.numero, l.descricao "),
-	@NamedQuery(name = Linha.FIND_BY_NUMERO, query = "select l from Linha l where l.numero like :numero order by l.numero, l.descricao")							
+	@NamedQuery(name = Linha.FIND_BY_NUMERO, query = "select l from Linha l where l.numero like :numero order by l.numero, l.descricao"),							
+	@NamedQuery(name = Linha.GET_BY_NUMERO, query = "select l from Linha l where l.numero = :numero ")							
 })
 public class Linha implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -29,18 +29,17 @@ public class Linha implements Serializable {
 	public static final String FIND_ALL = "Linha.findAll";
 	public static final String FIND_BY_DESCRICAO_BY_NUMERO = "Linha.findByDescricaoByNumero";
 	public static final String FIND_BY_NUMERO = "Linha.findByNumero";
+	public static final String GET_BY_NUMERO = "Linha.getByNumero";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotEmpty
 	private String descricao;
 
 	@NotEmpty
 	private String numero;
 
-	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "id_empresa")
 	private Empresa empresa;

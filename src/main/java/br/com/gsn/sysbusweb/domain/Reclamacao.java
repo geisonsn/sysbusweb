@@ -75,6 +75,10 @@ public class Reclamacao implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_linha")
 	private Linha linha;
+	
+	@ManyToOne
+	@JoinColumn(name="id_usuario")
+	private Usuario usuario;
 
 	public Reclamacao() {
 	}
@@ -167,6 +171,14 @@ public class Reclamacao implements Serializable {
 		this.linha = linha;
 	}
 	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 	public String getDataOcorrenciaFormatada() {
 		return Util.formatarData(this.dataOcorrencia, 
 				FormatoData.Simples);
@@ -248,15 +260,4 @@ public class Reclamacao implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	public static void main(String[] args) {
-		ObjetoReclamadoEnum obj = ObjetoReclamadoEnum.MOTORISTA;
-		Object[] enumConstants = obj.getClass().getEnumConstants();
-		for (int i = 0; i < enumConstants.length; i++) {
-			System.out.println(enumConstants[i].toString());
-		}
-	}
-	
-
 }

@@ -17,7 +17,7 @@ import org.modelmapper.ModelMapper;
 import br.com.gsn.sysbusweb.business.UsuarioBC;
 import br.com.gsn.sysbusweb.domain.Usuario;
 import br.com.gsn.sysbusweb.domain.dto.UsuarioDTO;
-import br.com.gsn.sysbusweb.exception.ClienteExistenteException;
+import br.com.gsn.sysbusweb.exception.UsuarioExistenteException;
 
 @Path("usuario")
 public class UsuarioResource {
@@ -57,7 +57,7 @@ public class UsuarioResource {
 			usuario = usuarioBC.saveCliente(usuario);
 			mapper.map(usuario, usuarioParam);
 			return Response.status(Status.CREATED).entity(usuarioParam).build();
-		} catch (ClienteExistenteException e) {
+		} catch (UsuarioExistenteException e) {
 			usuarioParam.setMessage(e.getMessage());
 			return Response.status(Status.CONFLICT).entity(usuarioParam).build();
 		}

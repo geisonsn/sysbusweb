@@ -27,12 +27,15 @@ import br.com.gsn.sysbusweb.util.Util;
 			+ " ORDER BY l.numero, v.numeroRegistro"),
 	@NamedQuery(name = Veiculo.FIND_BY_NUMERO_LINHA, query = "select v from Veiculo v "
 			+ " where v.linha.numero = :numeroLinha "
-			+ " order by v.numeroRegistro ")
+			+ " order by v.numeroRegistro "),
+	@NamedQuery(name = Veiculo.GET_BY_NUMERO_REGISTRO, query = "select v from Veiculo v "
+			+ " where v.numeroRegistro = :numeroRegistro ")
 })
 public class Veiculo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String FIND_BY_NUMERO_LINHA = "Veiculo.findByNumeroLinha";
+	public static final String GET_BY_NUMERO_REGISTRO = "Veiculo.getByNumeroRegistro";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
