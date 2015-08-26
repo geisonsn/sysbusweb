@@ -2,8 +2,6 @@ package br.com.gsn.sysbusweb.domain.dto;
 
 import java.io.Serializable;
 
-import br.com.gsn.sysbusweb.domain.Veiculo;
-
 public class VeiculoDTO extends InformationRequest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,10 +22,6 @@ public class VeiculoDTO extends InformationRequest implements Serializable {
 		setMessage(message);
 	}
 	
-	public VeiculoDTO(Veiculo veiculo) {
-		
-	}
-
 	public Long getIdLinha() {
 		return idLinha;
 	}
