@@ -39,7 +39,7 @@ public class VeiculoResource {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response insert(VeiculoDTO veiculo) {
 		
 		try {
@@ -48,7 +48,7 @@ public class VeiculoResource {
 			return Response.status(Status.CONFLICT).entity(e.getMessage()).build();
 		}
 		
-		return Response.status(Status.CREATED).entity("Cadastrado com sucesso").build();
+		return Response.status(Status.CREATED).entity(new VeiculoDTO("Cadastro realizado com sucesso")).build();
 	}
 	
 }
