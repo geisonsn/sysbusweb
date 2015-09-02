@@ -9,6 +9,10 @@ public class LinhaFavoritaDTO extends InformationRequest implements Serializable
 	private Long idLinha;
 	
 	private String numeroLinha;
+	
+	private String descricaoLinha;
+	
+	private String empresaLinha;
 
 	private Long idUsuario;
 	
@@ -32,6 +36,22 @@ public class LinhaFavoritaDTO extends InformationRequest implements Serializable
 
 	public void setNumeroLinha(String numeroLinha) {
 		this.numeroLinha = numeroLinha;
+	}
+	
+	public String getDescricaoLinha() {
+		return descricaoLinha;
+	}
+
+	public void setDescricaoLinha(String descricaoLinha) {
+		this.descricaoLinha = descricaoLinha;
+	}
+
+	public String getEmpresaLinha() {
+		return empresaLinha;
+	}
+
+	public void setEmpresaLinha(String empresaLinha) {
+		this.empresaLinha = empresaLinha;
 	}
 
 	public Long getIdUsuario() {

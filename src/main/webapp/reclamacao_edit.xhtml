@@ -77,7 +77,7 @@
 					<h:outputLabel value="#{messages['linha.label']}: " for="linha" styleClass="text-input" />
 				    <p:selectOneMenu id="linha" value="#{reclamacaoEditMB.bean.linha}"  effect="fade" converter="ConversorLinha">
 						<f:selectItem itemLabel="Selecione" itemValue="" />
-						<f:selectItems value="#{reclamacaoEditMB.linhaList}" var="varLinha" itemLabel="#{varLinha.descricao}"  itemValue="#{varLinha}" />						
+						<f:selectItems value="#{reclamacaoEditMB.linhaList}" var="varLinha" itemLabel="#{varLinha.numero}"  itemValue="#{varLinha}" />						
 					</p:selectOneMenu>
 					<p:message for="linha" />	
 					

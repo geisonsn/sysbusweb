@@ -3,6 +3,8 @@ package br.com.gsn.sysbusweb.business;
 import java.util.Collections;
 import java.util.List;
 
+import org.modelmapper.PropertyMap;
+
 import br.com.gsn.sysbusweb.domain.Linha;
 import br.com.gsn.sysbusweb.domain.LinhaFavorita;
 import br.com.gsn.sysbusweb.domain.Usuario;
@@ -28,7 +30,13 @@ public class LinhaFavoritaBC extends DelegateCrud<LinhaFavorita, Long, LinhaFavo
 			return Collections.emptyList();
 		}
 		
-		return ModelMapperUtil.map(list, LinhaFavoritaDTO.class);
+		return ModelMapperUtil.map(list, LinhaFavoritaDTO.class, new PropertyMap<LinhaFavorita, LinhaFavoritaDTO>() {
+			@Override
+			protected void configure() {
+				map().setEmpresaLinha(source.getLinha().getEmpresa().getNome());
+				map().setDescricaoLinha(source.getLinha().getDescricao());
+			}
+		});
 	}
 	
 	public LinhaFavoritaDTO insert(LinhaFavoritaDTO linhaFavoritaDTO) {
