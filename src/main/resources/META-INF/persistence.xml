@@ -19,6 +19,7 @@
 		<class>br.com.gsn.sysbusweb.domain.Veiculo</class>
 		<class>br.com.gsn.sysbusweb.domain.Reclamacao</class>
 		<class>br.com.gsn.sysbusweb.domain.LocalizacaoLinha</class>
+		<class>br.com.gsn.sysbusweb.domain.LinhaFavorita</class>
 		
 		<!-- Tabelas de endereço -->
 		<class>br.com.gsn.sysbusweb.domain.endereco.Bairro</class>
