@@ -12,6 +12,8 @@ public class ReclamacaoRankingDTO extends InformationRequest implements Serializ
 	
 	private Long totalReclamacoes;
 
+	public ReclamacaoRankingDTO() {}
+	
 	public ReclamacaoRankingDTO(String message) {
 		super.setMessage(message);
 	}
