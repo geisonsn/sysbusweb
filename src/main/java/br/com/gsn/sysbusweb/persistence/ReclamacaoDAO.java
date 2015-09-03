@@ -72,7 +72,7 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 		.append(" limit 10 ");
 		
 		List<Object[]> resultList = getEntityManager()
-				.createNativeQuery(sql.toString(), ReclamacaoDTO.class)
+				.createNativeQuery(sql.toString())
 				.getResultList();
 		
 		List<ReclamacaoRankingDTO> list = new ArrayList<ReclamacaoRankingDTO>();
