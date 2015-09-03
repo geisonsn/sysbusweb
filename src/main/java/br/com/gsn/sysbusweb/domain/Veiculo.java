@@ -22,9 +22,9 @@ import br.com.gsn.sysbusweb.util.Util;
 @Table(name = "veiculo")
 @NamedQueries({
 	@NamedQuery(name = "Veiculo.findAll", query = "SELECT v FROM Veiculo v order by v.linha.numero, v.numeroRegistro"),
-	@NamedQuery(name = "Veiculo.findByCampos", query = "SELECT v FROM Veiculo v inner join v.linha as l  "
-			+ " WHERE v.numeroRegistro LIKE :numeroRegistro and UPPER(l.descricao) LIKE :linha "
-			+ " ORDER BY l.numero, v.numeroRegistro"),
+	@NamedQuery(name = Veiculo.FIND_BY_LINHA_BY_REGISTRO, query = "SELECT v FROM Veiculo v  "
+			+ " WHERE v.numeroRegistro LIKE :numeroRegistro and UPPER(v.linha.numero) LIKE :linha "
+			+ " ORDER BY v.linha.numero, v.numeroRegistro"),
 	@NamedQuery(name = Veiculo.FIND_BY_NUMERO_LINHA, query = "select v from Veiculo v "
 			+ " where v.linha.numero = :numeroLinha "
 			+ " order by v.numeroRegistro "),
@@ -34,6 +34,7 @@ import br.com.gsn.sysbusweb.util.Util;
 public class Veiculo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public static final String FIND_BY_LINHA_BY_REGISTRO = "Veiculo.findByLinhaByRegistro";
 	public static final String FIND_BY_NUMERO_LINHA = "Veiculo.findByNumeroLinha";
 	public static final String GET_BY_NUMERO_REGISTRO = "Veiculo.getByNumeroRegistro";
 	

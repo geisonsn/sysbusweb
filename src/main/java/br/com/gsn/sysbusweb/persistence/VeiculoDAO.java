@@ -12,7 +12,7 @@ public class VeiculoDAO extends JPACrud<Veiculo, Long> {
 	@SuppressWarnings("unchecked")
 	public List<Veiculo> findByLinhaByNumero(String linha, String numeroRegistro) {
 		return (List<Veiculo>)getEntityManager()
-				.createNamedQuery("Veiculo.findByCampos")
+				.createNamedQuery(Veiculo.FIND_BY_LINHA_BY_REGISTRO)
 				.setParameter("linha", "%" + linha + "%")
 				.setParameter("numeroRegistro", "%" + numeroRegistro + "%")
 				.getResultList();
