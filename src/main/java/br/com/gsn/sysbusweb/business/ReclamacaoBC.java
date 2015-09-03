@@ -9,6 +9,7 @@ import org.modelmapper.PropertyMap;
 
 import br.com.gsn.sysbusweb.domain.Reclamacao;
 import br.com.gsn.sysbusweb.domain.dto.ReclamacaoDTO;
+import br.com.gsn.sysbusweb.domain.dto.ReclamacaoRankingDTO;
 import br.com.gsn.sysbusweb.domain.dto.ReclamacaoRequestDTO;
 import br.com.gsn.sysbusweb.persistence.ReclamacaoDAO;
 import br.com.gsn.sysbusweb.util.Dates;
@@ -59,6 +60,9 @@ public class ReclamacaoBC extends DelegateCrud<Reclamacao, Long, ReclamacaoDAO> 
 		return getDelegate().listReclamadosPorMes(mes);
 	}
 	
+	public List<ReclamacaoRankingDTO> listTopDezLinhasReclamadas() {
+		return getDelegate().listTopDezLinhasReclamadas();
+	}
 
 	public List<ReclamacaoDTO> listObjetosMaisReclamados() {
 		return getDelegate().listObjetosMaisReclamados();

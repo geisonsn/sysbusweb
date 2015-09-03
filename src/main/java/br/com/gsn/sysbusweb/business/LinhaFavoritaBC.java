@@ -33,6 +33,8 @@ public class LinhaFavoritaBC extends DelegateCrud<LinhaFavorita, Long, LinhaFavo
 		return ModelMapperUtil.map(list, LinhaFavoritaDTO.class, new PropertyMap<LinhaFavorita, LinhaFavoritaDTO>() {
 			@Override
 			protected void configure() {
+				map().setIdLinhaFavorita(source.getId());
+				map().setIdLinha(source.getLinha().getId());
 				map().setEmpresaLinha(source.getLinha().getEmpresa().getNome());
 				map().setDescricaoLinha(source.getLinha().getDescricao());
 			}

@@ -7,6 +7,7 @@ import java.util.List;
 
 import br.com.gsn.sysbusweb.domain.Reclamacao;
 import br.com.gsn.sysbusweb.domain.dto.ReclamacaoDTO;
+import br.com.gsn.sysbusweb.domain.dto.ReclamacaoRankingDTO;
 import br.com.gsn.sysbusweb.domain.enums.ObjetoReclamadoEnum;
 import br.gov.frameworkdemoiselle.stereotype.PersistenceController;
 import br.gov.frameworkdemoiselle.template.JPACrud;
@@ -50,6 +51,41 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 				.setParameter("mes", mes)
 				.getResultList();
 	}
+	
+	/**
+	 * Retorna as dez linhas mais reclamadas
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ReclamacaoRankingDTO> listTopDezLinhasReclamadas() {
+		
+		StringBuffer sql = new StringBuffer();
+		
+		sql
+		.append(" select count(lin.id) reclamacoes, lin.numero linha, emp.nome as empresa ")
+		.append(" from reclamacao rec ")
+		.append(" inner join linha lin on lin.id = rec.id_linha ")
+		.append(" inner join empresa emp on emp.id = lin.id_empresa ")
+		.append(" where rec.data_registro >= date_sub(sysdate(), interval 1 year) ")
+		.append(" group by lin.numero ")
+		.append(" order by reclamacoes desc, lin.numero ")
+		.append(" limit 10 ");
+		
+		List<Object[]> resultList = getEntityManager()
+				.createNativeQuery(sql.toString(), ReclamacaoDTO.class)
+				.getResultList();
+		
+		List<ReclamacaoRankingDTO> list = new ArrayList<ReclamacaoRankingDTO>();
+		
+		for (Object object : resultList) {
+			BigInteger reclamacoes = (BigInteger)((Object[])object)[0];
+			String linha = (String)((Object[])object)[1];
+			String empresa = (String)((Object[])object)[2];
+			list.add(new ReclamacaoRankingDTO(linha, empresa, reclamacoes.longValue()));
+		}
+		return list;
+	}
+
 	
 	@SuppressWarnings("unchecked")
 	public List<ReclamacaoDTO> listReclamadosPorMes(int mes) {

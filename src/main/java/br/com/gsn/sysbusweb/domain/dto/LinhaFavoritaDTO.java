@@ -6,6 +6,8 @@ public class LinhaFavoritaDTO extends InformationRequest implements Serializable
 
 	private static final long serialVersionUID = 1L;
 
+	private Long idLinhaFavorita;
+	
 	private Long idLinha;
 	
 	private String numeroLinha;
@@ -21,7 +23,15 @@ public class LinhaFavoritaDTO extends InformationRequest implements Serializable
 	public LinhaFavoritaDTO(String message) {
 		setMessage(message);
 	}
+	
+	public Long getIdLinhaFavorita() {
+		return idLinhaFavorita;
+	}
 
+	public void setIdLinhaFavorita(Long idLinhaFavorita) {
+		this.idLinhaFavorita = idLinhaFavorita;
+	}
+	
 	public Long getIdLinha() {
 		return idLinha;
 	}
