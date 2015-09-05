@@ -155,13 +155,12 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 		StringBuffer sql = new StringBuffer();
 		
 		sql
-			.append(" select count(obr.id) as reclamacoes, obr.descricao as reclamado ")
+			.append(" select count(rec.objeto_reclamado) as reclamacoes, obr.descricao as reclamado ")
 			.append(" from reclamacao rec ")
 			.append(" inner join origem_reclamacao orr on orr.id = rec.id_origem_reclamacao ")
-			.append(" inner join objeto_reclamado obr on obr.id = orr.objeto_reclamado ")
 			.append(" where rec.data_registro >= date_sub(sysdate(), interval 1 month) ")
-			.append(" group by obr.id ")
-			.append(" order by obr.descricao ");
+			.append(" group by rec.objeto_reclamado ")
+			.append(" order by rec.objeto_reclamado ");
 		
 		List<Object[]> resultList = getEntityManager()
 				.createNativeQuery(sql.toString())
