@@ -30,7 +30,7 @@
 					
 					<p:selectOneMenu value="#{veiculoEditMB.bean.linha}" id="linha" converter="ConversorLinha" >
 						<f:selectItem itemLabel="Selecione"/>
-						<f:selectItems value="#{veiculoEditMB.listLinha}" var="linha" itemLabel="#{linha.descricao}" itemValue="#{linha}"/>
+						<f:selectItems value="#{veiculoEditMB.listLinha}" var="linha" itemLabel="#{linha.numero}" itemValue="#{linha}"/>
 					</p:selectOneMenu>
 					
 					<p:message for="linha" />
