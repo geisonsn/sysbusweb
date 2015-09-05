@@ -66,7 +66,7 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 		.append(" from reclamacao rec ")
 		.append(" inner join linha lin on lin.id = rec.id_linha ")
 		.append(" inner join empresa emp on emp.id = lin.id_empresa ")
-		.append(" where rec.data_registro >= date_sub(sysdate(), interval 1 year) ")
+		.append(" where rec.data_registro >= date_sub(sysdate(), interval 1 month) ")
 		.append(" group by lin.numero ")
 		.append(" order by reclamacoes desc, lin.numero ")
 		.append(" limit 10 ");
@@ -155,7 +155,7 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 		StringBuffer sql = new StringBuffer();
 		
 		sql
-			.append(" select count(rec.objeto_reclamado) as reclamacoes, obr.descricao as reclamado ")
+			.append(" select count(rec.objeto_reclamado) as reclamacoes, rec.objeto_reclamado as reclamado ")
 			.append(" from reclamacao rec ")
 			.append(" inner join origem_reclamacao orr on orr.id = rec.id_origem_reclamacao ")
 			.append(" where rec.data_registro >= date_sub(sysdate(), interval 1 month) ")
@@ -171,7 +171,7 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 		
 		for (Object object : resultList) {
 			BigInteger reclamacoes = (BigInteger)((Object[])object)[0];
-			String reclamado = (String)((Object[])object)[1];
+			String reclamado = ObjetoReclamadoEnum.getFromOrdinal(((Integer)((Object[])object)[1])).getDescricao();
 			
 			list.add(new ReclamacaoDTO.Builder(total)
 				.objetoReclamado(reclamado)
