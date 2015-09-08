@@ -64,6 +64,7 @@ public class UsuarioBC extends DelegateCrud<Usuario, Long, UsuarioDAO> {
 			}
 		} catch (NoResultException e) {
 			usuario.setPassword(DigestUtils.sha256Hex(usuario.getPassword()));
+			usuario.setUsername(usuario.getEmail());//TODO atribui ao username do cliente o email
 			this.insert(usuario);
 			this.insertPerfilCliente(usuario);
 		}
