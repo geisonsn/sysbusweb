@@ -25,12 +25,12 @@ public class ReclamacaoResource {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response insert(ReclamacaoRequestDTO reclamacaoParam) throws ParseException {
 		
 		reclamacaoBC.saveReclamacao(reclamacaoParam);
 		
-		return Response.status(Status.CREATED).entity("Reclamacao criada com sucesso").build();
+		return Response.status(Status.CREATED).entity(new ReclamacaoRequestDTO("Reclamacao criada com sucesso")).build();
 	}
 	
 	@GET
