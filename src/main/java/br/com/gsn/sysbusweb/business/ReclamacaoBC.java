@@ -14,6 +14,7 @@ import br.com.gsn.sysbusweb.domain.dto.ReclamacaoRequestDTO;
 import br.com.gsn.sysbusweb.persistence.ReclamacaoDAO;
 import br.com.gsn.sysbusweb.util.Dates;
 import br.com.gsn.sysbusweb.util.Util;
+import br.com.gsn.sysbusweb.util.formatador.PlacaFormatter;
 import br.gov.frameworkdemoiselle.stereotype.BusinessController;
 import br.gov.frameworkdemoiselle.template.DelegateCrud;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
@@ -42,7 +43,11 @@ public class ReclamacaoBC extends DelegateCrud<Reclamacao, Long, ReclamacaoDAO> 
 		reclamacao.setDataOcorrencia(Dates.parse(reclamacaoDTO.getDataOcorrencia(), Dates.FORMAT_PT_BR_DATE));
 		reclamacao.setDataRegistro(Dates.parse(reclamacaoDTO.getDataHoraRegistro(), Dates.FORMAT_PT_BR_DATE_HOUR));
 		reclamacao.setHora(Dates.parse(reclamacaoDTO.getHora(), Dates.FORMAT_PT_BR_HOUR));
-		reclamacao.setPlacaLinha(Util.capitalize(reclamacaoDTO.getPlaca()));
+		
+		String placa = Util.capitalize(reclamacaoDTO.getPlaca());
+		placa = new PlacaFormatter().unformat(placa);
+		
+		reclamacao.setPlacaLinha(placa);
 		reclamacao.setDescricao(Util.blankToNull(reclamacaoDTO.getDescricao()));
 		
 		this.insert(reclamacao);
