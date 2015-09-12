@@ -25,7 +25,7 @@ public class OrigemReclamacaoResource {
 	@Path("{objetoReclamado}")
 	public Response list(@PathParam("objetoReclamado") String objetoReclamado) {
 		
-		List<OrigemReclamacaoDTO> list = origemReclamacaoBC.findByObjetoReclamado(objetoReclamado);
+		List<OrigemReclamacaoDTO> list = origemReclamacaoBC.carregarComboByObjetoReclamado(objetoReclamado);
 		
 		if (list.isEmpty()) {
 			return Response.status(Status.NOT_FOUND).entity(new OrigemReclamacaoDTO("Nenhum registro encontrado")).build();

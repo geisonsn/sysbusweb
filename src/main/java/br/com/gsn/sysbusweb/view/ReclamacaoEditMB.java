@@ -124,7 +124,7 @@ public class ReclamacaoEditMB extends AbstractEditPageBean<Reclamacao, Long> {
 	}
 	
 	private void carregarComboOrigemReclamacao(ObjetoReclamadoEnum itemSelecionado) {
-		comboOrigemReclamacao = origemReclamacaoBC.findByObjetoReclamado(itemSelecionado);
+		comboOrigemReclamacao = origemReclamacaoBC.carregarComboByObjetoReclamado(itemSelecionado);
 	}
 
 	public Date getDataMaxima() {

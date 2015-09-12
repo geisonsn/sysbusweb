@@ -31,6 +31,29 @@ public class OrigemReclamacaoBC extends DelegateCrud<OrigemReclamacao, Long, Ori
 		return getDelegate().findByObjetoReclamado(objetoReclamado);
 	}
 	
+	public List<OrigemReclamacao> carregarComboByObjetoReclamado(ObjetoReclamadoEnum objetoReclamado) {
+		List<OrigemReclamacao> lista = getDelegate().findByObjetoReclamado(objetoReclamado);
+		return ordenar(lista);
+	}
+	
+	private List<OrigemReclamacao> ordenar(List<OrigemReclamacao> lista) {
+		List<OrigemReclamacao> listaRetorno = new ArrayList<OrigemReclamacao>();
+		OrigemReclamacao outros = null;
+		for (OrigemReclamacao r : lista) {
+			if (r.getTipoReclamacao().getDescricao().equalsIgnoreCase("Outros") || 
+					r.getTipoReclamacao().getDescricao().equalsIgnoreCase("Outras")) {
+				outros = r;
+				continue;
+			}
+			listaRetorno.add(r);
+		}
+		if (outros != null) {
+			listaRetorno.add(outros);
+		}
+		return listaRetorno;
+	}
+	
+	@Deprecated
 	public List<OrigemReclamacaoDTO> findByObjetoReclamado(String objetoReclamado) {
 		
 		List<OrigemReclamacao> listOrigemReclamacao = getDelegate()
@@ -42,6 +65,25 @@ public class OrigemReclamacaoBC extends DelegateCrud<OrigemReclamacao, Long, Ori
 		
 		return ModelMapperUtil.map(listOrigemReclamacao, OrigemReclamacaoDTO.class, 
 					new PropertyMap<OrigemReclamacao, OrigemReclamacaoDTO>() {
+			@Override
+			protected void configure() {
+				map().setIdOrigemReclamacao(source.getId());
+				map().setIdTipoReclamacao(source.getTipoReclamacao().getId());
+			}
+		});
+	}
+	
+	public List<OrigemReclamacaoDTO> carregarComboByObjetoReclamado(String objetoReclamado) {
+		
+		List<OrigemReclamacao> listOrigemReclamacao = this
+				.carregarComboByObjetoReclamado(ObjetoReclamadoEnum.getFromName(objetoReclamado));
+		
+		if (listOrigemReclamacao.isEmpty()) {
+			return Collections.emptyList();
+		}
+		
+		return ModelMapperUtil.map(listOrigemReclamacao, OrigemReclamacaoDTO.class, 
+				new PropertyMap<OrigemReclamacao, OrigemReclamacaoDTO>() {
 			@Override
 			protected void configure() {
 				map().setIdOrigemReclamacao(source.getId());
