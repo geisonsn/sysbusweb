@@ -39,14 +39,14 @@
 					<h:outputText value="#{bean.linha.numero}" />
 				</p:column>
 					
-				<p:column sortBy="#{bean.numeroRegistro}">
+				<p:column sortBy="#{bean.veiculo.numeroRegistro}">
 					<f:facet name="header">#{messages['veiculo.label.numeroRegistro']}</f:facet>
-					<h:outputText value="#{bean.numeroRegistro}" />
+					<h:outputText value="#{bean.veiculo.numeroRegistro}" />
 				</p:column>
 				
-				<p:column sortBy="#{bean.placa}">
+				<p:column sortBy="#{bean.veiculo.placa}">
 					<f:facet name="header">#{messages['veiculo.label.placa']}</f:facet>
-					<h:outputText value="#{bean.placaFormatada}" />
+					<h:outputText value="#{bean.veiculo.placaFormatada}" />
 				</p:column>
 				
 				<p:column headerText="#{messages['list.label.acoes']}" width="8%">

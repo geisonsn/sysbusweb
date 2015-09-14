@@ -35,6 +35,11 @@ public class MessagesUtil implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 	}
 	
+	public void exibirMensagem(String titulo, Exception e) {
+		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, titulo, e.getMessage());
+		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	}
+	
 	public void exibirMensagemCampoObrigatorio() {
 		final String titulo = this.getMessage("org.hibernate.validator.constraints.NotBlank.title");
 		final String msg = this.getMessage("org.hibernate.validator.constraints.NotBlank.message");
