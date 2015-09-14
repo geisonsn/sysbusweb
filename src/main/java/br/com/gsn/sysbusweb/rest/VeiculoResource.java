@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import br.com.gsn.sysbusweb.business.VeiculoBC;
 import br.com.gsn.sysbusweb.business.VeiculoLinhaBC;
 import br.com.gsn.sysbusweb.domain.dto.VeiculoDTO;
 import br.com.gsn.sysbusweb.exception.VeiculoExistenteException;
@@ -21,9 +20,6 @@ import br.com.gsn.sysbusweb.exception.VeiculoExistenteException;
 @Path("veiculo")
 public class VeiculoResource {
 
-	@Inject
-	private VeiculoBC veiculoBC;
-	
 	@Inject
 	private VeiculoLinhaBC veiculoLinhaBC;
 	
@@ -45,13 +41,11 @@ public class VeiculoResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response insert(VeiculoDTO veiculo) {
-		
 		try {
-			veiculoBC.saveVeiculo(veiculo);
+			veiculoLinhaBC.saveVeiculo(veiculo);
 		} catch (VeiculoExistenteException e) {
 			return Response.status(Status.CONFLICT).entity(e.getMessage()).build();
 		}
-		
 		return Response.status(Status.CREATED).entity(new VeiculoDTO("Cadastro realizado com sucesso")).build();
 	}
 	

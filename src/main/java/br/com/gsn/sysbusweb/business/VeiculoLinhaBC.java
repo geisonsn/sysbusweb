@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -27,6 +28,9 @@ public class VeiculoLinhaBC extends DelegateCrud<VeiculoLinha, Long, VeiculoLinh
 
 	@Inject
 	private VeiculoBC veiculoBC;
+	
+	@Inject
+	private LinhaBC linhaBC;
 	
 	public List<VeiculoLinha> listByNumeroLinhaByNumeroRegistroExcludente(Long id, String numeroLinha, String numeroRegistro, String placa) {
 		return getDelegate().listByNumeroLinhaByNumeroRegistroExcludente(id, numeroLinha, numeroRegistro, placa);
@@ -50,6 +54,45 @@ public class VeiculoLinhaBC extends DelegateCrud<VeiculoLinha, Long, VeiculoLinh
 				map().setNumeroLinha(source.getLinha().getNumero());				
 			}
 		});
+	}
+	
+	public void saveVeiculo(VeiculoDTO veiculoRequest) throws VeiculoExistenteException {
+		
+		VeiculoLinha veiculoLinha = this
+			.getByNumeroLinhaByNumeroRegistro(veiculoRequest.getNumeroLinha(), veiculoRequest.getNumeroRegistro());
+		
+		if (veiculoLinha != null) {
+			throw new VeiculoExistenteException("Veículo já cadastrado");
+		}
+		
+		/**
+		 * Verifica se a linha informada já existe, se não existir é realizado o cadastro
+		 */
+		Linha linha = linhaBC.getByNumeroLinha(veiculoRequest.getNumeroLinha());
+		if (linha == null) {
+			linha = new Linha();
+			linha.setNumero(veiculoRequest.getNumeroLinha());
+			linha.setDescricao(veiculoRequest.getNumeroLinha());
+			linhaBC.insert(linha);
+		}
+		
+		/**
+		 * Verifica se o veículo já existe, caso contrário o insere na base
+		 */
+		Veiculo veiculo = veiculoBC.getByNumeroRegistro(veiculoRequest.getNumeroRegistro());
+		if (veiculo == null) {
+			veiculo = new Veiculo();
+			veiculo.setNumeroRegistro(veiculoRequest.getNumeroRegistro());
+			veiculoBC.insert(veiculo);
+		}
+		
+		/**
+		 * Insere o veículo linha
+		 */
+		veiculoLinha = new VeiculoLinha();
+		veiculoLinha.setLinha(linha);
+		veiculoLinha.setVeiculo(veiculo);
+		this.insert(veiculoLinha);
 	}
 	
 	@Deprecated
@@ -118,7 +161,12 @@ public class VeiculoLinhaBC extends DelegateCrud<VeiculoLinha, Long, VeiculoLinh
 	}
 	
 	public VeiculoLinha getByNumeroLinhaByNumeroRegistro(String numeroLinha, String numeroRegistro) {
-		return getDelegate().getByNumeroLinhaByNumeroRegistro(numeroLinha, numeroRegistro);
+		VeiculoLinha veiculoLinha = null;
+		try {
+			veiculoLinha = getDelegate().getByNumeroLinhaByNumeroRegistro(numeroLinha, numeroRegistro);
+		} catch (NoResultException e) {
+		}
+		return veiculoLinha;
 	}
 
 	public void salvarVeiculos(Linha linha, List<Veiculo> veiculosSelecionados) {

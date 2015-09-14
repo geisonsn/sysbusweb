@@ -38,7 +38,7 @@ public class VeiculoLinhaDAO extends JPACrud<VeiculoLinha, Long> {
 	public VeiculoLinha getByNumeroLinhaByNumeroRegistro(String numeroLinha, String numeroRegistro) {
 		return getEntityManager()
 			.createNamedQuery(VeiculoLinha.GET_BY_NUMERO_LINHA_BY_NUMERO_REGISTRO, VeiculoLinha.class)
-			.setParameter("numeroLinha", numeroLinha)
+			.setParameter("numero", numeroLinha)
 			.setParameter("numeroRegistro", numeroRegistro)
 			.getSingleResult();
 	}

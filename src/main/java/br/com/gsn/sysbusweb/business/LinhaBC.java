@@ -4,6 +4,8 @@ package br.com.gsn.sysbusweb.business;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.modelmapper.PropertyMap;
 
 import br.com.gsn.sysbusweb.domain.Linha;
@@ -28,7 +30,12 @@ public class LinhaBC extends DelegateCrud<Linha, Long, LinhaDAO> {
 	}
 	
 	public Linha getByNumeroLinha(String numero) {
-		return getDelegate().getByNumeroLinha(numero);
+		Linha linha = null;
+		try {
+			linha = getDelegate().getByNumeroLinha(numero);
+		} catch (NoResultException e) {
+		}
+		return linha;
 	}
 	
 	public List<LinhaDTO> findByNumeroLinha(String numeroLinha) {
