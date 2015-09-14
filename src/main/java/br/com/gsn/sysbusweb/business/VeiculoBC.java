@@ -44,10 +44,11 @@ public class VeiculoBC extends DelegateCrud<Veiculo, Long, VeiculoDAO> {
 	}
 	
 	
-	public List<Veiculo> getByNumeroRegistroOuPlaca(String numeroRegistro, String placa) {
-		return getDelegate().getByNumeroRegistroOuPlaca(numeroRegistro, placa);
+	public List<Veiculo> findByNumeroRegistroOuPlaca(String numeroRegistro, String placa) {
+		return getDelegate().findByNumeroRegistroOuPlaca(numeroRegistro, placa);
 	}
 	
+	@Deprecated
 	public Veiculo saveVeiculo(Veiculo veiculo) throws VeiculoExistenteException {
 		
 		veiculo.setPlaca(Util.capitalize(veiculo.getPlaca()));//Caso haja valor, ajusta a placa
@@ -65,6 +66,7 @@ public class VeiculoBC extends DelegateCrud<Veiculo, Long, VeiculoDAO> {
 		return veiculo;
 	}
 
+	@Deprecated
 	private void validarPlacaExistente(String placa, Veiculo veiculoPesquisadoPorRegistro) {
 		Veiculo veiculoPesquisadoPorPlaca = null;
 		
@@ -105,6 +107,14 @@ public class VeiculoBC extends DelegateCrud<Veiculo, Long, VeiculoDAO> {
 		v.setNumeroRegistro(veiculo.getNumeroRegistro());
 		
 		this.insert(v);
+	}
+
+	public List<Veiculo> listVeiculosNaoCadastradosParaLinha(Linha linha) {
+		return getDelegate().listVeiculosNaoCadastradosParaLinha(linha);
+	}
+
+	public List<Veiculo> listVeiculosCadastradosParaLinha(Linha linha) {
+		return getDelegate().listVeiculosCadastradosParaLinha(linha);
 	}
 
 }

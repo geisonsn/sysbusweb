@@ -1,127 +1,62 @@
 package br.com.gsn.sysbusweb.view;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 
-import br.com.gsn.sysbusweb.business.LinhaBC;
-import br.com.gsn.sysbusweb.business.VeiculoLinhaBC;
-import br.com.gsn.sysbusweb.domain.Linha;
-import br.com.gsn.sysbusweb.domain.dto.VeiculoLinhaDTO;
-import br.com.gsn.sysbusweb.exception.VeiculoExistenteException;
-import br.com.gsn.sysbusweb.util.MessagesUtil;
+import br.com.gsn.sysbusweb.business.VeiculoBC;
+import br.com.gsn.sysbusweb.domain.Veiculo;
+import br.com.gsn.sysbusweb.util.Util;
 import br.gov.frameworkdemoiselle.annotation.PreviousView;
 import br.gov.frameworkdemoiselle.exception.ExceptionHandler;
 import br.gov.frameworkdemoiselle.stereotype.ViewController;
-import br.gov.frameworkdemoiselle.transaction.Transactional;
-import br.gov.frameworkdemoiselle.util.Parameter;
+import br.gov.frameworkdemoiselle.template.AbstractEditPageBean;
 
 @ViewController
 @PreviousView("./veiculo_list.jsf?faces-redirect=true")
-public class VeiculoEditMB implements Serializable {
-	/*extends AbstractEditPageBean<VeiculoLinha, Long> {*/
+public class VeiculoEditMB extends AbstractEditPageBean<Veiculo, Long> {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private Parameter<String> id;
+	private VeiculoBC veiculoBC;
 	
-	@Inject
-	private VeiculoLinhaBC veiculoLinhaBC;
-	
-	private VeiculoLinhaDTO bean;
-
-	@Inject
-	private LinhaBC linhaBC;
-
-	@Inject
-	private MessagesUtil messagesUtil;
-	
-	@PostConstruct
-	private void init() {
-//		System.out.println(id);
-		/*if (id.getValue() != null) {
-			System.out.println(id.getValue());
-//			handleLoad(Long.valueOf(id.getValue()));
-		} else {
-			
-		}*/
-		
-		/*if (this.bean == null) {
-			initBean();
-		}*/
-		
-	}
-	
-	public VeiculoLinhaDTO getBean() {
-		if (this.bean == null) {
-			initBean();
-		}
-
-		return this.bean;
-	}
-	
-	public void setBean(VeiculoLinhaDTO bean) {
-		this.bean = bean;
-	}
-
-	/*@Override
-	@Transactional
+	@Override
 	public String delete() {
-		this.veiculoLinhaBC.delete(getId());
+		this.veiculoBC.delete(getId());
 		return getPreviousView();
-	}*/
+	}
 
-	@Transactional
+	@Override
 	public String insert() {
-		veiculoLinhaBC.save(getBean().getVeiculoLinha());
+		this.getBean().setPlaca(Util.capitalize(this.getBean().getPlaca()));
+		veiculoBC.insert(getBean());
 		return getPreviousView();
 	}
 
-	@Transactional
+	@Override
 	public String update() {
-		this.veiculoLinhaBC.update(getBean().getVeiculoLinha());
+		this.getBean().setPlaca(Util.capitalize(this.getBean().getPlaca()));
+		this.veiculoBC.update(getBean());
 		return getPreviousView();
 	}
-	
-	public List<Linha> getListLinha() {
-		return this.linhaBC.findAll();
+
+	@Override
+	protected Veiculo handleLoad(Long id) {
+		Veiculo veiculo = this.veiculoBC.load(id);
+		return veiculo;
 	}
 
-	public String getPreviousView() { 
-		return "./veiculo_list.jsf?faces-redirect=true";
-	}
-	
-	private void initBean() {
-		if (isUpdateMode()) {
-			this.bean = this.loadBean();
-		} else {
-			this.bean = this.createBean();
-		}
-	}
-	
-	public boolean isUpdateMode() {
-		return id.getValue() != null;
-	}
-
-	private VeiculoLinhaDTO loadBean() {
-		return new VeiculoLinhaDTO(this.veiculoLinhaBC.load(Long.valueOf(id.getValue())));
-	}
-
-	private VeiculoLinhaDTO createBean() {
-		return new VeiculoLinhaDTO();
-	}
-	
 	@ExceptionHandler
 	public void capturaExcecao(PersistenceException e) {
-		messagesUtil.exibirMensagemDuplicado();
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Registro duplicado", "Informações já cadastradas para outro registro");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
 	@ExceptionHandler
-	public void capturaExcecao(VeiculoExistenteException e) {
-		messagesUtil.exibirMensagem("Veículo existente", e);
+	public void capturaExcecao(RuntimeException e) {
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Registro duplicado", e.getMessage());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 }

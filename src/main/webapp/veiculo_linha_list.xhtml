@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/templ_cadastros.xhtml">
+
+	<ui:define name="titulo">
+		<div class="barra_titulo">
+			<h1><h:outputText value="#{messages['veiculo.label']}" /></h1>
+		</div>
+	</ui:define>
+	
+	<ui:define name="toolbar">
+		<h:form prependId="false" id="frmToolbar">
+			<div class="barra_ferramentas">
+				<p:commandButton title="Associar veículos" icon="ui-icon-transferthick-e-w" action="#{veiculoLinhaListMB.getNextView}"
+					actionListener="#{veiculoLinhaListMB.clear}" ajax="false" />
+			</div>
+		</h:form>
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		<h:form prependId="false" id="form">
+		
+			<p:fieldset legend="#{messages['fieldset.pesquisa.label']}">
+				<p:outputLabel value="#{messages['veiculo.label.linha']}"></p:outputLabel>
+				<p:inputText id="descricao" value="#{veiculoLinhaListMB.linha}"/>
+				<p:outputLabel value="#{messages['veiculo.label.numeroRegistro']}"></p:outputLabel>
+				<p:inputText id="numero" value="#{veiculoLinhaListMB.numeroRegistro}"/>
+				<p:commandButton action="#{veiculoLinhaListMB.pesquisar}" icon="ui-icon-search" ajax="false"/>
+			</p:fieldset>
+			
+			<br />
+			
+			<p:dataTable id="grid" var="bean" value="#{veiculoLinhaListMB.listVeiculo}" paginator="true" rows="8">
+						
+				<p:column sortBy="#{bean.linha.numero}">
+					<f:facet name="header">#{messages['veiculo.label.linha']}</f:facet>
+					<h:outputText value="#{bean.linha.numero}" />
+				</p:column>
+					
+				<p:column sortBy="#{bean.veiculo.numeroRegistro}">
+					<f:facet name="header">#{messages['veiculo.label.numeroRegistro']}</f:facet>
+					<h:outputText value="#{bean.veiculo.numeroRegistro}" />
+				</p:column>
+				
+				<p:column sortBy="#{bean.veiculo.placa}">
+					<f:facet name="header">#{messages['veiculo.label.placa']}</f:facet>
+					<h:outputText value="#{bean.veiculo.placaFormatada}" />
+				</p:column>
+					
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

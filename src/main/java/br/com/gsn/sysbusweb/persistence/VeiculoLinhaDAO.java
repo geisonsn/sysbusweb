@@ -2,6 +2,9 @@ package br.com.gsn.sysbusweb.persistence;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
+import br.com.gsn.sysbusweb.domain.Linha;
 import br.com.gsn.sysbusweb.domain.VeiculoLinha;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 
@@ -55,6 +58,14 @@ public class VeiculoLinhaDAO extends JPACrud<VeiculoLinha, Long> {
 			.setParameter("numeroRegistro", numeroRegistro)
 			.setParameter("placa", placa)
 			.getResultList();
+	}
+	
+	public int removeByLinha(Linha linha, List<Long> ids) {
+		Query query = getEntityManager().createQuery("delete from VeiculoLinha v where v.veiculo.id in (:ids) "
+				+ "and v.linha = :linha");
+		query.setParameter("ids", ids);
+		query.setParameter("linha", linha);
+		return query.executeUpdate();
 	}
 	
 }

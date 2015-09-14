@@ -26,15 +26,6 @@
 			<p:fieldset legend="#{messages['fieldset.dados.label']}">
 				<h:panelGrid id="fieldsVeiculo" columns="3">
 				
-					<h:outputLabel value="#{messages['veiculo.label.linha']}: " for="linha" styleClass="text-input" />
-					
-					<p:selectOneMenu value="#{veiculoEditMB.bean.linha}" id="linha" converter="ConversorLinha" >
-						<f:selectItem itemLabel="Selecione"/>
-						<f:selectItems value="#{veiculoEditMB.listLinha}" var="linha" itemLabel="#{linha.numero}" itemValue="#{linha}"/>
-					</p:selectOneMenu>
-					
-					<p:message for="linha" />
-					
 					<h:outputLabel value="#{messages['veiculo.label.numeroRegistro']}: " for="numeroRegistro" styleClass="text-input" />
 					
 					<p:inputText id="numeroRegistro" value="#{veiculoEditMB.bean.numeroRegistro}"

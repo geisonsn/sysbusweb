@@ -6,10 +6,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.apache.commons.lang.StringUtils;
-
-import br.com.gsn.sysbusweb.business.VeiculoBC;
-import br.com.gsn.sysbusweb.domain.Veiculo;
+import br.com.gsn.sysbusweb.business.VeiculoLinhaBC;
+import br.com.gsn.sysbusweb.domain.VeiculoLinha;
 import br.gov.frameworkdemoiselle.annotation.NextView;
 import br.gov.frameworkdemoiselle.annotation.PreviousView;
 import br.gov.frameworkdemoiselle.stereotype.ViewController;
@@ -17,20 +15,20 @@ import br.gov.frameworkdemoiselle.template.AbstractListPageBean;
 import br.gov.frameworkdemoiselle.transaction.Transactional;
 
 @ViewController
-@NextView("./veiculo_edit.jsf")
-@PreviousView("./veiculo_list.jsf?faces-redirect=true")
-public class VeiculoListMB extends AbstractListPageBean<Veiculo, Long> {
+@NextView("./veiculo_linha_edit.jsf")
+@PreviousView("./veiculo_linha_list.jsf?faces-redirect=true")
+public class VeiculoLinhaListMB extends AbstractListPageBean<VeiculoLinha, Long> {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private VeiculoBC veiculoBC;
+	private VeiculoLinhaBC veiculoLinhaBC;
 
-	private List<Veiculo> listVeiculo;
+	private List<VeiculoLinha> listVeiculo;
 
-	private Veiculo objetoExcluido;
+	private VeiculoLinha objetoExcluido;
 
-	private String placa;
+	private String linha;
 	private String numeroRegistro;
 
 	@PostConstruct
@@ -42,7 +40,7 @@ public class VeiculoListMB extends AbstractListPageBean<Veiculo, Long> {
 
 	@Transactional
 	public void deletar() {
-		this.veiculoBC.delete(objetoExcluido.getId());
+		this.veiculoLinhaBC.delete(objetoExcluido.getId());
 		this.listVeiculo = handleResultList();
 	}
 
@@ -54,7 +52,7 @@ public class VeiculoListMB extends AbstractListPageBean<Veiculo, Long> {
 			Long id = iter.next();
 			delete = getSelection().get(id);
 			if (delete) {
-				veiculoBC.delete(id);
+				veiculoLinhaBC.delete(id);
 				iter.remove();
 			}
 		}
@@ -62,24 +60,20 @@ public class VeiculoListMB extends AbstractListPageBean<Veiculo, Long> {
 	}
 
 	@Override
-	public List<Veiculo> handleResultList() {
-		return this.veiculoBC.findAll();
+	public List<VeiculoLinha> handleResultList() {
+		return this.veiculoLinhaBC.findAll();
 	}
 
 	public void pesquisar() {
-		if (StringUtils.isEmpty(numeroRegistro) && StringUtils.isEmpty(placa)) {
-			this.listVeiculo = handleResultList();
-		} else {
-			this.listVeiculo = this.veiculoBC.findByNumeroRegistroOuPlaca(numeroRegistro, placa);
-		}
+		this.listVeiculo = this.veiculoLinhaBC.findByLinhaByNumero(linha, numeroRegistro);
 	}
 
-	public String getPlaca() {
-		return placa;
+	public String getLinha() {
+		return linha;
 	}
 
-	public void setPlaca(String placa) {
-		this.placa = placa;
+	public void setLinha(String linha) {
+		this.linha = linha;
 	}
 
 	public String getNumeroRegistro() {
@@ -90,15 +84,15 @@ public class VeiculoListMB extends AbstractListPageBean<Veiculo, Long> {
 		this.numeroRegistro = numeroRegistro;
 	}
 
-	public List<Veiculo> getListVeiculo() {
+	public List<VeiculoLinha> getListVeiculo() {
 		return listVeiculo;
 	}
 
-	public Veiculo getObjetoExcluido() {
+	public VeiculoLinha getObjetoExcluido() {
 		return objetoExcluido;
 	}
 
-	public void setObjetoExcluido(Veiculo objetoExcluido) {
+	public void setObjetoExcluido(VeiculoLinha objetoExcluido) {
 		this.objetoExcluido = objetoExcluido;
 	}
 

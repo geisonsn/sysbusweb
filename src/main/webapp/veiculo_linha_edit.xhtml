@@ -1,0 +1,67 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="/template/templ_cadastros.xhtml">
+	
+	<ui:define name="titulo">
+		<div class="barra_titulo">
+			<h1>
+				<h:outputText value="Veículos em circulação"/>
+			</h1>
+		</div>
+	</ui:define>
+	
+	<ui:define name="toolbar">
+		<h:form prependId="false" id="frmToolbar">
+			<div class="barra_ferramentas">
+				<p:commandButton title="#{messages['button.back']}" icon="ui-icon-circle-arrow-w" action="#{veiculoLinhaListMB.getPreviousView}"
+					actionListener="#{veiculoLinhaListMB.clear}" ajax="false" />
+			</div>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form prependId="false" id="form">
+	
+			<p:fieldset legend="#{messages['fieldset.dados.label']}">
+				
+				<h:panelGrid id="fieldsOrigemReclamacao" columns="2">
+					<p:column>
+						<h:outputLabel value="#{messages['veiculo.label.linha']}: " for="linha" styleClass="text-input" />
+					</p:column>
+					
+					<p:column>
+						<p:selectOneMenu value="#{veiculoLinhaEditMB.bean.linha}" id="linha" converter="ConversorLinha" 
+							filter="true" style="width: 100%">
+							<f:selectItem itemLabel="Selecione"/>
+							<f:selectItems value="#{veiculoLinhaEditMB.listLinha}" var="linha" itemLabel="#{linha.numero}" itemValue="#{linha}"/>
+							<p:ajax event="change" listener="#{veiculoLinhaEditMB.changeLinha}" process="@this" update="veiculos"/>
+						</p:selectOneMenu> 
+					</p:column>					
+					
+					<br/>
+					
+					<p:column>
+						<p:pickList id="veiculos" value="#{veiculoLinhaEditMB.veiculos}" var="veiculo" 
+							itemLabel="#{veiculo.descricaoFormatada}" itemValue="#{veiculo}" converter="ConversorVeiculo"
+							required="true" requiredMessage="Selecione ao menos um item">
+							<f:facet name="sourceCaption">Veículos disponíveis</f:facet>
+							<f:facet name="targetCaption">Veículos associados</f:facet>
+						</p:pickList>
+					</p:column>
+					
+				</h:panelGrid>
+				
+				<br/>
+				
+				<div class="btn-save">
+					<p:commandButton value="#{messages['button.save']}" action="#{veiculoLinhaEditMB.save}"
+						rendered="#{!veiculoLinhaEditMB.updateMode}" ajax="false"/>
+					<p:commandButton value="#{messages['button.update']}" action="#{veiculoLinhaEditMB.update}"
+						rendered="#{veiculoLinhaEditMB.updateMode}" ajax="false" />
+				</div>
+			</p:fieldset>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

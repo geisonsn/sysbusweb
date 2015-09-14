@@ -23,10 +23,13 @@
 		<h:form prependId="false" id="form">
 		
 			<p:fieldset legend="#{messages['fieldset.pesquisa.label']}">
-				<p:outputLabel value="#{messages['veiculo.label.linha']}"></p:outputLabel>
-				<p:inputText id="descricao" value="#{veiculoListMB.linha}"/>
-				<p:outputLabel value="#{messages['veiculo.label.numeroRegistro']}"></p:outputLabel>
+				
+				<p:outputLabel value="#{messages['veiculo.label.numeroRegistro']}" for="numero"></p:outputLabel>
 				<p:inputText id="numero" value="#{veiculoListMB.numeroRegistro}"/>
+				
+				<p:outputLabel value="#{messages['veiculo.label.placa']}" for="placa" converter="ConversorPlaca"></p:outputLabel>
+				<p:inputText id="placa" value="#{veiculoListMB.placa}"/>
+				
 				<p:commandButton action="#{veiculoListMB.pesquisar}" icon="ui-icon-search" ajax="false"/>
 			</p:fieldset>
 			
@@ -34,43 +37,21 @@
 			
 			<p:dataTable id="grid" var="bean" value="#{veiculoListMB.listVeiculo}" paginator="true" rows="8">
 						
-				<p:column sortBy="#{bean.linha.numero}">
-					<f:facet name="header">#{messages['veiculo.label.linha']}</f:facet>
-					<h:outputText value="#{bean.linha.numero}" />
-				</p:column>
-					
-				<p:column sortBy="#{bean.veiculo.numeroRegistro}">
+				<p:column sortBy="#{bean.numeroRegistro}">
 					<f:facet name="header">#{messages['veiculo.label.numeroRegistro']}</f:facet>
-					<h:outputText value="#{bean.veiculo.numeroRegistro}" />
+					<h:outputText value="#{bean.numeroRegistro}" />
 				</p:column>
 				
 				<p:column sortBy="#{bean.veiculo.placa}">
 					<f:facet name="header">#{messages['veiculo.label.placa']}</f:facet>
-					<h:outputText value="#{bean.veiculo.placaFormatada}" />
+					<h:outputText value="#{bean.placaFormatada}" />
 				</p:column>
 				
-				<p:column headerText="#{messages['list.label.acoes']}" width="8%">
+				<p:column headerText="#{messages['list.label.acoes']}" style="width:9%; text-align:center">
 					<p:commandButton action="#{veiculoListMB.getNextView}" actionListener="#{veiculoListMB.clear}" 
 						icon="ui-icon-pencil"	title="#{messages['botao.alterar.title']}" alt="#{messages['botao.alterar.alt']}">
 						<f:param name="id" value="#{bean.id}" />
 					</p:commandButton>
-					<p:commandButton icon="ui-icon-trash" title="#{messages['botao.excluir.title']}" 
-						alt="#{messages['botao.excluir.alt']}" oncomplete="PF('confirmacao').show()" immediate="true">
-						<f:setPropertyActionListener target="#{veiculoListMB.objetoExcluido}" value="#{bean}" />
-					</p:commandButton>
-					
-					<p:confirmDialog widgetVar="confirmacao" header="#{messages['label.dialog.delete']}"
-						message="Remover" closeOnEscape="true">
-						<p:commandButton value="#{messages['button.dialog.yes']}"
-							styleClass="ui-confirmdialog-yes" partialSubmit="true"
-							icon="ui-icon-check" update=":form:grid"
-							actionListener="#{veiculoListMB.deletar}"
-							onclick="PF('confirmacao').hide();" />
-						<p:commandButton value="#{messages['button.dialog.no']}"
-							type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"
-							onclick="PF('confirmacao').hide();" />
-					</p:confirmDialog>
-					
 				</p:column>
 					
 			</p:dataTable>

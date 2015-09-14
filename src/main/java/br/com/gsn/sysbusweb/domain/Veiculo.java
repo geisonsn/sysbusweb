@@ -11,6 +11,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 import br.com.gsn.sysbusweb.util.Util;
@@ -19,8 +20,9 @@ import br.com.gsn.sysbusweb.util.Util;
 @Table(name = "veiculo")
 @NamedQueries({
 	@NamedQuery(name = Veiculo.FIND_ALL, query = "SELECT v FROM Veiculo v order by v.numeroRegistro, v.placa"),
-	@NamedQuery(name = Veiculo.FIND_BY_REGISTRO_OU_PLACA, query = "SELECT v FROM Veiculo v  "
-			+ " WHERE v.numeroRegistro = :numeroRegistro or v.placa = :placa "),
+	@NamedQuery(name = Veiculo.FIND_BY_REGISTRO_BY_PLACA, query = "SELECT v FROM Veiculo v  "
+			+ " WHERE upper(v.numeroRegistro) LIKE :numeroRegistro and upper(v.placa) LIKE :placa "
+			+ " order by v.numeroRegistro, v.placa "),
 	@NamedQuery(name = Veiculo.GET_BY_NUMERO_REGISTRO, query = "select v from Veiculo v "
 			+ " where v.numeroRegistro = :numeroRegistro "),
 	@NamedQuery(name = Veiculo.GET_BY_PLACA, query = "select v from Veiculo v "
@@ -30,7 +32,7 @@ public class Veiculo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String FIND_ALL = "Veiculo.findAll";
-	public static final String FIND_BY_REGISTRO_OU_PLACA = "Veiculo.findByRegistroOrPlaca";
+	public static final String FIND_BY_REGISTRO_BY_PLACA = "Veiculo.findByRegistroOrPlaca";
 	public static final String GET_BY_NUMERO_REGISTRO = "Veiculo.getByNumeroRegistro";
 	public static final String GET_BY_PLACA = "Veiculo.getByPlaca";
 	
@@ -73,6 +75,10 @@ public class Veiculo implements Serializable {
 
 	public void setPlaca(String placa) {
 		this.placa = placa;
+	}
+	
+	public String getDescricaoFormatada() {
+		return this.getNumeroRegistro() + (StringUtils.isNotEmpty(this.placa) ? " - " + getPlacaFormatada() : "");
 	}
 
 	@Override
