@@ -4,10 +4,10 @@
 
 	<persistence-unit name="sysbus-ds" transaction-type="RESOURCE_LOCAL">
 		<!-- Base local -->
-		<non-jta-data-source>java:jboss/datasources/sysbusDS</non-jta-data-source>
+		<!-- <non-jta-data-source>java:jboss/datasources/sysbusDS</non-jta-data-source> -->
 		
 		<!-- OpenShift -->
-		<!-- <jta-data-source>java:jboss/datasources/MySQLDS</jta-data-source> -->
+		<jta-data-source>java:jboss/datasources/MySQLDS</jta-data-source>
 
 		<class>br.com.gsn.sysbusweb.domain.TipoLinha</class>
 		<class>br.com.gsn.sysbusweb.domain.TipoReclamacao</class>
