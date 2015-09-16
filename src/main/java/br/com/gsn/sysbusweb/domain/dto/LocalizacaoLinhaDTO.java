@@ -23,15 +23,23 @@ public class LocalizacaoLinhaDTO extends InformationRequest implements Serializa
 
 	private String dataHoraRegistro;
 	
+	private String distancia;
+	
 	public LocalizacaoLinhaDTO() {}
 	
 	public LocalizacaoLinhaDTO(String numeroLinha, String numeroRegistro,
 			String latitude, String longitude, Date dataHoraRegistro) {
+		this(numeroLinha, numeroRegistro, latitude, longitude, dataHoraRegistro, null);
+	}
+	
+	public LocalizacaoLinhaDTO(String numeroLinha, String numeroRegistro,
+			String latitude, String longitude, Date dataHoraRegistro, String distancia) {
 		this.numeroLinha = numeroLinha;
 		this.numeroRegistro = numeroRegistro;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.dataHoraRegistro = Dates.format(dataHoraRegistro, Dates.FORMAT_PT_BR_DATE_HOUR);
+		this.distancia = distancia;
 	}
 
 	public LocalizacaoLinhaDTO(String message) {
@@ -94,4 +102,11 @@ public class LocalizacaoLinhaDTO extends InformationRequest implements Serializa
 		this.dataHoraRegistro = dataHoraRegistro;
 	}
 
+	public String getDistancia() {
+		return distancia;
+	}
+
+	public void setDistancia(String distancia) {
+		this.distancia = distancia;
+	}
 }

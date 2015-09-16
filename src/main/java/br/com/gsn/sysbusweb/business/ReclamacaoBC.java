@@ -65,8 +65,8 @@ public class ReclamacaoBC extends DelegateCrud<Reclamacao, Long, ReclamacaoDAO> 
 		return getDelegate().listReclamadosPorMes(mes);
 	}
 	
-	public List<ReclamacaoRankingDTO> listTopDezLinhasReclamadas() {
-		return getDelegate().listTopDezLinhasReclamadas();
+	public List<ReclamacaoRankingDTO> listLinhasMaisReclamadas(Integer quantidade) {
+		return getDelegate().listLinhasMaisReclamadas(quantidade);
 	}
 
 	public List<ReclamacaoDTO> listObjetosMaisReclamados() {

@@ -50,5 +50,9 @@ public class LinhaFavoritaBC extends DelegateCrud<LinhaFavorita, Long, LinhaFavo
 		this.insert(linhaFavorita);
 		return linhaFavoritaDTO;
 	}
+	
+	public List<LinhaFavoritaDTO> findFavoritosComLocalizacao(Integer intervalo, LinhaFavoritaDTO[] linhasFavoritas) {
+		return getDelegate().contarVeiculosEmDeslocamento(intervalo, linhasFavoritas);
+	}
 
 }

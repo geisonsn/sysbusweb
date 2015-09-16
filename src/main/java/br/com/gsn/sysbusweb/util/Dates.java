@@ -1,7 +1,9 @@
 package br.com.gsn.sysbusweb.util;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,4 +27,23 @@ public final class Dates {
 		}
 		return new SimpleDateFormat(format).parse(date);
 	}
+	
+	public static Date parse(Timestamp timesStamp, String format) {
+		
+		if (timesStamp == null) {
+			return null;
+		}
+		
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(timesStamp.getTime());
+		
+		return c.getTime();
+	}
+	
+	public static String format(Timestamp timesStamp, String format) {
+		Date date = parse(timesStamp, format);
+		return format(date, format);
+	}
+	
+	
 }

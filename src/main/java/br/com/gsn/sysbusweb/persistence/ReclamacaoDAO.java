@@ -53,11 +53,14 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 	}
 	
 	/**
-	 * Retorna as dez linhas mais reclamadas
-	 * @return
+	 * Retorna as linhas mais reclamadas no intervalo de um mês
+	 * @param quantidade de linhas exibidas
+	 * @return linhas mais reclamadas
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ReclamacaoRankingDTO> listTopDezLinhasReclamadas() {
+	public List<ReclamacaoRankingDTO> listLinhasMaisReclamadas(Integer quantidade) {
+		
+		quantidade = (quantidade == null || quantidade == 0) ? 10 : quantidade;
 		
 		StringBuffer sql = new StringBuffer();
 		
@@ -69,10 +72,11 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 		.append(" where rec.data_registro >= date_sub(sysdate(), interval 1 month) ")
 		.append(" group by lin.numero ")
 		.append(" order by reclamacoes desc, lin.numero ")
-		.append(" limit 10 ");
+		.append(" limit :quantidade ");
 		
 		List<Object[]> resultList = getEntityManager()
 				.createNativeQuery(sql.toString())
+				.setParameter("quantidade", quantidade)
 				.getResultList();
 		
 		List<ReclamacaoRankingDTO> list = new ArrayList<ReclamacaoRankingDTO>();

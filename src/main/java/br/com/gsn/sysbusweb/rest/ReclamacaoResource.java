@@ -8,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -35,9 +36,9 @@ public class ReclamacaoResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path(value = "/linhasreclamadastopdez")
-	public Response listTopDezLinhasReclamadas() {
-		List<ReclamacaoRankingDTO> list = reclamacaoBC.listTopDezLinhasReclamadas();
+	@Path(value = "/linhasmaisreclamadas/{quantidade}")
+	public Response listLinhasMaisReclamadas(@PathParam("quantidade") Integer quantidade) {
+		List<ReclamacaoRankingDTO> list = reclamacaoBC.listLinhasMaisReclamadas(quantidade);
 		
 		if (list.isEmpty()) {
 			return Response.status(Status.NOT_FOUND).entity(new ReclamacaoRankingDTO("Nenhuma reclamação registrada")).build();

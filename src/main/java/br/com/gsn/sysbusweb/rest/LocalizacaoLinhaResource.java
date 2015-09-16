@@ -21,6 +21,7 @@ import br.com.gsn.sysbusweb.business.LocalizacaoLinhaBC;
 import br.com.gsn.sysbusweb.domain.LocalizacaoLinha;
 import br.com.gsn.sysbusweb.domain.Veiculo;
 import br.com.gsn.sysbusweb.domain.dto.LocalizacaoLinhaDTO;
+import br.com.gsn.sysbusweb.domain.dto.LocalizacaoLinhaWrapperDTO;
 import br.com.gsn.sysbusweb.util.Dates;
 
 @Path("localizacaolinha")
@@ -40,6 +41,36 @@ public class LocalizacaoLinhaResource {
 		}
 		
 		return Response.status(Status.OK).entity(list).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/veiculosemdeslocamento/{idUsuario}/{intervalo}")
+	public Response listVeiculosEmDeslocamento(@PathParam("idUsuario") Long idUsuario, @PathParam("intervalo") Integer intervalo) {
+		
+		LocalizacaoLinhaWrapperDTO wrapper = localizacaoLinhaBC.listVeiculosEmDeslocamento(idUsuario, intervalo);
+		
+		if (wrapper.isEmpty()) {
+			return Response.status(Status.NOT_FOUND).entity(new LocalizacaoLinhaDTO("Nenhum registro encontrado")).build();
+		}
+		
+		return Response.status(Status.OK).entity(wrapper).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/veiculosemdeslocamentoproximos/{idUsuario}/{intervalo}/{distancia}/{latitude}/{longitude}")
+	public Response listVeiculosEmDeslocamento(@PathParam("idUsuario") Long idUsuario, @PathParam("intervalo") Integer intervalo,
+			@PathParam("distancia") Integer distancia, @PathParam("latitude") String latitude, @PathParam("longitude") String longitude) {
+		
+		LocalizacaoLinhaWrapperDTO wrapper = localizacaoLinhaBC.listVeiculosEmDeslocamentoPorCoordenadas(idUsuario, intervalo, distancia, 
+				latitude, longitude);
+		
+		if (wrapper.isEmpty()) {
+			return Response.status(Status.NOT_FOUND).entity(new LocalizacaoLinhaDTO("Nenhum registro encontrado")).build();
+		}
+		
+		return Response.status(Status.OK).entity(wrapper).build();
 	}
 	
 	@POST

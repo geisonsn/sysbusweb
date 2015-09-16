@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import br.com.gsn.sysbusweb.business.LinhaFavoritaBC;
+import br.com.gsn.sysbusweb.domain.dto.LinhasFavoritasWrapperDTO;
 import br.com.gsn.sysbusweb.domain.dto.LinhaFavoritaDTO;
 import br.com.gsn.sysbusweb.domain.dto.LocalizacaoLinhaDTO;
 
@@ -40,11 +41,22 @@ public class LinhaFavoritaResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/buscarlocalizados")
+	public Response findFavoritosLocalizados(LinhasFavoritasWrapperDTO favoritosRequestDTO) {
+		Integer intervalo = favoritosRequestDTO.getIntervalo();
+		LinhaFavoritaDTO[] linhasFavoritas = favoritosRequestDTO.getLinhasFavoritas();
+		List<LinhaFavoritaDTO> list = linhaFavoritaBC.findFavoritosComLocalizacao(intervalo, linhasFavoritas);
+		return Response.status(Status.OK).entity(list).build();
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response insert(LinhaFavoritaDTO linhaFavorita) throws ParseException {
 		
 		linhaFavorita = linhaFavoritaBC.insert(linhaFavorita);
 		
 		return Response.status(Status.CREATED).entity(linhaFavorita).build();
 	}
-
+	
 }
