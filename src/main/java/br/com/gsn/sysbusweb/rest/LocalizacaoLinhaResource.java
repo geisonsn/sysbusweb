@@ -50,8 +50,8 @@ public class LocalizacaoLinhaResource {
 		
 		LocalizacaoLinhaWrapperDTO wrapper = localizacaoLinhaBC.listVeiculosEmDeslocamento(idUsuario, intervalo);
 		
-		if (wrapper.isEmpty()) {
-			return Response.status(Status.NOT_FOUND).entity(new LocalizacaoLinhaDTO("Nenhum registro encontrado")).build();
+		if (isEmpty(wrapper)) {
+			return Response.status(Status.NOT_FOUND).entity(new LocalizacaoLinhaWrapperDTO("Nenhum registro encontrado")).build();
 		}
 		
 		return Response.status(Status.OK).entity(wrapper).build();
@@ -66,11 +66,15 @@ public class LocalizacaoLinhaResource {
 		LocalizacaoLinhaWrapperDTO wrapper = localizacaoLinhaBC.listVeiculosEmDeslocamentoPorCoordenadas(idUsuario, intervalo, distancia, 
 				latitude, longitude);
 		
-		if (wrapper.isEmpty()) {
+		if (isEmpty(wrapper)) {
 			return Response.status(Status.NOT_FOUND).entity(new LocalizacaoLinhaDTO("Nenhum registro encontrado")).build();
 		}
 		
 		return Response.status(Status.OK).entity(wrapper).build();
+	}
+	
+	public Boolean isEmpty(LocalizacaoLinhaWrapperDTO wrapper) {
+		return wrapper.getLinhasFavoritas().isEmpty() && wrapper.getLinhasNaoFavoritas().isEmpty();
 	}
 	
 	@POST

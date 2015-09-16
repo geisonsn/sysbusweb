@@ -9,6 +9,10 @@ public class LocalizacaoLinhaWrapperDTO extends InformationRequest implements
 
 	private static final long serialVersionUID = 1L;
 	
+	public LocalizacaoLinhaWrapperDTO(String message) {
+		setMessage(message);
+	}
+	
 	public LocalizacaoLinhaWrapperDTO() {
 		linhasFavoritas = new ArrayList<LocalizacaoLinhaDTO>();
 		linhasNaoFavoritas = new ArrayList<LocalizacaoLinhaDTO>();
@@ -33,10 +37,6 @@ public class LocalizacaoLinhaWrapperDTO extends InformationRequest implements
 	public void setLinhasNaoFavoritas(
 			List<LocalizacaoLinhaDTO> linhasNaoFavoritas) {
 		this.linhasNaoFavoritas = linhasNaoFavoritas;
-	}
-	
-	public boolean isEmpty() {
-		return this.getLinhasFavoritas().isEmpty() && this.getLinhasNaoFavoritas().isEmpty();
 	}
 
 }
