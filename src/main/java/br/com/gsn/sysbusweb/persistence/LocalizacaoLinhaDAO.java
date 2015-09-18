@@ -62,7 +62,9 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 			sql
 				.append(" select * from ( ")
 				.append("	select ")
+				.append("		l.id id_linha, ") 
 				.append("		l.numero linha, ") 
+				.append("		e.nome nome_empresa, ") 
 				.append("		v.numero_registro veiculo,  ")  
 				.append("		max(ll.data_hora_registro) ultimo_registro, ")
 				.append("		ll.latitude, ")
@@ -73,6 +75,7 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 				.append("	inner join veiculo v on v.id = vl.id_veiculo ")
 				.append("	inner join linha l on l.id = vl.id_linha ")
 				.append("	inner join localizacao_linha ll on ll.id_veiculo_linha = vl.id ")
+				.append("	inner join empresa e on e.id = l.id_empresa ")
 				.append("	where lf.id_usuario = :idUsuario ")
 				.append("	and ll.data_hora_registro >= date_sub(sysdate(), interval :intervalof hour) ")
 				.append("	group by vl.id ")
@@ -85,7 +88,9 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 		sql
 			.append(" select * from ( ")
 			.append("	select ") 
-			.append("		l.numero linha, ")  
+			.append("		l.id id_linha, ") 
+			.append("		l.numero linha, ") 
+			.append("		e.nome nome_empresa, ")  
 			.append("		v.numero_registro veiculo, ")    
 			.append("		max(ll.data_hora_registro) ultimo_registro, ")
 			.append("		ll.latitude, ")
@@ -95,6 +100,7 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 			.append("	inner join veiculo_linha vl on vl.id = ll.id_veiculo_linha ")
 			.append("	inner join veiculo v on v.id = vl.id_veiculo ")
 			.append("	inner join linha l on l.id = vl.id_linha ")
+			.append("	inner join empresa e on e.id = l.id_empresa ")
 			.append("	where ll.data_hora_registro >= date_sub(sysdate(), interval :intervalo hour) ")
 			.append("	group by vl.id ")
 			.append("	order by ultimo_registro desc, linha, veiculo ")
@@ -111,14 +117,16 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 		List<Object[]> resultList = query.getResultList();
 			
 		for (Object[] source : resultList) {
-			String linha = (String) source[0];
-			String veiculo = (String) source[1];
-			Date ultimoRegistro = Dates.parse(((Timestamp) source[2]), Dates.FORMAT_PT_BR_DATE_HOUR);
-			String latitude = (String) source[3];
-			String longitude = (String) source[4];
-			String flagFavoritos = (String) source[5];
+			Long idLinha = ((Integer) source[0]).longValue();
+			String linha = (String) source[1];
+			String empresa = (String) source[2];
+			String veiculo = (String) source[3];
+			Date ultimoRegistro = Dates.parse(((Timestamp) source[4]), Dates.FORMAT_PT_BR_DATE_HOUR);
+			String latitude = (String) source[5];
+			String longitude = (String) source[6];
+			String flagFavoritos = (String) source[7];
 			
-			LocalizacaoLinhaDTO localizacaoLinha = new LocalizacaoLinhaDTO(linha, veiculo, latitude, longitude, ultimoRegistro);
+			LocalizacaoLinhaDTO localizacaoLinha = new LocalizacaoLinhaDTO(idLinha, linha, empresa, veiculo, latitude, longitude, ultimoRegistro);
 			
 			if (flagFavoritos.equals("S")) {
 				wrapper.getLinhasFavoritas().add(localizacaoLinha);
@@ -131,7 +139,7 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public LocalizacaoLinhaWrapperDTO listVeiculosEmDeslocamentoPorCoordenadas(Long idUsuario, Integer intervalo, Integer distanciaPesquisada, 
+	public LocalizacaoLinhaWrapperDTO listVeiculosEmDeslocamentoProximos(Long idUsuario, Integer intervalo, Integer distanciaPesquisada, 
 			String latitudeUsuario, String longitudeUsuario) {
 		
 		StringBuffer sql = new StringBuffer();
@@ -147,7 +155,9 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 			sql.append("FROM \n");
 			sql.append("  ( \n");
 			sql.append("    SELECT \n");
+			sql.append("      linha.id id_linha, \n");
 			sql.append("      linha.numero linha, \n");
+			sql.append("      empresa.nome empresa, \n");
 			sql.append("      veiculo.numero_registro veiculo, \n");
 			sql.append("      MAX(localizacao_linha.data_hora_registro) ultimo_registro, \n");
 			sql.append("      localizacao_linha.latitude, \n");
@@ -171,6 +181,9 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 			sql.append("    INNER JOIN localizacao_linha \n");
 			sql.append("    ON \n");
 			sql.append("      localizacao_linha.id_veiculo_linha = veiculo_linha.id \n");
+			sql.append("    INNER JOIN empresa \n");
+			sql.append("    ON \n");
+			sql.append("      empresa.id = linha.id_empresa \n");
 			sql.append("    WHERE \n");
 			sql.append("      localizacao_linha.data_hora_registro >= date_sub(sysdate(), \n");
 			sql.append("      interval :intervalof hour) \n");
@@ -200,7 +213,9 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 		sql.append("FROM \n");
 		sql.append("  ( \n");
 		sql.append("    SELECT \n");
+		sql.append("      linha.id id_linha, \n");
 		sql.append("      linha.numero linha, \n");
+		sql.append("      empresa.nome empresa, \n");
 		sql.append("      veiculo.numero_registro veiculo, \n");
 		sql.append("      MAX(localizacao_linha.data_hora_registro) ultimo_registro, \n");
 		sql.append("      localizacao_linha.latitude, \n");
@@ -221,6 +236,9 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 		sql.append("    INNER JOIN linha \n");
 		sql.append("    ON \n");
 		sql.append("      linha.id = veiculo_linha.id_linha \n");
+		sql.append("    INNER JOIN empresa \n");
+		sql.append("    ON \n");
+		sql.append("      empresa.id = linha.id_empresa \n");
 		sql.append("    WHERE \n");
 		sql.append("      localizacao_linha.data_hora_registro >= date_sub(sysdate(), \n");
 		sql.append("      interval :intervalo hour) \n");
@@ -250,15 +268,17 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 		List<Object[]> resultList = query.getResultList();
 			
 		for (Object[] source : resultList) {
-			String linha = (String) source[0];
-			String veiculo = (String) source[1];
-			Date ultimoRegistro = Dates.parse(((Timestamp) source[2]), Dates.FORMAT_PT_BR_DATE_HOUR);
-			String latitude = (String) source[3];
-			String longitude = (String) source[4];
-			String distancia = new DecimalFormat("#0.00").format(((Double) source[5]));
-			String flagFavoritos = (String) source[6];
+			Long idLinha = ((Integer) source[0]).longValue();
+			String linha = (String) source[1];
+			String empresa = (String) source[2];
+			String veiculo = (String) source[3];
+			Date ultimoRegistro = Dates.parse(((Timestamp) source[4]), Dates.FORMAT_PT_BR_DATE_HOUR);
+			String latitude = (String) source[5];
+			String longitude = (String) source[6];
+			String distancia = new DecimalFormat("#0.00").format(((Double) source[7]));
+			String flagFavoritos = (String) source[8];
 			
-			LocalizacaoLinhaDTO localizacaoLinha = new LocalizacaoLinhaDTO(linha, veiculo, latitude, longitude, ultimoRegistro, distancia);
+			LocalizacaoLinhaDTO localizacaoLinha = new LocalizacaoLinhaDTO(idLinha, linha, empresa, veiculo, latitude, longitude, ultimoRegistro, distancia);
 			
 			if (flagFavoritos.equals("S")) {
 				wrapper.getLinhasFavoritas().add(localizacaoLinha);

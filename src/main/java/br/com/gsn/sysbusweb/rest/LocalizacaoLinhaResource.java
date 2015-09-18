@@ -63,7 +63,7 @@ public class LocalizacaoLinhaResource {
 	public Response listVeiculosEmDeslocamento(@PathParam("idUsuario") Long idUsuario, @PathParam("intervalo") Integer intervalo,
 			@PathParam("distancia") Integer distancia, @PathParam("latitude") String latitude, @PathParam("longitude") String longitude) {
 		
-		LocalizacaoLinhaWrapperDTO wrapper = localizacaoLinhaBC.listVeiculosEmDeslocamentoPorCoordenadas(idUsuario, intervalo, distancia, 
+		LocalizacaoLinhaWrapperDTO wrapper = localizacaoLinhaBC.listVeiculosEmDeslocamentoProximos(idUsuario, intervalo, distancia, 
 				latitude, longitude);
 		
 		if (isEmpty(wrapper)) {

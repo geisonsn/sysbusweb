@@ -22,9 +22,9 @@ public class LocalizacaoLinhaBC extends	DelegateCrud<LocalizacaoLinha, Long, Loc
 		return getDelegate().listVeiculosEmDeslocamento(idUsuario, intervalo);
 	}
 	
-	public LocalizacaoLinhaWrapperDTO listVeiculosEmDeslocamentoPorCoordenadas(Long idUsuario, Integer intervalo, Integer distancia, 
+	public LocalizacaoLinhaWrapperDTO listVeiculosEmDeslocamentoProximos(Long idUsuario, Integer intervalo, Integer distancia, 
 			String latitudeUsuario, String longitudeUsuario) {
-		return getDelegate().listVeiculosEmDeslocamentoPorCoordenadas(idUsuario, intervalo, distancia, latitudeUsuario, longitudeUsuario);
+		return getDelegate().listVeiculosEmDeslocamentoProximos(idUsuario, intervalo, distancia, latitudeUsuario, longitudeUsuario);
 	}
 
 }
