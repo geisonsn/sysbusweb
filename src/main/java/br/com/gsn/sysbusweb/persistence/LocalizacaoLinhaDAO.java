@@ -64,6 +64,7 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 				.append("	select ")
 				.append("		l.id id_linha, ") 
 				.append("		l.numero linha, ") 
+				.append("		l.descricao descricao_linha, ") 
 				.append("		e.nome nome_empresa, ") 
 				.append("		v.numero_registro veiculo,  ")  
 				.append("		max(ll.data_hora_registro) ultimo_registro, ")
@@ -90,6 +91,7 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 			.append("	select ") 
 			.append("		l.id id_linha, ") 
 			.append("		l.numero linha, ") 
+			.append("		l.descricao descricao_linha, ") 
 			.append("		e.nome nome_empresa, ")  
 			.append("		v.numero_registro veiculo, ")    
 			.append("		max(ll.data_hora_registro) ultimo_registro, ")
@@ -119,14 +121,15 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 		for (Object[] source : resultList) {
 			Long idLinha = ((Integer) source[0]).longValue();
 			String linha = (String) source[1];
-			String empresa = (String) source[2];
-			String veiculo = (String) source[3];
-			Date ultimoRegistro = Dates.parse(((Timestamp) source[4]), Dates.FORMAT_PT_BR_DATE_HOUR);
-			String latitude = (String) source[5];
-			String longitude = (String) source[6];
-			String flagFavoritos = (String) source[7];
+			String descricaoLinha = (String) source[2];
+			String empresa = (String) source[3];
+			String veiculo = (String) source[4];
+			Date ultimoRegistro = Dates.parse(((Timestamp) source[5]), Dates.FORMAT_PT_BR_DATE_HOUR);
+			String latitude = (String) source[6];
+			String longitude = (String) source[7];
+			String flagFavoritos = (String) source[8];
 			
-			LocalizacaoLinhaDTO localizacaoLinha = new LocalizacaoLinhaDTO(idLinha, linha, empresa, veiculo, latitude, longitude, ultimoRegistro);
+			LocalizacaoLinhaDTO localizacaoLinha = new LocalizacaoLinhaDTO(idLinha, linha, descricaoLinha, empresa, veiculo, latitude, longitude, ultimoRegistro);
 			
 			if (flagFavoritos.equals("S")) {
 				wrapper.getLinhasFavoritas().add(localizacaoLinha);
@@ -157,6 +160,7 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 			sql.append("    SELECT \n");
 			sql.append("      linha.id id_linha, \n");
 			sql.append("      linha.numero linha, \n");
+			sql.append("      linha.descricao descricao_linha, \n");
 			sql.append("      empresa.nome empresa, \n");
 			sql.append("      veiculo.numero_registro veiculo, \n");
 			sql.append("      MAX(localizacao_linha.data_hora_registro) ultimo_registro, \n");
@@ -215,6 +219,7 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 		sql.append("    SELECT \n");
 		sql.append("      linha.id id_linha, \n");
 		sql.append("      linha.numero linha, \n");
+		sql.append("      linha.descricao descricao_linha, \n");
 		sql.append("      empresa.nome empresa, \n");
 		sql.append("      veiculo.numero_registro veiculo, \n");
 		sql.append("      MAX(localizacao_linha.data_hora_registro) ultimo_registro, \n");
@@ -270,15 +275,16 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 		for (Object[] source : resultList) {
 			Long idLinha = ((Integer) source[0]).longValue();
 			String linha = (String) source[1];
-			String empresa = (String) source[2];
-			String veiculo = (String) source[3];
-			Date ultimoRegistro = Dates.parse(((Timestamp) source[4]), Dates.FORMAT_PT_BR_DATE_HOUR);
-			String latitude = (String) source[5];
-			String longitude = (String) source[6];
-			String distancia = new DecimalFormat("#0.00").format(((Double) source[7]));
-			String flagFavoritos = (String) source[8];
+			String descricaoLinha = (String) source[2];
+			String empresa = (String) source[3];
+			String veiculo = (String) source[4];
+			Date ultimoRegistro = Dates.parse(((Timestamp) source[5]), Dates.FORMAT_PT_BR_DATE_HOUR);
+			String latitude = (String) source[6];
+			String longitude = (String) source[7];
+			String distancia = new DecimalFormat("#0.00").format(((Double) source[8]));
+			String flagFavoritos = (String) source[9];
 			
-			LocalizacaoLinhaDTO localizacaoLinha = new LocalizacaoLinhaDTO(idLinha, linha, empresa, veiculo, latitude, longitude, ultimoRegistro, distancia);
+			LocalizacaoLinhaDTO localizacaoLinha = new LocalizacaoLinhaDTO(idLinha, linha, descricaoLinha, empresa, veiculo, latitude, longitude, ultimoRegistro, distancia);
 			
 			if (flagFavoritos.equals("S")) {
 				wrapper.getLinhasFavoritas().add(localizacaoLinha);
