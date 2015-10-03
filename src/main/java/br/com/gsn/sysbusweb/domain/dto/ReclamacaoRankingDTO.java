@@ -6,6 +6,8 @@ public class ReclamacaoRankingDTO extends InformationRequest implements Serializ
 
 	private static final long serialVersionUID = 1L;
 	
+	private Long idLinha;
+	
 	private String numeroLinha;
 	
 	private String nomeEmpresa;
@@ -18,12 +20,21 @@ public class ReclamacaoRankingDTO extends InformationRequest implements Serializ
 		super.setMessage(message);
 	}
 	
-	public ReclamacaoRankingDTO(String numeroLinha, String nomeEmpresa,
+	public ReclamacaoRankingDTO(Long idLinha, String numeroLinha, String nomeEmpresa,
 			Long totalReclamacoes) {
 		super();
+		this.idLinha = idLinha;
 		this.numeroLinha = numeroLinha;
 		this.nomeEmpresa = nomeEmpresa;
 		this.totalReclamacoes = totalReclamacoes;
+	}
+
+	public Long getIdLinha() {
+		return idLinha;
+	}
+
+	public void setIdLinha(Long idLinha) {
+		this.idLinha = idLinha;
 	}
 
 	public String getNumeroLinha() {

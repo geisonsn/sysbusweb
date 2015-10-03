@@ -14,15 +14,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
-
 import br.com.gsn.sysbusweb.business.LocalizacaoLinhaBC;
-import br.com.gsn.sysbusweb.domain.LocalizacaoLinha;
-import br.com.gsn.sysbusweb.domain.Veiculo;
 import br.com.gsn.sysbusweb.domain.dto.LocalizacaoLinhaDTO;
+import br.com.gsn.sysbusweb.domain.dto.LocalizacaoLinhaInsertDTO;
 import br.com.gsn.sysbusweb.domain.dto.LocalizacaoLinhaWrapperDTO;
-import br.com.gsn.sysbusweb.util.Dates;
 
 @Path("localizacaolinha")
 public class LocalizacaoLinhaResource {
@@ -80,25 +75,9 @@ public class LocalizacaoLinhaResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response insert(LocalizacaoLinhaDTO localizacaoParam) throws ParseException {
-		
-		ModelMapper mapper = new ModelMapper();
-		mapper.addMappings(new PropertyMap<LocalizacaoLinhaDTO, LocalizacaoLinha>() {
-			@Override
-			protected void configure() {
-				map().setId(null);
-				map().setVeiculo(new Veiculo());
-				map().getVeiculo().setId(source.getIdVeiculo());
-				map().setDataHoraRegistro(null);
-			}
-		});
-		
-		LocalizacaoLinha localizacao = mapper.map(localizacaoParam, LocalizacaoLinha.class);
-		localizacao.setDataHoraRegistro(Dates.parse(localizacaoParam.getDataHoraRegistro(), Dates.FORMAT_PT_BR_DATE_HOUR));
-		localizacao = localizacaoLinhaBC.insert(localizacao);
-		
-		localizacaoParam = new LocalizacaoLinhaDTO("Localizacao cadastrada com sucesso");
-		
+	public Response insert(LocalizacaoLinhaInsertDTO localizacaoParam) throws ParseException {
+		localizacaoLinhaBC.insert(localizacaoParam);
+		localizacaoParam = new LocalizacaoLinhaInsertDTO("Localizacao cadastrada com sucesso");
 		return Response.status(Status.CREATED).entity(localizacaoParam).build();
 	}
 

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.modelmapper.PropertyMap;
@@ -29,6 +30,16 @@ public class OrigemReclamacaoBC extends DelegateCrud<OrigemReclamacao, Long, Ori
 	
 	public List<OrigemReclamacao> findByObjetoReclamado(ObjetoReclamadoEnum objetoReclamado) {
 		return getDelegate().findByObjetoReclamado(objetoReclamado);
+	}
+	
+	public OrigemReclamacao getByObjetoReclamadoAndTipoReclamacao(ObjetoReclamadoEnum objetoReclamado, 
+			String tipoReclamacao) {
+		try {
+			return getDelegate()
+				.getByObjetoReclamadoAndTipoReclamacao(objetoReclamado, tipoReclamacao);
+		} catch (NoResultException e) {
+		}
+		return null;
 	}
 	
 	public List<OrigemReclamacao> carregarComboByObjetoReclamado(ObjetoReclamadoEnum objetoReclamado) {

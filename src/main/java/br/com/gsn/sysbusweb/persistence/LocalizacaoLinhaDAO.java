@@ -127,11 +127,11 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 			Date ultimoRegistro = Dates.parse(((Timestamp) source[5]), Dates.FORMAT_PT_BR_DATE_HOUR);
 			String latitude = (String) source[6];
 			String longitude = (String) source[7];
-			String flagFavoritos = (String) source[8];
+			String linhaFavorita = (String) source[8];
 			
-			LocalizacaoLinhaDTO localizacaoLinha = new LocalizacaoLinhaDTO(idLinha, linha, descricaoLinha, empresa, veiculo, latitude, longitude, ultimoRegistro);
+			LocalizacaoLinhaDTO localizacaoLinha = new LocalizacaoLinhaDTO(idLinha, linha, descricaoLinha, empresa, veiculo, latitude, longitude, ultimoRegistro, linhaFavorita);
 			
-			if (flagFavoritos.equals("S")) {
+			if (linhaFavorita.equals("S")) {
 				wrapper.getLinhasFavoritas().add(localizacaoLinha);
 			} else {
 				wrapper.getLinhasNaoFavoritas().add(localizacaoLinha);
@@ -282,11 +282,11 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 			String latitude = (String) source[6];
 			String longitude = (String) source[7];
 			String distancia = new DecimalFormat("#0.00").format(((Double) source[8]));
-			String flagFavoritos = (String) source[9];
+			String linhaFavorita = (String) source[9];
 			
-			LocalizacaoLinhaDTO localizacaoLinha = new LocalizacaoLinhaDTO(idLinha, linha, descricaoLinha, empresa, veiculo, latitude, longitude, ultimoRegistro, distancia);
+			LocalizacaoLinhaDTO localizacaoLinha = new LocalizacaoLinhaDTO(idLinha, linha, descricaoLinha, empresa, veiculo, latitude, longitude, ultimoRegistro, linhaFavorita, distancia);
 			
-			if (flagFavoritos.equals("S")) {
+			if (linhaFavorita.equals("S")) {
 				wrapper.getLinhasFavoritas().add(localizacaoLinha);
 			} else {
 				wrapper.getLinhasNaoFavoritas().add(localizacaoLinha);

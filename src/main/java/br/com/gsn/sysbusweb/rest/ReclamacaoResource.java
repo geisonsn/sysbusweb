@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import br.com.gsn.sysbusweb.business.ReclamacaoBC;
+import br.com.gsn.sysbusweb.domain.dto.ReclamacaoPorLinhaDTO;
 import br.com.gsn.sysbusweb.domain.dto.ReclamacaoRankingDTO;
 import br.com.gsn.sysbusweb.domain.dto.ReclamacaoRequestDTO;
 
@@ -47,4 +48,17 @@ public class ReclamacaoResource {
 		return Response.ok().entity(list).build();
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path(value = "/principaisreclamacoesporlinha/{idLinha}/{quantidade}")
+	public Response listPrincipaisReclamacoesPorLinha(@PathParam("idLinha") Long idLinha, @PathParam("quantidade") Integer quantidade) {
+		
+		List<ReclamacaoPorLinhaDTO> list = reclamacaoBC.listPrincipaisReclamacoesPorLinha(idLinha, quantidade);
+		
+		if (list.isEmpty()) {
+			return Response.status(Status.NOT_FOUND).entity(new ReclamacaoPorLinhaDTO("Nenhuma reclamação registrada")).build();
+		}
+		
+		return Response.ok().entity(list).build();
+	}
 }

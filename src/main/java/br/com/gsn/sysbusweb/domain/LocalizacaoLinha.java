@@ -27,8 +27,18 @@ public class LocalizacaoLinha implements Serializable {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "id_veiculo")
-	private Veiculo veiculo;
+	@JoinColumn(name = "id_veiculo_linha")
+	private VeiculoLinha veiculoLinha;
+	
+	@ManyToOne
+	@JoinColumn(name="id_usuario")
+	private Usuario usuario;
+	
+	@Column(name = "lotacao_veiculo")
+	private String locataoVeiculo;
+	
+	@Column(name = "descricao")
+	private String status;
 
 	private String latitude;
 
@@ -46,12 +56,36 @@ public class LocalizacaoLinha implements Serializable {
 		this.id = id;
 	}
 
-	public Veiculo getVeiculo() {
-		return veiculo;
+	public VeiculoLinha getVeiculoLinha() {
+		return veiculoLinha;
 	}
 
-	public void setVeiculo(Veiculo veiculo) {
-		this.veiculo = veiculo;
+	public void setVeiculoLinha(VeiculoLinha veiculoLinha) {
+		this.veiculoLinha = veiculoLinha;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getLocataoVeiculo() {
+		return locataoVeiculo;
+	}
+
+	public void setLocataoVeiculo(String locataoVeiculo) {
+		this.locataoVeiculo = locataoVeiculo;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getLatitude() {
@@ -77,7 +111,7 @@ public class LocalizacaoLinha implements Serializable {
 	public void setDataHoraRegistro(Date dataHoraRegistro) {
 		this.dataHoraRegistro = dataHoraRegistro;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -89,8 +123,12 @@ public class LocalizacaoLinha implements Serializable {
 		result = prime * result
 				+ ((latitude == null) ? 0 : latitude.hashCode());
 		result = prime * result
+				+ ((locataoVeiculo == null) ? 0 : locataoVeiculo.hashCode());
+		result = prime * result
 				+ ((longitude == null) ? 0 : longitude.hashCode());
-		result = prime * result + ((veiculo == null) ? 0 : veiculo.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
+		result = prime * result + ((veiculoLinha == null) ? 0 : veiculoLinha.hashCode());
 		return result;
 	}
 
@@ -118,17 +156,31 @@ public class LocalizacaoLinha implements Serializable {
 				return false;
 		} else if (!latitude.equals(other.latitude))
 			return false;
+		if (locataoVeiculo == null) {
+			if (other.locataoVeiculo != null)
+				return false;
+		} else if (!locataoVeiculo.equals(other.locataoVeiculo))
+			return false;
 		if (longitude == null) {
 			if (other.longitude != null)
 				return false;
 		} else if (!longitude.equals(other.longitude))
 			return false;
-		if (veiculo == null) {
-			if (other.veiculo != null)
+		if (status == null) {
+			if (other.status != null)
 				return false;
-		} else if (!veiculo.equals(other.veiculo))
+		} else if (!status.equals(other.status))
+			return false;
+		if (usuario == null) {
+			if (other.usuario != null)
+				return false;
+		} else if (!usuario.equals(other.usuario))
+			return false;
+		if (veiculoLinha == null) {
+			if (other.veiculoLinha != null)
+				return false;
+		} else if (!veiculoLinha.equals(other.veiculoLinha))
 			return false;
 		return true;
 	}
-
 }
