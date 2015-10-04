@@ -47,7 +47,7 @@ public class VeiculoLinhaBC extends DelegateCrud<VeiculoLinha, Long, VeiculoLinh
 		return ModelMapperUtil.map(veiculos, VeiculoDTO.class, new PropertyMap<VeiculoLinha, VeiculoDTO>() {
 			@Override
 			protected void configure() {
-				map().setIdVeiculo(source.getVeiculo().getId());				
+				map().setIdVeiculo(source.getId());				
 				map().setNumeroRegistro(source.getVeiculo().getNumeroRegistro());				
 				map().setIdLinha(source.getLinha().getId());				
 				map().setDescricaoLinha(source.getLinha().getDescricao());				
