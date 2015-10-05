@@ -196,9 +196,7 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 			sql.append("      veiculo_linha.id \n");
 			sql.append("    HAVING \n");
 			sql.append("      distancia <= :distancia0 \n");
-			sql.append("    ORDER BY \n");
-			sql.append("      linha.numero, \n");
-			sql.append("      localizacao_linha.data_hora_registro DESC \n");
+			sql.append("    ORDER BY ultimo_registro desc, linha, veiculo ");
 			sql.append("  ) \n");
 			sql.append("  favoritos \n");
 			sql.append("UNION ALL \n");
@@ -251,9 +249,7 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 		sql.append("      veiculo_linha.id \n");
 		sql.append("    HAVING \n");
 		sql.append("      distancia <= :distancia \n");
-		sql.append("    ORDER BY \n");
-		sql.append("      linha.numero, \n");
-		sql.append("      localizacao_linha.data_hora_registro DESC \n");
+		sql.append("    ORDER BY ultimo_registro desc, linha, veiculo ");
 		sql.append("  ) \n");
 		sql.append("  nao_favoritos");
 		
