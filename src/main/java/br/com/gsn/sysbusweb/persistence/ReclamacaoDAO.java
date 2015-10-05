@@ -117,7 +117,7 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 		sql.append("  tipo_reclamacao.descricao as tipo_reclamacao, \n");
 		sql.append("  COUNT(reclamacao.id) quantidade \n");
 		sql.append("FROM \n");
-		sql.append("  sysbus.reclamacao \n");
+		sql.append("  reclamacao \n");
 		sql.append("LEFT JOIN origem_reclamacao \n");
 		sql.append("ON \n");
 		sql.append("  origem_reclamacao.id = reclamacao.id_origem_reclamacao \n");
