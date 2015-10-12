@@ -27,8 +27,12 @@ public class LocalizacaoLinha implements Serializable {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "id_veiculo_linha")
-	private VeiculoLinha veiculoLinha;
+	@JoinColumn(name = "id_linha")
+	private Linha linha;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_veiculo")
+	private Veiculo veiculo;
 	
 	@ManyToOne
 	@JoinColumn(name="id_usuario")
@@ -56,12 +60,20 @@ public class LocalizacaoLinha implements Serializable {
 		this.id = id;
 	}
 
-	public VeiculoLinha getVeiculoLinha() {
-		return veiculoLinha;
+	public Linha getLinha() {
+		return linha;
 	}
 
-	public void setVeiculoLinha(VeiculoLinha veiculoLinha) {
-		this.veiculoLinha = veiculoLinha;
+	public void setLinha(Linha linha) {
+		this.linha = linha;
+	}
+
+	public Veiculo getVeiculo() {
+		return veiculo;
+	}
+
+	public void setVeiculo(Veiculo veiculo) {
+		this.veiculo = veiculo;
 	}
 
 	public Usuario getUsuario() {
@@ -122,13 +134,14 @@ public class LocalizacaoLinha implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
 				+ ((latitude == null) ? 0 : latitude.hashCode());
+		result = prime * result + ((linha == null) ? 0 : linha.hashCode());
 		result = prime * result
 				+ ((locataoVeiculo == null) ? 0 : locataoVeiculo.hashCode());
 		result = prime * result
 				+ ((longitude == null) ? 0 : longitude.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
-		result = prime * result + ((veiculoLinha == null) ? 0 : veiculoLinha.hashCode());
+		result = prime * result + ((veiculo == null) ? 0 : veiculo.hashCode());
 		return result;
 	}
 
@@ -156,6 +169,11 @@ public class LocalizacaoLinha implements Serializable {
 				return false;
 		} else if (!latitude.equals(other.latitude))
 			return false;
+		if (linha == null) {
+			if (other.linha != null)
+				return false;
+		} else if (!linha.equals(other.linha))
+			return false;
 		if (locataoVeiculo == null) {
 			if (other.locataoVeiculo != null)
 				return false;
@@ -176,11 +194,12 @@ public class LocalizacaoLinha implements Serializable {
 				return false;
 		} else if (!usuario.equals(other.usuario))
 			return false;
-		if (veiculoLinha == null) {
-			if (other.veiculoLinha != null)
+		if (veiculo == null) {
+			if (other.veiculo != null)
 				return false;
-		} else if (!veiculoLinha.equals(other.veiculoLinha))
+		} else if (!veiculo.equals(other.veiculo))
 			return false;
 		return true;
 	}
+
 }

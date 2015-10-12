@@ -41,6 +41,15 @@
 					
 					<p:message for="placa" />
 					
+					<h:outputLabel value="#{messages['linha.label.empresa']}: " for="empresa" styleClass="text-input" />
+					
+					<p:selectOneMenu value="#{veiculoEditMB.bean.empresa}" id="empresa" converter="ConversorEmpresa">
+						<f:selectItem itemLabel="Selecione"/>
+						<f:selectItems value="#{veiculoEditMB.listEmpresa}" var="empresa" itemLabel="#{empresa.nome}" itemValue="#{empresa}" />
+					</p:selectOneMenu>
+					
+					<p:message for="empresa" />
+					
 				</h:panelGrid>
 				
 				<br/>

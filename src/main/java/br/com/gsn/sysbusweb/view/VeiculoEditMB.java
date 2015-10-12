@@ -1,11 +1,15 @@
 package br.com.gsn.sysbusweb.view;
 
+import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 
+import br.com.gsn.sysbusweb.business.EmpresaBC;
 import br.com.gsn.sysbusweb.business.VeiculoBC;
+import br.com.gsn.sysbusweb.domain.Empresa;
 import br.com.gsn.sysbusweb.domain.Veiculo;
 import br.com.gsn.sysbusweb.util.Util;
 import br.gov.frameworkdemoiselle.annotation.PreviousView;
@@ -21,6 +25,13 @@ public class VeiculoEditMB extends AbstractEditPageBean<Veiculo, Long> {
 
 	@Inject
 	private VeiculoBC veiculoBC;
+	
+	@Inject
+	private EmpresaBC empresaBC;
+	
+	public List<Empresa> getListEmpresa() {
+		return this.empresaBC.findAll();
+	}
 	
 	@Override
 	public String delete() {

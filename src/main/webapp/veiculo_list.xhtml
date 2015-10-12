@@ -42,9 +42,14 @@
 					<h:outputText value="#{bean.numeroRegistro}" />
 				</p:column>
 				
-				<p:column sortBy="#{bean.veiculo.placa}">
+				<p:column sortBy="#{bean.placa}">
 					<f:facet name="header">#{messages['veiculo.label.placa']}</f:facet>
 					<h:outputText value="#{bean.placaFormatada}" />
+				</p:column>
+				
+				<p:column sortBy="#{bean.empresa.nome}">
+					<f:facet name="header">Empresa</f:facet>
+					<h:outputText value="#{bean.empresa.nome}" />
 				</p:column>
 				
 				<p:column headerText="#{messages['list.label.acoes']}" style="width:9%; text-align:center">
@@ -52,6 +57,22 @@
 						icon="ui-icon-pencil"	title="#{messages['botao.alterar.title']}" alt="#{messages['botao.alterar.alt']}">
 						<f:param name="id" value="#{bean.id}" />
 					</p:commandButton>
+					<p:commandButton icon="ui-icon-trash" title="#{messages['botao.excluir.title']}" 
+						alt="#{messages['botao.excluir.alt']}" oncomplete="PF('confirmacao').show()" immediate="true">
+						<f:setPropertyActionListener target="#{veiculoListMB.objetoExcluido}" value="#{bean}" />
+					</p:commandButton>
+					
+					<p:confirmDialog widgetVar="confirmacao" header="#{messages['label.dialog.delete']}"
+						message="Remover" closeOnEscape="true">
+						<p:commandButton value="#{messages['button.dialog.yes']}"
+							styleClass="ui-confirmdialog-yes" partialSubmit="true"
+							icon="ui-icon-check" update=":form:grid"
+							actionListener="#{veiculoListMB.deletar}"
+							onclick="PF('confirmacao').hide();" />
+						<p:commandButton value="#{messages['button.dialog.no']}"
+							type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+							onclick="PF('confirmacao').hide();" />
+					</p:confirmDialog>
 				</p:column>
 					
 			</p:dataTable>

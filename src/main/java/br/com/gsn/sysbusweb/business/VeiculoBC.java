@@ -48,6 +48,10 @@ public class VeiculoBC extends DelegateCrud<Veiculo, Long, VeiculoDAO> {
 		return getDelegate().findByNumeroRegistroOuPlaca(numeroRegistro, placa);
 	}
 	
+	public List<VeiculoDTO> findByNumeroLinha(String numeroLinha) {
+		return getDelegate().findByNumeroLinha(numeroLinha);
+	}
+	
 	@Deprecated
 	public Veiculo saveVeiculo(Veiculo veiculo) throws VeiculoExistenteException {
 		

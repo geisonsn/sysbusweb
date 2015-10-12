@@ -2,15 +2,19 @@
 
 package br.com.gsn.sysbusweb.business;
 
-import static org.junit.Assert.*;
-import java.util.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.List;
+
 import javax.inject.Inject;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import br.gov.frameworkdemoiselle.junit.DemoiselleRunner;
+
 import br.com.gsn.sysbusweb.domain.Usuario;
-import br.com.gsn.sysbusweb.business.UsuarioBC;
+import br.gov.frameworkdemoiselle.junit.DemoiselleRunner;
 
 @RunWith(DemoiselleRunner.class)
 public class UsuarioBCTest {

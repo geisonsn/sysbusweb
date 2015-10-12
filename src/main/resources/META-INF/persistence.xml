@@ -11,13 +11,11 @@
 
 		<class>br.com.gsn.sysbusweb.domain.TipoLinha</class>
 		<class>br.com.gsn.sysbusweb.domain.TipoReclamacao</class>
-		<class>br.com.gsn.sysbusweb.domain.ObjetoReclamado</class>
 		<class>br.com.gsn.sysbusweb.domain.OrigemReclamacao</class>
 		<class>br.com.gsn.sysbusweb.domain.Terminal</class>
 		<class>br.com.gsn.sysbusweb.domain.Empresa</class>
 		<class>br.com.gsn.sysbusweb.domain.Linha</class>
 		<class>br.com.gsn.sysbusweb.domain.Veiculo</class>
-		<class>br.com.gsn.sysbusweb.domain.VeiculoLinha</class>
 		<class>br.com.gsn.sysbusweb.domain.Reclamacao</class>
 		<class>br.com.gsn.sysbusweb.domain.LocalizacaoLinha</class>
 		<class>br.com.gsn.sysbusweb.domain.LinhaFavorita</class>
@@ -29,7 +27,6 @@
 		<class>br.com.gsn.sysbusweb.domain.endereco.Logradouro</class>
 		<class>br.com.gsn.sysbusweb.domain.endereco.Municipio</class>
 		<class>br.com.gsn.sysbusweb.domain.endereco.PontoReferencia</class>
-		<class>br.com.gsn.sysbusweb.domain.endereco.TipoLogradouro</class>
 		<class>br.com.gsn.sysbusweb.domain.endereco.Uf</class>
 		<class>br.com.gsn.sysbusweb.domain.endereco.Zona</class>
 		<class>br.com.gsn.sysbusweb.domain.Usuario</class>

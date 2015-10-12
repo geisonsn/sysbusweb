@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import br.com.gsn.sysbusweb.business.VeiculoLinhaBC;
+import br.com.gsn.sysbusweb.business.VeiculoBC;
 import br.com.gsn.sysbusweb.domain.dto.VeiculoDTO;
 import br.com.gsn.sysbusweb.exception.VeiculoExistenteException;
 
@@ -21,14 +21,14 @@ import br.com.gsn.sysbusweb.exception.VeiculoExistenteException;
 public class VeiculoResource {
 
 	@Inject
-	private VeiculoLinhaBC veiculoLinhaBC;
+	private VeiculoBC veiculoBC;
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{numeroLinha}")
 	public Response listByNumero(@PathParam("numeroLinha") String numeroLinha) {
 		
-		List<VeiculoDTO> veiculos = veiculoLinhaBC.findByNumeroLinha(numeroLinha);
+		List<VeiculoDTO> veiculos = veiculoBC.findByNumeroLinha(numeroLinha);
 		
 		if (veiculos.isEmpty()) {
 			return Response.status(Status.NOT_FOUND).entity(new VeiculoDTO("Nenhum veículo para a linha informada")).build();
@@ -42,7 +42,7 @@ public class VeiculoResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response insert(VeiculoDTO veiculo) {
 		try {
-			veiculoLinhaBC.saveVeiculo(veiculo);
+			veiculoBC.saveVeiculo(veiculo);
 		} catch (VeiculoExistenteException e) {
 			return Response.status(Status.CONFLICT).entity(e.getMessage()).build();
 		}

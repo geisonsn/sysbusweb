@@ -8,9 +8,10 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 
+import br.com.gsn.sysbusweb.domain.Linha;
 import br.com.gsn.sysbusweb.domain.LocalizacaoLinha;
 import br.com.gsn.sysbusweb.domain.Usuario;
-import br.com.gsn.sysbusweb.domain.VeiculoLinha;
+import br.com.gsn.sysbusweb.domain.Veiculo;
 import br.com.gsn.sysbusweb.domain.dto.LocalizacaoLinhaDTO;
 import br.com.gsn.sysbusweb.domain.dto.LocalizacaoLinhaInsertDTO;
 import br.com.gsn.sysbusweb.domain.dto.LocalizacaoLinhaWrapperDTO;
@@ -33,8 +34,10 @@ public class LocalizacaoLinhaBC extends	DelegateCrud<LocalizacaoLinha, Long, Loc
 		Date dataHoraRegistro = Dates.parse(ll.getDataHoraRegistro(), Dates.FORMAT_PT_BR_DATE_HOUR);
 		
 		LocalizacaoLinha linha = new LocalizacaoLinha();
-		linha.setVeiculoLinha(new VeiculoLinha());
-		linha.getVeiculoLinha().setId(ll.getIdVeiculoLinha());
+		linha.setLinha(new Linha());
+		linha.getLinha().setId(ll.getIdLinha());
+		linha.setVeiculo(new Veiculo());
+		linha.getVeiculo().setId(ll.getIdVeiculo());
 		linha.setUsuario(new Usuario());
 		linha.getUsuario().setId(idUsuario);
 		linha.setLocataoVeiculo(ll.getLotacaoVeiculo());

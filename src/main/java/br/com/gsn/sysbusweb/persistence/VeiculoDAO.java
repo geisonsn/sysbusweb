@@ -1,9 +1,17 @@
 package br.com.gsn.sysbusweb.persistence;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.persistence.Query;
+
+import org.apache.commons.lang.StringUtils;
 
 import br.com.gsn.sysbusweb.domain.Linha;
 import br.com.gsn.sysbusweb.domain.Veiculo;
+import br.com.gsn.sysbusweb.domain.dto.VeiculoDTO;
 import br.gov.frameworkdemoiselle.template.JPACrud;
 
 public class VeiculoDAO extends JPACrud<Veiculo, Long> {
@@ -29,30 +37,74 @@ public class VeiculoDAO extends JPACrud<Veiculo, Long> {
 				.getSingleResult();
 	}
 	
-	public List<Veiculo> findByNumeroRegistroOuPlaca(String numeroRegistro, String placa) {
-		return getEntityManager()
-				.createNamedQuery(Veiculo.FIND_BY_REGISTRO_BY_PLACA, Veiculo.class)
-				.setParameter("numeroRegistro", "%" + numeroRegistro.toUpperCase() + "%")
-				.setParameter("placa", "%" + placa.toUpperCase() + "%")
-				.getResultList();
+	
+	@SuppressWarnings("unchecked")
+	public List<VeiculoDTO> findByNumeroLinha(String numeroLinha) {
+		StringBuffer jpql = new StringBuffer();
+		jpql
+			.append(" select l.id as idLinha, l.descricao as descricaoLinha, ") 
+			.append(" l.numero as numeroLinha, v.id as idVeiculo, v.numeroRegistro ") 
+			.append(" from Veiculo v, Linha l ")
+			.append(" where v.empresa.id = l.empresa.id ")
+			.append(" and l.numero = :numeroLinha ")
+			.append(" order by v.numeroRegistro ");
+		
+		Query query = getEntityManager().createQuery(jpql.toString());
+		query.setParameter("numeroLinha", numeroLinha);
+		
+		List<Object[]> list = query.getResultList();
+		
+		List<VeiculoDTO> listVeiculos = new ArrayList<VeiculoDTO>();
+		
+		for (Object[] objeto : list) {
+			VeiculoDTO v = new VeiculoDTO();
+			v.setIdLinha(((Number)objeto[0]).longValue());
+			v.setDescricaoLinha(((String)objeto[1]));
+			v.setNumeroLinha(((String)objeto[2]));
+			v.setIdVeiculo(((Number)objeto[3]).longValue());
+			v.setNumeroRegistro(((String)objeto[4]));
+			listVeiculos.add(v);
+		}
+		
+		return listVeiculos;
 	}
 	
-	public List<Veiculo> getByNumeroRegistroOuPlacaComExclusao(Long idVeiculoLinha, String numeroRegistro, String placa) {
+	@SuppressWarnings("unchecked")
+	public List<Veiculo> findByNumeroRegistroOuPlaca(String numeroRegistro, String placa) {
 		
-		StringBuffer jpql = new StringBuffer()
-			.append(" SELECT vl.veiculo FROM VeiculoLinha vl ")
-			.append(" WHERE vl.id != :idVeiculoLinha ")
-			.append(" and (vl.veiculo.numeroRegistro = :numeroRegistro or vl.veiculo.placa = :placa) ")
-			.append(" order by vl.veiculo.numeroRegistro ");
+		Map<String, Object> params = new HashMap<String, Object>();
 		
-		return getEntityManager()
-			.createQuery(jpql.toString(), Veiculo.class)
-			.setParameter("idVeiculoLinha", idVeiculoLinha)
-			.setParameter("numeroRegistro", numeroRegistro)
-			.setParameter("placa", placa)
-			.getResultList();
+		StringBuffer jpql = new StringBuffer(" select v from Veiculo v ")
+			.append(" where ");
+		
+		int contArgumentos = 0;
+		
+		if (StringUtils.isNotEmpty(numeroRegistro)) {
+			jpql.append(" upper(v.numeroRegistro) LIKE :numeroRegistro ");
+			params.put("numeroRegistro", "%" + numeroRegistro.toUpperCase() + "%");
+			contArgumentos++;
+		}
+		
+		if (StringUtils.isNotEmpty(placa)) {
+			if (contArgumentos > 0) {
+				jpql.append(" and ");
+			}
+			jpql.append(" upper(v.placa) LIKE :placa ");
+			params.put("placa", "%" + placa.toUpperCase() + "%");
+		}
+		
+		jpql.append(" order by v.numeroRegistro, v.placa ");
+		
+		Query query = getEntityManager()
+				.createQuery(jpql.toString(), Veiculo.class);
+		
+		for (String key : params.keySet()) {
+			query.setParameter(key, params.get(key));
+		}
+		
+		return (List<Veiculo>) query.getResultList();
 	}
-
+	
 	public List<Veiculo> listVeiculosNaoCadastradosParaLinha(Linha linha) {
 		StringBuffer jpql = new StringBuffer()
 			.append(" select v from Veiculo v ")

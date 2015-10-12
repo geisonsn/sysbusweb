@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -40,6 +41,7 @@ public class Linha implements Serializable {
 	@NotEmpty
 	private String numero;
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "id_empresa")
 	private Empresa empresa;
