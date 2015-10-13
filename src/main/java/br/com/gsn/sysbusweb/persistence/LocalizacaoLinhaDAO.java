@@ -72,14 +72,13 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 				.append("		ll.longitude, ")
 				.append("		'S' favoritos ")
 				.append("	from linha_favorita lf ")
-				.append("	inner join veiculo_linha vl on vl.id_linha = lf.id_linha ")
-				.append("	inner join veiculo v on v.id = vl.id_veiculo ")
-				.append("	inner join linha l on l.id = vl.id_linha ")
-				.append("	inner join localizacao_linha ll on ll.id_veiculo_linha = vl.id ")
+				.append("	inner join localizacao_linha ll on ll.id_linha = lf.id_linha ")
+				.append("	inner join veiculo v on v.id = ll.id_veiculo ")
+				.append("	inner join linha l on l.id = ll.id_linha ")
 				.append("	inner join empresa e on e.id = l.id_empresa ")
 				.append("	where lf.id_usuario = :idUsuario ")
 				.append("	and ll.data_hora_registro >= date_sub(sysdate(), interval :intervalof hour) ")
-				.append("	group by vl.id ")
+				.append("	group by l.id, v.id ")
 				.append("	order by ultimo_registro desc, linha, veiculo ")
 				.append(" ) as favoritos ")
 				.append(" union all ");
@@ -99,12 +98,11 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 			.append("		ll.longitude, ")
 			.append("		'N' favoritos ")
 			.append("	from localizacao_linha ll ")
-			.append("	inner join veiculo_linha vl on vl.id = ll.id_veiculo_linha ")
-			.append("	inner join veiculo v on v.id = vl.id_veiculo ")
-			.append("	inner join linha l on l.id = vl.id_linha ")
+			.append("	inner join veiculo v on v.id = ll.id_veiculo ")
+			.append("	inner join linha l on l.id = ll.id_linha ")
 			.append("	inner join empresa e on e.id = l.id_empresa ")
 			.append("	where ll.data_hora_registro >= date_sub(sysdate(), interval :intervalo hour) ")
-			.append("	group by vl.id ")
+			.append("	group by l.id, v.id ")
 			.append("	order by ultimo_registro desc, linha, veiculo ")
 			.append(" ) nao_favoritos ");
 		
@@ -173,18 +171,15 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 			sql.append("      'S' favorita \n");
 			sql.append("    FROM \n");
 			sql.append("      linha_favorita \n");
-			sql.append("    INNER JOIN veiculo_linha \n");
-			sql.append("    ON \n");
-			sql.append("      veiculo_linha.id_linha = linha_favorita.id_linha \n");
-			sql.append("    INNER JOIN veiculo \n");
-			sql.append("    ON \n");
-			sql.append("      veiculo.id = veiculo_linha.id_veiculo \n");
-			sql.append("    INNER JOIN linha \n");
-			sql.append("    ON \n");
-			sql.append("      linha.id = veiculo_linha.id_linha \n");
 			sql.append("    INNER JOIN localizacao_linha \n");
 			sql.append("    ON \n");
-			sql.append("      localizacao_linha.id_veiculo_linha = veiculo_linha.id \n");
+			sql.append("      localizacao_linha.id_linha = linha_favorita.id_linha \n");
+			sql.append("    INNER JOIN veiculo \n");
+			sql.append("    ON \n");
+			sql.append("      veiculo.id = localizacao_linha.id_veiculo \n");
+			sql.append("    INNER JOIN linha \n");
+			sql.append("    ON \n");
+			sql.append("      linha.id = localizacao_linha.id_linha \n");
 			sql.append("    INNER JOIN empresa \n");
 			sql.append("    ON \n");
 			sql.append("      empresa.id = linha.id_empresa \n");
@@ -193,7 +188,7 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 			sql.append("      interval :intervalof hour) \n");
 			sql.append("    AND linha_favorita.id_usuario = :idUsuario \n");
 			sql.append("    GROUP BY \n");
-			sql.append("      veiculo_linha.id \n");
+			sql.append("      linha.id, veiculo.id \n");
 			sql.append("    HAVING \n");
 			sql.append("      distancia <= :distancia0 \n");
 			sql.append("    ORDER BY ultimo_registro desc, linha, veiculo ");
@@ -230,15 +225,12 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 		sql.append("      'N' favorita \n");
 		sql.append("    FROM \n");
 		sql.append("      localizacao_linha \n");
-		sql.append("    INNER JOIN veiculo_linha \n");
-		sql.append("    ON \n");
-		sql.append("      veiculo_linha.id = localizacao_linha.id_veiculo_linha \n");
 		sql.append("    INNER JOIN veiculo \n");
 		sql.append("    ON \n");
-		sql.append("      veiculo.id = veiculo_linha.id_veiculo \n");
+		sql.append("      veiculo.id = localizacao_linha.id_veiculo \n");
 		sql.append("    INNER JOIN linha \n");
 		sql.append("    ON \n");
-		sql.append("      linha.id = veiculo_linha.id_linha \n");
+		sql.append("      linha.id = localizacao_linha.id_linha \n");
 		sql.append("    INNER JOIN empresa \n");
 		sql.append("    ON \n");
 		sql.append("      empresa.id = linha.id_empresa \n");
@@ -246,7 +238,7 @@ public class LocalizacaoLinhaDAO extends JPACrud<LocalizacaoLinha, Long> {
 		sql.append("      localizacao_linha.data_hora_registro >= date_sub(sysdate(), \n");
 		sql.append("      interval :intervalo hour) \n");
 		sql.append("    GROUP BY \n");
-		sql.append("      veiculo_linha.id \n");
+		sql.append("      linha.id, veiculo.id \n");
 		sql.append("    HAVING \n");
 		sql.append("      distancia <= :distancia \n");
 		sql.append("    ORDER BY ultimo_registro desc, linha, veiculo ");
