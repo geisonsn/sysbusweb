@@ -27,24 +27,17 @@ public class LocalizacaoLinhaDTO extends InformationRequest implements Serializa
 
 	private String dataHoraRegistro;
 	
-	private String linhaFavorita;
-
 	private String distancia;
 	
 	public LocalizacaoLinhaDTO() {}
 	
 	public LocalizacaoLinhaDTO(Long idLinha, String numeroLinha, String descricaoLinha, String nomeEmpresa, String numeroRegistro,
 			String latitude, String longitude, Date dataHoraRegistro) {
-		this(idLinha, numeroLinha, descricaoLinha, nomeEmpresa, numeroRegistro, latitude, longitude, dataHoraRegistro, null, null);
+		this(idLinha, numeroLinha, descricaoLinha, nomeEmpresa, numeroRegistro, latitude, longitude, dataHoraRegistro, null);
 	}
 	
 	public LocalizacaoLinhaDTO(Long idLinha, String numeroLinha, String descricaoLinha, String nomeEmpresa, String numeroRegistro,
-			String latitude, String longitude, Date dataHoraRegistro, String linhaFavorita) {
-		this(idLinha, numeroLinha, descricaoLinha, nomeEmpresa, numeroRegistro, latitude, longitude, dataHoraRegistro, linhaFavorita, null);
-	}
-	
-	public LocalizacaoLinhaDTO(Long idLinha, String numeroLinha, String descricaoLinha, String nomeEmpresa, String numeroRegistro,
-			String latitude, String longitude, Date dataHoraRegistro, String linhaFavorita, String distancia) {
+			String latitude, String longitude, Date dataHoraRegistro, String distancia) {
 		this.idLinha = idLinha;
 		this.numeroLinha = numeroLinha;
 		this.descricaoLinha = descricaoLinha;
@@ -53,7 +46,6 @@ public class LocalizacaoLinhaDTO extends InformationRequest implements Serializa
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.dataHoraRegistro = Dates.format(dataHoraRegistro, Dates.FORMAT_PT_BR_DATE_HOUR);
-		this.linhaFavorita = linhaFavorita;
 		this.distancia = distancia;
 	}
 
@@ -133,14 +125,6 @@ public class LocalizacaoLinhaDTO extends InformationRequest implements Serializa
 		this.dataHoraRegistro = dataHoraRegistro;
 	}
 	
-	public String getLinhaFavorita() {
-		return linhaFavorita;
-	}
-
-	public void setLinhaFavorita(String linhaFavorita) {
-		this.linhaFavorita = linhaFavorita;
-	}
-
 	public String getDistancia() {
 		return distancia;
 	}

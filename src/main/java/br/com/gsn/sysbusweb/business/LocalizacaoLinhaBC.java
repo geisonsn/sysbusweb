@@ -14,7 +14,6 @@ import br.com.gsn.sysbusweb.domain.Usuario;
 import br.com.gsn.sysbusweb.domain.Veiculo;
 import br.com.gsn.sysbusweb.domain.dto.LocalizacaoLinhaDTO;
 import br.com.gsn.sysbusweb.domain.dto.LocalizacaoLinhaInsertDTO;
-import br.com.gsn.sysbusweb.domain.dto.LocalizacaoLinhaWrapperDTO;
 import br.com.gsn.sysbusweb.persistence.LocalizacaoLinhaDAO;
 import br.com.gsn.sysbusweb.util.Dates;
 import br.gov.frameworkdemoiselle.stereotype.BusinessController;
@@ -56,22 +55,11 @@ public class LocalizacaoLinhaBC extends	DelegateCrud<LocalizacaoLinha, Long, Loc
 		return getDelegate().listUltimaLocalizacaoVeiculoDaLinha(numeroLinha);
 	}
 	
-	@Deprecated
-	public LocalizacaoLinhaWrapperDTO listVeiculosEmDeslocamento(Long idUsuario, Integer intervalo) {
-		return getDelegate().listVeiculosEmDeslocamento(idUsuario, intervalo);
-	}
-	
-	public LocalizacaoLinhaWrapperDTO listVeiculosEmDeslocamento(Integer intervalo) {
+	public List<LocalizacaoLinhaDTO> listVeiculosEmDeslocamento(Integer intervalo) {
 		return getDelegate().listVeiculosEmDeslocamento(intervalo);
 	}
 	
-	@Deprecated
-	public LocalizacaoLinhaWrapperDTO listVeiculosEmDeslocamentoProximos(Long idUsuario, Integer intervalo, Integer distancia, 
-			String latitudeUsuario, String longitudeUsuario) {
-		return getDelegate().listVeiculosEmDeslocamentoProximos(idUsuario, intervalo, distancia, latitudeUsuario, longitudeUsuario);
-	}
-	
-	public LocalizacaoLinhaWrapperDTO listVeiculosEmDeslocamentoProximos(Integer intervalo, Integer distancia, 
+	public List<LocalizacaoLinhaDTO> listVeiculosEmDeslocamentoProximos(Integer intervalo, Integer distancia, 
 			String latitudeUsuario, String longitudeUsuario) {
 		return getDelegate().listVeiculosEmDeslocamentoProximos(intervalo, distancia, latitudeUsuario, longitudeUsuario);
 	}
