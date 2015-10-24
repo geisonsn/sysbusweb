@@ -34,6 +34,11 @@ public class LocalizacaoLinhaDTO extends InformationRequest implements Serializa
 	public LocalizacaoLinhaDTO() {}
 	
 	public LocalizacaoLinhaDTO(Long idLinha, String numeroLinha, String descricaoLinha, String nomeEmpresa, String numeroRegistro,
+			String latitude, String longitude, Date dataHoraRegistro) {
+		this(idLinha, numeroLinha, descricaoLinha, nomeEmpresa, numeroRegistro, latitude, longitude, dataHoraRegistro, null, null);
+	}
+	
+	public LocalizacaoLinhaDTO(Long idLinha, String numeroLinha, String descricaoLinha, String nomeEmpresa, String numeroRegistro,
 			String latitude, String longitude, Date dataHoraRegistro, String linhaFavorita) {
 		this(idLinha, numeroLinha, descricaoLinha, nomeEmpresa, numeroRegistro, latitude, longitude, dataHoraRegistro, linhaFavorita, null);
 	}

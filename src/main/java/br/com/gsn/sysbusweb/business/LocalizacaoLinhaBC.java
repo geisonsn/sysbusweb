@@ -56,13 +56,24 @@ public class LocalizacaoLinhaBC extends	DelegateCrud<LocalizacaoLinha, Long, Loc
 		return getDelegate().listUltimaLocalizacaoVeiculoDaLinha(numeroLinha);
 	}
 	
+	@Deprecated
 	public LocalizacaoLinhaWrapperDTO listVeiculosEmDeslocamento(Long idUsuario, Integer intervalo) {
 		return getDelegate().listVeiculosEmDeslocamento(idUsuario, intervalo);
 	}
 	
+	public LocalizacaoLinhaWrapperDTO listVeiculosEmDeslocamento(Integer intervalo) {
+		return getDelegate().listVeiculosEmDeslocamento(intervalo);
+	}
+	
+	@Deprecated
 	public LocalizacaoLinhaWrapperDTO listVeiculosEmDeslocamentoProximos(Long idUsuario, Integer intervalo, Integer distancia, 
 			String latitudeUsuario, String longitudeUsuario) {
 		return getDelegate().listVeiculosEmDeslocamentoProximos(idUsuario, intervalo, distancia, latitudeUsuario, longitudeUsuario);
+	}
+	
+	public LocalizacaoLinhaWrapperDTO listVeiculosEmDeslocamentoProximos(Integer intervalo, Integer distancia, 
+			String latitudeUsuario, String longitudeUsuario) {
+		return getDelegate().listVeiculosEmDeslocamentoProximos(intervalo, distancia, latitudeUsuario, longitudeUsuario);
 	}
 
 }

@@ -38,7 +38,7 @@ public class LocalizacaoLinhaResource {
 		return Response.status(Status.OK).entity(list).build();
 	}
 	
-	@GET
+	/*@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/veiculosemdeslocamento/{idUsuario}/{intervalo}")
 	public Response listVeiculosEmDeslocamento(@PathParam("idUsuario") Long idUsuario, @PathParam("intervalo") Integer intervalo) {
@@ -50,15 +50,45 @@ public class LocalizacaoLinhaResource {
 		}
 		
 		return Response.status(Status.OK).entity(wrapper).build();
-	}
+	}*/
 	
 	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/veiculosemdeslocamento/{intervalo}")
+	public Response listVeiculosEmDeslocamento(@PathParam("intervalo") Integer intervalo) {
+		
+		LocalizacaoLinhaWrapperDTO wrapper = localizacaoLinhaBC.listVeiculosEmDeslocamento(intervalo);
+		
+		if (isEmpty(wrapper)) {
+			return Response.status(Status.NOT_FOUND).entity(new LocalizacaoLinhaWrapperDTO("Nenhum registro encontrado")).build();
+		}
+		
+		return Response.status(Status.OK).entity(wrapper).build();
+	}
+	
+	/*@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/veiculosemdeslocamentoproximos/{idUsuario}/{intervalo}/{distancia}/{latitude}/{longitude}")
 	public Response listVeiculosEmDeslocamento(@PathParam("idUsuario") Long idUsuario, @PathParam("intervalo") Integer intervalo,
 			@PathParam("distancia") Integer distancia, @PathParam("latitude") String latitude, @PathParam("longitude") String longitude) {
 		
 		LocalizacaoLinhaWrapperDTO wrapper = localizacaoLinhaBC.listVeiculosEmDeslocamentoProximos(idUsuario, intervalo, distancia, 
+				latitude, longitude);
+		
+		if (isEmpty(wrapper)) {
+			return Response.status(Status.NOT_FOUND).entity(new LocalizacaoLinhaDTO("Nenhum registro encontrado")).build();
+		}
+		
+		return Response.status(Status.OK).entity(wrapper).build();
+	}*/
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/veiculosemdeslocamentoproximos/{intervalo}/{distancia}/{latitude}/{longitude}")
+	public Response listVeiculosEmDeslocamento(@PathParam("intervalo") Integer intervalo,
+			@PathParam("distancia") Integer distancia, @PathParam("latitude") String latitude, @PathParam("longitude") String longitude) {
+		
+		LocalizacaoLinhaWrapperDTO wrapper = localizacaoLinhaBC.listVeiculosEmDeslocamentoProximos(intervalo, distancia, 
 				latitude, longitude);
 		
 		if (isEmpty(wrapper)) {
