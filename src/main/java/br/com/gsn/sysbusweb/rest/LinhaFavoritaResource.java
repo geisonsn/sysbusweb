@@ -66,10 +66,10 @@ public class LinhaFavoritaResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/sincronizarFavoritos")
-	public Response sincronizar(String json) {
+	public Response sincronizar(SincronizarFavoritoDTO sincronizarFavoritoDTO) {
 		
-		Gson gson = new Gson();
-		SincronizarFavoritoDTO sincronizarFavoritoDTO = gson.fromJson(json, SincronizarFavoritoDTO.class);
+//		Gson gson = new Gson();
+//		SincronizarFavoritoDTO sincronizarFavoritoDTO = gson.fromJson(json, SincronizarFavoritoDTO.class);
 		
 		linhaFavoritaBC.sincronizarFavoritos(sincronizarFavoritoDTO);
 		
