@@ -1,6 +1,5 @@
 package br.com.gsn.sysbusweb.business;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,6 +9,7 @@ import br.com.gsn.sysbusweb.domain.Linha;
 import br.com.gsn.sysbusweb.domain.LinhaFavorita;
 import br.com.gsn.sysbusweb.domain.Usuario;
 import br.com.gsn.sysbusweb.domain.dto.LinhaFavoritaDTO;
+import br.com.gsn.sysbusweb.domain.dto.SincronizarFavoritoDTO;
 import br.com.gsn.sysbusweb.domain.dto.UsuarioWrapperDTO;
 import br.com.gsn.sysbusweb.persistence.LinhaFavoritaDAO;
 import br.com.gsn.sysbusweb.util.ModelMapperUtil;
@@ -96,6 +96,59 @@ public class LinhaFavoritaBC extends DelegateCrud<LinhaFavorita, Long, LinhaFavo
 					boolean contem = false;
 					for (LinhaFavoritaDTO ft : favoritosTemporario) {
 						if (ft.getIdLinha().equals(fc.getLinha().getId())) {
+							contem = true;
+							break;
+						}
+					}
+					if (!contem) {
+						delete(fc.getId());
+					}
+				}
+			}
+		}
+	}
+	
+	public void sincronizarFavoritos(SincronizarFavoritoDTO usuarioWrapper) {
+		Long idUsuario = usuarioWrapper.getIdUsuario();
+		
+		List<Long> favoritosTemporario = usuarioWrapper.getLinhas();
+		
+		if (favoritosTemporario.isEmpty()) {
+			//Remove todos os favoritos
+			getDelegate().remove(idUsuario);
+		} else {
+			List<LinhaFavorita> favoritosCadastrados = this.findByUsuario(idUsuario);
+			
+			if (favoritosCadastrados.isEmpty()) {
+				//Incluir todos os favoritos
+				for (Long idLinha : favoritosTemporario) {
+					LinhaFavoritaDTO linha = new LinhaFavoritaDTO();
+					linha.setIdUsuario(idUsuario);
+					linha.setIdLinha(idLinha);
+					this.insert(linha);
+				}
+			} else {
+				//Linhas a inserir
+				for (Long idLinha : favoritosTemporario) {
+					boolean contem = false;
+					for (LinhaFavorita fc : favoritosCadastrados) {
+						if (idLinha.equals(fc.getLinha().getId())) {
+							contem = true;
+							break;
+						}
+					}
+					if (!contem) {
+						LinhaFavoritaDTO linha = new LinhaFavoritaDTO();
+						linha.setIdUsuario(idUsuario);
+						linha.setIdLinha(idLinha);
+						this.insert(linha);
+					}
+				}
+				//Linhas a excluir
+				for (LinhaFavorita fc : favoritosCadastrados) {
+					boolean contem = false;
+					for (Long idLinha : favoritosTemporario) {
+						if (idLinha.equals(fc.getLinha().getId())) {
 							contem = true;
 							break;
 						}
