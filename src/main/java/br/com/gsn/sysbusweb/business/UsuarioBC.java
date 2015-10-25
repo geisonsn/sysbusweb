@@ -7,9 +7,13 @@ import javax.inject.Inject;
 import javax.persistence.NoResultException;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.modelmapper.ModelMapper;
 
 import br.com.gsn.sysbusweb.domain.PerfilUsuario;
 import br.com.gsn.sysbusweb.domain.Usuario;
+import br.com.gsn.sysbusweb.domain.dto.LinhaFavoritaDTO;
+import br.com.gsn.sysbusweb.domain.dto.UsuarioDTO;
+import br.com.gsn.sysbusweb.domain.dto.UsuarioWrapperDTO;
 import br.com.gsn.sysbusweb.domain.enums.PerfilEnum;
 import br.com.gsn.sysbusweb.exception.UsuarioExistenteException;
 import br.com.gsn.sysbusweb.persistence.UsuarioDAO;
@@ -24,6 +28,9 @@ public class UsuarioBC extends DelegateCrud<Usuario, Long, UsuarioDAO> {
 	@Inject
 	private PerfilUsuarioBC perfilUsuarioBC;
 	
+	@Inject
+	private LinhaFavoritaBC linhaFavoritaoBC;
+	
 	public List<Usuario> findByNome(String nome) {
 		return getDelegate().findByNome(nome);
 	}
@@ -37,11 +44,44 @@ public class UsuarioBC extends DelegateCrud<Usuario, Long, UsuarioDAO> {
 	}
 	
 	public Usuario getClienteByEmailEPassword(String email, String password) {
-		return getDelegate().getClienteByEmailEPassword(email, DigestUtils.sha256Hex(password));
+		try {
+			return getDelegate().getClienteByEmailEPassword(email, DigestUtils.sha256Hex(password));
+		} catch(NoResultException e) {
+			return null;
+		}
 	}
 	
 	public Usuario getByUsernameEEmail(String username, String email) throws NoResultException {
 		return getDelegate().getByUsernameEEmail(username, email);
+	}
+	
+	/**
+	 * Realiza o login do usuário a partir do aplicativo móvel. 
+	 * Recupera também as linhas favoritas do usuário
+	 * @param email
+	 * @param password
+	 * @return dados do usuário
+	 */
+	public UsuarioWrapperDTO login(String email, String password) {
+			
+		Usuario usuario = this.getClienteByEmailEPassword(email, password);
+		
+		if (usuario == null) {
+			return null;
+		}
+		
+		UsuarioWrapperDTO wrapper = new UsuarioWrapperDTO();
+		
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		ModelMapper mapper = new ModelMapper();
+		mapper.map(usuario, usuarioDTO);
+		
+		wrapper.setUsuario(usuarioDTO);
+		
+		List<LinhaFavoritaDTO> linhasFavoritos = linhaFavoritaoBC.listByUsuario(usuario.getId());
+		wrapper.setLinhasFavoritas(linhasFavoritos);
+		
+		return wrapper;
 	}
 	
 	/**

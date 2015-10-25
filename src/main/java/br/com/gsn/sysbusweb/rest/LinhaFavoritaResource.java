@@ -15,9 +15,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import br.com.gsn.sysbusweb.business.LinhaFavoritaBC;
-import br.com.gsn.sysbusweb.domain.dto.LinhasFavoritasWrapperDTO;
 import br.com.gsn.sysbusweb.domain.dto.LinhaFavoritaDTO;
+import br.com.gsn.sysbusweb.domain.dto.LinhasFavoritasWrapperDTO;
 import br.com.gsn.sysbusweb.domain.dto.LocalizacaoLinhaDTO;
+import br.com.gsn.sysbusweb.domain.dto.UsuarioWrapperDTO;
 
 @Path("linhafavorita")
 public class LinhaFavoritaResource {
@@ -58,5 +59,18 @@ public class LinhaFavoritaResource {
 		
 		return Response.status(Status.CREATED).entity(linhaFavorita).build();
 	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/sincronizarFavoritos")
+	public Response sincronizar(UsuarioWrapperDTO usuarioWrapper) {
+		
+		linhaFavoritaBC.sincronizarFavoritos(usuarioWrapper);
+		
+		return Response.status(Status.CREATED).entity(new UsuarioWrapperDTO("Dados sincronizados")).build();
+	}
+	
+	
 	
 }

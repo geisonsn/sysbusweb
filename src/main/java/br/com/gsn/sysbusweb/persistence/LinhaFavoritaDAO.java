@@ -62,5 +62,15 @@ public class LinhaFavoritaDAO extends JPACrud<LinhaFavorita, Long> {
 		
 		return list;
 	}
+	
+	/**
+	 * Remove todas as linhas para o usuário
+	 * @param idUsuario
+	 */
+	public void remove(Long idUsuario) {
+		getEntityManager().createQuery(" delete from LinhaFavorita l where l.usuario.id = :idUsuario ")
+		.setParameter("idUsuario", idUsuario)
+		.executeUpdate();
+	}
 
 }
