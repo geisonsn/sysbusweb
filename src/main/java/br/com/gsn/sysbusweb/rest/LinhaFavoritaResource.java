@@ -63,7 +63,7 @@ public class LinhaFavoritaResource {
 	}
 	
 	@POST
-	@Consumes(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/sincronizarFavoritos")
 	public Response sincronizar(String json) {
