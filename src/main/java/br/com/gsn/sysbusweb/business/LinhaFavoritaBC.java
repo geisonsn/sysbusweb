@@ -1,6 +1,5 @@
 package br.com.gsn.sysbusweb.business;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import br.com.gsn.sysbusweb.domain.LinhaFavorita;
 import br.com.gsn.sysbusweb.domain.Usuario;
 import br.com.gsn.sysbusweb.domain.dto.LinhaFavoritaDTO;
 import br.com.gsn.sysbusweb.domain.dto.SincronizarFavoritoDTO;
-import br.com.gsn.sysbusweb.domain.dto.UsuarioWrapperDTO;
 import br.com.gsn.sysbusweb.persistence.LinhaFavoritaDAO;
 import br.com.gsn.sysbusweb.util.ModelMapperUtil;
 import br.gov.frameworkdemoiselle.stereotype.BusinessController;
@@ -62,64 +60,10 @@ public class LinhaFavoritaBC extends DelegateCrud<LinhaFavorita, Long, LinhaFavo
 	 * Sincroniza os favoritos do usuário
 	 * @param usuarioWrapper
 	 */
-	public void sincronizarFavoritos(UsuarioWrapperDTO usuarioWrapper) {
-		Long idUsuario = usuarioWrapper.getUsuario().getId();
+	public void sincronizarFavoritos(SincronizarFavoritoDTO sincronizarFavoritoDTO) {
+		Long idUsuario = sincronizarFavoritoDTO.getIdUsuario();
 		
-		List<LinhaFavoritaDTO> favoritosTemporario = usuarioWrapper.getLinhasFavoritas();
-		
-		if (favoritosTemporario.isEmpty()) {
-			//Remove todos os favoritos
-			getDelegate().remove(idUsuario);
-		} else {
-			List<LinhaFavorita> favoritosCadastrados = this.findByUsuario(idUsuario);
-			
-			if (favoritosCadastrados.isEmpty()) {
-				//Incluir todos os favoritos
-				for (LinhaFavoritaDTO ft : favoritosTemporario) {
-					this.insert(ft);
-				}
-			} else {
-				//Linhas a inserir
-				for (LinhaFavoritaDTO ft : favoritosTemporario) {
-					boolean contem = false;
-					for (LinhaFavorita fc : favoritosCadastrados) {
-						if (ft.getIdLinha().equals(fc.getLinha().getId())) {
-							contem = true;
-							break;
-						}
-					}
-					if (!contem) {
-						this.insert(ft);
-					}
-				}
-				//Linhas a excluir
-				for (LinhaFavorita fc : favoritosCadastrados) {
-					boolean contem = false;
-					for (LinhaFavoritaDTO ft : favoritosTemporario) {
-						if (ft.getIdLinha().equals(fc.getLinha().getId())) {
-							contem = true;
-							break;
-						}
-					}
-					if (!contem) {
-						delete(fc.getId());
-					}
-				}
-			}
-		}
-	}
-	
-	public void sincronizarFavoritos(SincronizarFavoritoDTO usuarioWrapper) {
-		Long idUsuario = usuarioWrapper.getIdUsuario();
-		
-//		String[] idLinhas = usuarioWrapper.getLinhas().split(",");
-		
-//		List<Long> favoritosTemporario = new ArrayList<Long>();
-//		for (String id : idLinhas) {
-//			favoritosTemporario.add(Long.valueOf(id));
-//		}
-		
-		List<LinhaFavoritaDTO> favoritosTemporario = usuarioWrapper.getLinhasFavoritas();
+		List<LinhaFavoritaDTO> favoritosTemporario = sincronizarFavoritoDTO.getLinhasFavoritas();
 		
 		if (favoritosTemporario.isEmpty()) {
 			//Remove todos os favoritos
@@ -130,9 +74,6 @@ public class LinhaFavoritaBC extends DelegateCrud<LinhaFavorita, Long, LinhaFavo
 			if (favoritosCadastrados.isEmpty()) {
 				//Incluir todos os favoritos
 				for (LinhaFavoritaDTO linha : favoritosTemporario) {
-//					LinhaFavoritaDTO linha = new LinhaFavoritaDTO();
-//					linha.setIdUsuario(idUsuario);
-//					linha.setIdLinha(idLinha);
 					this.insert(linha);
 				}
 			} else {
@@ -146,9 +87,6 @@ public class LinhaFavoritaBC extends DelegateCrud<LinhaFavorita, Long, LinhaFavo
 						}
 					}
 					if (!contem) {
-//						LinhaFavoritaDTO linha = new LinhaFavoritaDTO();
-//						linha.setIdUsuario(idUsuario);
-//						linha.setIdLinha(idLinha);
 						this.insert(linha);
 					}
 				}
