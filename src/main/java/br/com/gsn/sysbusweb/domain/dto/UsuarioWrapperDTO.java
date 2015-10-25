@@ -1,6 +1,7 @@
 package br.com.gsn.sysbusweb.domain.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 public class UsuarioWrapperDTO extends InformationRequest implements Serializable {
@@ -9,7 +10,7 @@ public class UsuarioWrapperDTO extends InformationRequest implements Serializabl
 
 	private UsuarioDTO usuario;
 	
-	private LinhaFavoritaDTO linhasFavoritas[];
+	private List<LinhaFavoritaDTO> linhasFavoritas;
 
 	public UsuarioWrapperDTO(){}
 	
@@ -25,11 +26,11 @@ public class UsuarioWrapperDTO extends InformationRequest implements Serializabl
 		this.usuario = usuario;
 	}
 
-	public LinhaFavoritaDTO[] getLinhasFavoritas() {
+	public List<LinhaFavoritaDTO> getLinhasFavoritas() {
 		return linhasFavoritas;
 	}
 
-	public void setLinhasFavoritas(LinhaFavoritaDTO[] linhasFavoritas) {
+	public void setLinhasFavoritas(List<LinhaFavoritaDTO> linhasFavoritas) {
 		this.linhasFavoritas = linhasFavoritas;
 	}
 }

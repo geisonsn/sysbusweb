@@ -63,9 +63,8 @@ public class LinhaFavoritaBC extends DelegateCrud<LinhaFavorita, Long, LinhaFavo
 	 */
 	public void sincronizarFavoritos(UsuarioWrapperDTO usuarioWrapper) {
 		Long idUsuario = usuarioWrapper.getUsuario().getId();
-		LinhaFavoritaDTO favoritos[] = usuarioWrapper.getLinhasFavoritas();
 		
-		List<LinhaFavoritaDTO> favoritosTemporario = Arrays.asList(favoritos);
+		List<LinhaFavoritaDTO> favoritosTemporario = usuarioWrapper.getLinhasFavoritas();
 		
 		if (favoritosTemporario.isEmpty()) {
 			//Remove todos os favoritos
