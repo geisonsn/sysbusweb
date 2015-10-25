@@ -1,5 +1,6 @@
 package br.com.gsn.sysbusweb.business;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -111,7 +112,12 @@ public class LinhaFavoritaBC extends DelegateCrud<LinhaFavorita, Long, LinhaFavo
 	public void sincronizarFavoritos(SincronizarFavoritoDTO usuarioWrapper) {
 		Long idUsuario = usuarioWrapper.getIdUsuario();
 		
-		List<Long> favoritosTemporario = usuarioWrapper.getLinhas();
+		String[] vetor = usuarioWrapper.getLinhas().split(",");
+		
+		List<Long> favoritosTemporario = new ArrayList<Long>();
+		for (String id : vetor) {
+			favoritosTemporario.add(Long.valueOf(id));
+		}
 		
 		if (favoritosTemporario.isEmpty()) {
 			//Remove todos os favoritos
