@@ -80,7 +80,7 @@ public class LinhaFavoritaResource {
 		
 		linhaFavoritaBC.sincronizarFavoritos(sincronizarFavoritoDTO);
 		
-		return Response.status(Status.CREATED).entity(new SincronizarFavoritoDTO("Dados sincronizados")).build();
+		return Response.ok().entity(new SincronizarFavoritoDTO("Dados sincronizados")).build();
 	}
 	
 	

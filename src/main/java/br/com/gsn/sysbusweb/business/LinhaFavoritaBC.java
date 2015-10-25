@@ -112,12 +112,14 @@ public class LinhaFavoritaBC extends DelegateCrud<LinhaFavorita, Long, LinhaFavo
 	public void sincronizarFavoritos(SincronizarFavoritoDTO usuarioWrapper) {
 		Long idUsuario = usuarioWrapper.getIdUsuario();
 		
-		String[] idLinhas = usuarioWrapper.getLinhas().split(",");
+//		String[] idLinhas = usuarioWrapper.getLinhas().split(",");
 		
-		List<Long> favoritosTemporario = new ArrayList<Long>();
-		for (String id : idLinhas) {
-			favoritosTemporario.add(Long.valueOf(id));
-		}
+//		List<Long> favoritosTemporario = new ArrayList<Long>();
+//		for (String id : idLinhas) {
+//			favoritosTemporario.add(Long.valueOf(id));
+//		}
+		
+		List<LinhaFavoritaDTO> favoritosTemporario = usuarioWrapper.getLinhasFavoritas();
 		
 		if (favoritosTemporario.isEmpty()) {
 			//Remove todos os favoritos
@@ -127,34 +129,34 @@ public class LinhaFavoritaBC extends DelegateCrud<LinhaFavorita, Long, LinhaFavo
 			
 			if (favoritosCadastrados.isEmpty()) {
 				//Incluir todos os favoritos
-				for (Long idLinha : favoritosTemporario) {
-					LinhaFavoritaDTO linha = new LinhaFavoritaDTO();
-					linha.setIdUsuario(idUsuario);
-					linha.setIdLinha(idLinha);
+				for (LinhaFavoritaDTO linha : favoritosTemporario) {
+//					LinhaFavoritaDTO linha = new LinhaFavoritaDTO();
+//					linha.setIdUsuario(idUsuario);
+//					linha.setIdLinha(idLinha);
 					this.insert(linha);
 				}
 			} else {
 				//Linhas a inserir
-				for (Long idLinha : favoritosTemporario) {
+				for (LinhaFavoritaDTO linha : favoritosTemporario) {
 					boolean contem = false;
 					for (LinhaFavorita fc : favoritosCadastrados) {
-						if (idLinha.equals(fc.getLinha().getId())) {
+						if (linha.getIdLinha().equals(fc.getLinha().getId())) {
 							contem = true;
 							break;
 						}
 					}
 					if (!contem) {
-						LinhaFavoritaDTO linha = new LinhaFavoritaDTO();
-						linha.setIdUsuario(idUsuario);
-						linha.setIdLinha(idLinha);
+//						LinhaFavoritaDTO linha = new LinhaFavoritaDTO();
+//						linha.setIdUsuario(idUsuario);
+//						linha.setIdLinha(idLinha);
 						this.insert(linha);
 					}
 				}
 				//Linhas a excluir
 				for (LinhaFavorita fc : favoritosCadastrados) {
 					boolean contem = false;
-					for (Long idLinha : favoritosTemporario) {
-						if (idLinha.equals(fc.getLinha().getId())) {
+					for (LinhaFavoritaDTO linha : favoritosTemporario) {
+						if (linha.getIdLinha().equals(fc.getLinha().getId())) {
 							contem = true;
 							break;
 						}
