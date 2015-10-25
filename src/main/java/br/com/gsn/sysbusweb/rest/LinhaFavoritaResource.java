@@ -20,8 +20,6 @@ import br.com.gsn.sysbusweb.domain.dto.LinhasFavoritasWrapperDTO;
 import br.com.gsn.sysbusweb.domain.dto.LocalizacaoLinhaDTO;
 import br.com.gsn.sysbusweb.domain.dto.SincronizarFavoritoDTO;
 
-import com.google.gson.Gson;
-
 @Path("linhafavorita")
 public class LinhaFavoritaResource {
 	
@@ -67,9 +65,6 @@ public class LinhaFavoritaResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/sincronizarFavoritos")
 	public Response sincronizar(SincronizarFavoritoDTO sincronizarFavoritoDTO) {
-		
-//		Gson gson = new Gson();
-//		SincronizarFavoritoDTO sincronizarFavoritoDTO = gson.fromJson(json, SincronizarFavoritoDTO.class);
 		
 		linhaFavoritaBC.sincronizarFavoritos(sincronizarFavoritoDTO);
 		

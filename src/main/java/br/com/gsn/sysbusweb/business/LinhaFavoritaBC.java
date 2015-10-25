@@ -112,10 +112,10 @@ public class LinhaFavoritaBC extends DelegateCrud<LinhaFavorita, Long, LinhaFavo
 	public void sincronizarFavoritos(SincronizarFavoritoDTO usuarioWrapper) {
 		Long idUsuario = usuarioWrapper.getIdUsuario();
 		
-		String[] vetor = usuarioWrapper.getLinhas().split(",");
+		String[] idLinhas = usuarioWrapper.getLinhas().split(",");
 		
 		List<Long> favoritosTemporario = new ArrayList<Long>();
-		for (String id : vetor) {
+		for (String id : idLinhas) {
 			favoritosTemporario.add(Long.valueOf(id));
 		}
 		
