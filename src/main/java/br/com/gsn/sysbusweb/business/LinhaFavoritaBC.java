@@ -1,5 +1,6 @@
 package br.com.gsn.sysbusweb.business;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -62,8 +63,9 @@ public class LinhaFavoritaBC extends DelegateCrud<LinhaFavorita, Long, LinhaFavo
 	 */
 	public void sincronizarFavoritos(UsuarioWrapperDTO usuarioWrapper) {
 		Long idUsuario = usuarioWrapper.getUsuario().getId();
+		LinhaFavoritaDTO favoritos[] = usuarioWrapper.getLinhasFavoritas();
 		
-		List<LinhaFavoritaDTO> favoritosTemporario = usuarioWrapper.getLinhasFavoritas();
+		List<LinhaFavoritaDTO> favoritosTemporario = Arrays.asList(favoritos);
 		
 		if (favoritosTemporario.isEmpty()) {
 			//Remove todos os favoritos

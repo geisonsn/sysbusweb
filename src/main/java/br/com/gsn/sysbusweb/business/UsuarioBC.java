@@ -79,7 +79,10 @@ public class UsuarioBC extends DelegateCrud<Usuario, Long, UsuarioDAO> {
 		wrapper.setUsuario(usuarioDTO);
 		
 		List<LinhaFavoritaDTO> linhasFavoritos = linhaFavoritaoBC.listByUsuario(usuario.getId());
-		wrapper.setLinhasFavoritas(linhasFavoritos);
+		
+		LinhaFavoritaDTO[] array = linhasFavoritos.toArray(new LinhaFavoritaDTO[linhasFavoritos.size()]);
+		
+		wrapper.setLinhasFavoritas(array);
 		
 		return wrapper;
 	}
