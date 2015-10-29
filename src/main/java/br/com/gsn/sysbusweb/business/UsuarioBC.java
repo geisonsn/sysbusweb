@@ -64,13 +64,13 @@ public class UsuarioBC extends DelegateCrud<Usuario, Long, UsuarioDAO> {
 	 */
 	public UsuarioWrapperDTO login(String email, String password) {
 			
+		UsuarioWrapperDTO wrapper = new UsuarioWrapperDTO();
+		
 		Usuario usuario = this.getClienteByEmailEPassword(email, password);
 		
 		if (usuario == null) {
-			return null;
+			return wrapper;
 		}
-		
-		UsuarioWrapperDTO wrapper = new UsuarioWrapperDTO();
 		
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		ModelMapper mapper = new ModelMapper();
