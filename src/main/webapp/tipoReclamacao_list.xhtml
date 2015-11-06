@@ -6,7 +6,7 @@
 
 	<ui:define name="titulo">
 		<div class="barra_titulo">
-			<h1><h:outputText value="#{messages['tipoReclamacao.label']}" /></h1>
+			<h1><h:outputText value="Tipos de reclamação" /></h1>
 		</div>
 	</ui:define>
 	
@@ -22,8 +22,9 @@
 	<ui:define name="conteudo">
 		<h:form id="form">
 			<p:fieldset legend="Pesquisa">
-				<p:outputLabel value="Descrição"/><p:inputText id="descricao" value="#{tipoReclamacaoListMB.descricao}"/>
-				<p:commandButton action="#{tipoReclamacaoListMB.findByDescricao()}" icon="ui-icon-search" ajax="false"/>
+				<p:outputLabel value="Descrição "/>
+				<p:inputText id="descricao" value="#{tipoReclamacaoListMB.descricao}"/>
+				<h:outputText value="&#160;" /><p:commandButton action="#{tipoReclamacaoListMB.findByDescricao()}" icon="ui-icon-search" ajax="false"/>
 			</p:fieldset>
 			
 			<br />

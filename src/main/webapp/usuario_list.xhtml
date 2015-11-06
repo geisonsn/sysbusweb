@@ -6,7 +6,7 @@
 
 	<ui:define name="titulo">
 		<div class="barra_titulo">
-			<h1><h:outputText value="#{messages['usuario.label']}" /></h1>
+			<h1><h:outputText value="Usuários" /></h1>
 		</div>
 	</ui:define>
 	
@@ -19,14 +19,13 @@
 		</h:form>
 	</ui:define>
 	
-	
 	<ui:define name="conteudo">
 		<h:form prependId="false" id="form">
 		
 			<p:fieldset legend="Pesquisa">
-				<p:outputLabel value="#{messages['usuario.label.nome']}"></p:outputLabel>
+				<p:outputLabel value="#{messages['usuario.label.nome']} "></p:outputLabel>
 				<p:inputText id="descricao" value="#{usuarioListMB.nome}"/>
-				<p:commandButton action="#{usuarioListMB.pesquisar}" icon="ui-icon-search" ajax="false"/>
+				<h:outputText value="&#160;" /><p:commandButton action="#{usuarioListMB.pesquisar}" icon="ui-icon-search" ajax="false"/>
 			</p:fieldset>
 			
 			<br />

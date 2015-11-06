@@ -10,21 +10,16 @@
 		</div>
 	</ui:define>
 	
-	<ui:define name="toolbar">
-		<h:form prependId="false" id="frmToolbar">
-			<div class="barra_ferramentas">
-				<p:commandButton title="Imprimir Relatório" icon="ui-icon-print" actionListener="#{gestorMB.imprimirRelatorio}" ajax="false"/>
-				<p:commandButton title="Gráfico" icon="ui-icon-document" action="gestor_grafico_mes?faces-redirect=true"  
-				ajax="false" />
-				<p:commandButton title="Pesquisa" icon="ui-icon-search" action="#" actionListener="#" ajax="false" />
-				
-			</div>
-		</h:form>
-	</ui:define>
-		
 	<ui:define name="conteudo">
 		
+		
 		<p:fieldset legend="Principais reclamações">
+			<h:form>
+				<div style="text-align:right">
+					<p:commandLink title="Gráfico" icon="ui-icon-document" action="gestor_grafico_principais_reclamacoes?faces-redirect=true"  
+						ajax="false" value="Exibir gráfico"/>
+				</div>
+			</h:form>
 			<p:dataTable var="bean" value="#{gestorMB.listPrincipaisReclamacoes()}">
 				<p:column>
 					<f:facet name="header">Reclamação</f:facet>
@@ -44,6 +39,12 @@
 		<br/>
 		
 		<p:fieldset legend="Principais reclamados">
+			<h:form>
+				<div style="text-align:right">
+					<p:commandLink title="Gráfico" icon="ui-icon-document" action="gestor_grafico_principais_reclamados?faces-redirect=true"  
+						ajax="false" value="Exibir gráfico"/>
+				</div>
+			</h:form>
 			<p:dataTable var="bean" value="#{gestorMB.listObjetosMaisReclamados()}">
 				<p:column>
 					<f:facet name="header">Reclamado</f:facet>
@@ -63,6 +64,12 @@
 		<br/>
 		
 		<p:fieldset legend="Linhas mais reclamadas">
+			<h:form>
+				<div style="text-align:right">
+					<p:commandLink title="Gráfico" icon="ui-icon-document" action="gestor_grafico_linhas_mais_reclamadas?faces-redirect=true"  
+						ajax="false" value="Exibir gráfico"/>
+				</div>
+			</h:form>
 			<p:dataTable var="bean" value="#{gestorMB.listLinhasMaisReclamadas()}">
 				<p:column>
 					<f:facet name="header">Linha</f:facet>
@@ -82,6 +89,12 @@
 		<br/>
 		
 		<p:fieldset legend="Empresas mais reclamadas">
+			<h:form>
+				<div style="text-align:right">
+					<p:commandLink title="Gráfico" icon="ui-icon-document" action="gestor_grafico_empresas_mais_reclamadas?faces-redirect=true"  
+						ajax="false" value="Exibir gráfico"/>
+				</div>
+			</h:form>
 			<p:dataTable var="bean" value="#{gestorMB.listEmpresasMaisReclamadas()}">
 				<p:column>
 					<f:facet name="header">Empresa</f:facet>
@@ -97,7 +110,6 @@
 				</p:column>
 			</p:dataTable>
 		</p:fieldset>
-			
 	</ui:define>
 			
 </ui:composition>

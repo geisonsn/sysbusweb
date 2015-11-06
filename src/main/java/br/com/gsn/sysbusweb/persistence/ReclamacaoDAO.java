@@ -214,7 +214,7 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<ReclamacaoDTO> listObjetosMaisReclamados() {
+	public List<ReclamacaoDTO> listObjetosMaisReclamados(int mes) {
 		
 		/*StringBuffer sql = new StringBuffer();
 		sql
@@ -230,13 +230,14 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 		sql
 			.append(" select count(rec.objeto_reclamado) as reclamacoes, rec.objeto_reclamado as reclamado ")
 			.append(" from reclamacao rec ")
-			.append(" inner join origem_reclamacao orr on orr.id = rec.id_origem_reclamacao ")
-			.append(" where rec.data_registro >= date_sub(sysdate(), interval 1 month) ")
+			.append(" left join origem_reclamacao orr on orr.id = rec.id_origem_reclamacao ")
+			.append(" where month(rec.data_registro) = :mes ")
 			.append(" group by rec.objeto_reclamado ")
-			.append(" order by rec.objeto_reclamado ");
+			.append(" order by reclamacoes desc, rec.objeto_reclamado ");
 		
 		List<Object[]> resultList = getEntityManager()
 				.createNativeQuery(sql.toString())
+				.setParameter("mes", mes)
 				.getResultList();
 		
 		int total = calcularGeralReclamacoes(resultList);
@@ -256,7 +257,7 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<ReclamacaoDTO> listEmpresasMaisReclamadas() {
+	public List<ReclamacaoDTO> listEmpresasMaisReclamadas(int mes) {
 		
 		StringBuffer sql = new StringBuffer();
 		
@@ -265,12 +266,13 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 			.append(" from reclamacao rec ")
 			.append(" inner join linha lin on lin.id = rec.id_linha ")
 			.append(" inner join empresa emp on emp.id = lin.id_empresa ")
-			.append(" where rec.data_registro >= date_sub(sysdate(), interval 1 month) ")
+			.append(" where month(rec.data_registro) = :mes ")
 			.append(" group by emp.id ")
-			.append(" order by emp.nome ");
+			.append(" order by reclamacoes desc, emp.nome ");
 		
 		List<Object[]> resultList = getEntityManager()
 				.createNativeQuery(sql.toString())
+				.setParameter("mes", mes)
 				.getResultList();
 		
 		int total = calcularGeralReclamacoes(resultList);
@@ -290,7 +292,7 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<ReclamacaoDTO> listLinhasMaisReclamadas() {
+	public List<ReclamacaoDTO> listLinhasMaisReclamadas(int mes) {
 		
 		StringBuffer sql = new StringBuffer();
 		
@@ -299,12 +301,13 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 		.append(" from reclamacao rec ")
 		.append(" inner join linha lin on lin.id = rec.id_linha ")
 		.append(" inner join empresa emp on emp.id = lin.id_empresa ")
-		.append(" where rec.data_registro >= date_sub(sysdate(), interval 1 month) ")
+		.append(" where month(rec.data_registro) = :mes ")
 		.append(" group by lin.id ")
-		.append(" order by lin.numero ");
+		.append(" order by reclamacoes desc, lin.numero ");
 		
 		List<Object[]> resultList = getEntityManager()
 				.createNativeQuery(sql.toString())
+				.setParameter("mes", mes)
 				.getResultList();
 		
 		int total = calcularGeralReclamacoes(resultList);
@@ -326,7 +329,7 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<ReclamacaoDTO> listPrincipaisReclamacoes() {
+	public List<ReclamacaoDTO> listPrincipaisReclamacoes(int mes) {
 		
 		StringBuffer sql = new StringBuffer();
 		
@@ -335,12 +338,13 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 		.append(" from reclamacao rec ")
 		.append(" inner join origem_reclamacao ori on ori.id = rec.id_origem_reclamacao ")
 		.append(" inner join tipo_reclamacao tre on tre.id = ori.id_tipo_reclamacao ")
-		.append(" where rec.data_registro >= date_sub(sysdate(), interval 1 month) ")
+		.append(" where month(rec.data_registro) = :mes ")
 		.append(" group by tre.id ")
-		.append(" order by tre.descricao ");
+		.append(" order by reclamacoes desc, tre.descricao ");
 		
 		List<Object[]> resultList = getEntityManager()
 				.createNativeQuery(sql.toString())
+				.setParameter("mes", mes)
 				.getResultList();
 		
 		int total = calcularGeralReclamacoes(resultList);
@@ -365,6 +369,64 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 			total += ((BigInteger)((Object[])object)[0]).intValue();
 		}
 		return total;
+	}
+	
+	public List<ReclamacaoDTO> listarHorarioComMaiorLotacao() {
+		StringBuffer sql = new StringBuffer();
+		
+		sql.append(" select time_format(reclamacao.hora, '%H') hora_ocorrencia, count(reclamacao.id) qtde ");
+		sql.append(" from reclamacao ");
+		sql.append(" inner join origem_reclamacao on origem_reclamacao.id = reclamacao.id_origem_reclamacao ");
+		sql.append(" inner join tipo_reclamacao on tipo_reclamacao.id = origem_reclamacao.id_tipo_reclamacao ");
+		sql.append(" where tipo_reclamacao.id = 2 "); //Exceço de lotação
+		sql.append(" and reclamacao.hora is not null ");
+		sql.append(" group by hora_ocorrencia ");
+		sql.append(" order by qtde desc, hora_ocorrencia ");
+		sql.append(" limit 10 ");
+		
+		@SuppressWarnings("unchecked")
+		List<Object[]> list = (List<Object[]>)getEntityManager()
+			.createNativeQuery(sql.toString()).getResultList();
+		
+		List<ReclamacaoDTO> source = new ArrayList<ReclamacaoDTO>();
+		for (Object[] objeto : list) {
+			ReclamacaoDTO r = new ReclamacaoDTO();
+			r.setHoraOcorrencia((String)objeto[0]);
+			r.setTotalReclamacoes(((Number)objeto[1]).intValue());
+			source.add(r);
+		}
+		
+		return source;
+		
+	}
+	
+	public List<ReclamacaoDTO> listarLinhasComMaisLotacao() {
+		StringBuffer sql = new StringBuffer();
+		
+		sql.append(" select linha.numero, count(reclamacao.id) qtde ");
+		sql.append(" from reclamacao ");
+		sql.append(" inner join origem_reclamacao on origem_reclamacao.id = reclamacao.id_origem_reclamacao ");
+		sql.append(" inner join tipo_reclamacao on tipo_reclamacao.id = origem_reclamacao.id_tipo_reclamacao ");
+		sql.append(" inner join linha on linha.id = reclamacao.id_linha ");
+		sql.append(" where tipo_reclamacao.id = 2 "); //Exceço de lotação
+		sql.append(" and reclamacao.hora is not null ");
+		sql.append(" group by linha.id ");
+		sql.append(" order by qtde desc, linha.numero ");
+		sql.append(" limit 10 ");
+		
+		@SuppressWarnings("unchecked")
+		List<Object[]> list = (List<Object[]>)getEntityManager()
+			.createNativeQuery(sql.toString()).getResultList();
+		
+		List<ReclamacaoDTO> source = new ArrayList<ReclamacaoDTO>();
+		for (Object[] objeto : list) {
+			ReclamacaoDTO r = new ReclamacaoDTO();
+			r.setNumeroLinha((String)objeto[0]);
+			r.setTotalReclamacoes(((Number)objeto[1]).intValue());
+			source.add(r);
+		}
+		
+		return source;
 	}
 
 }

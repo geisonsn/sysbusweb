@@ -6,7 +6,7 @@
 
 	<ui:define name="titulo">
 		<div class="barra_titulo">
-			<h1><h:outputText value="#{messages['tipoLinha.label']}" /></h1>
+			<h1><h:outputText value="Tipos de linha" /></h1>
 		</div>
 	</ui:define>
 	
@@ -33,9 +33,9 @@
 		<h:form prependId="false" id="form">
 			
 			<p:fieldset legend="Pesquisa">
-				<p:outputLabel value="Descrição"></p:outputLabel>
+				<p:outputLabel value="Descrição "></p:outputLabel>
 				<p:inputText id="descricao" value="#{tipoLinhaListMB.descricao}"/>
-				<p:commandButton action="#{tipoLinhaListMB.findByDescricao()}" icon="ui-icon-search" ajax="false"/>
+				<h:outputText value="&#160;" /><p:commandButton action="#{tipoLinhaListMB.findByDescricao()}" icon="ui-icon-search" ajax="false"/>
 			</p:fieldset>
 			
 			<br />

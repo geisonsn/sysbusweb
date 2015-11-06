@@ -4,21 +4,15 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
-import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.HorizontalBarChartModel;
-import org.primefaces.model.chart.LegendPlacement;
 import org.primefaces.model.chart.PieChartModel;
 
 import br.com.gsn.sysbusweb.business.ReclamacaoBC;
 import br.com.gsn.sysbusweb.domain.dto.ReclamacaoDTO;
 import br.com.gsn.sysbusweb.domain.enums.Mes;
-import br.com.gsn.sysbusweb.domain.enums.ObjetoReclamadoEnum;
 import br.gov.frameworkdemoiselle.stereotype.ViewController;
 
 @ViewController
@@ -33,10 +27,10 @@ public class GraficoMB implements Serializable {
     private HorizontalBarChartModel horizontalBarModel;
     private PieChartModel pieModel = new PieChartModel();
  
-    @PostConstruct
+    /*@PostConstruct
     public void init() {
         createBarModels();
-    }
+    }*/
  
     public BarChartModel getBarModel() {
         return barModel;
@@ -50,7 +44,7 @@ public class GraficoMB implements Serializable {
     	return pieModel;
     }
  
-    private BarChartModel initBarModel() {
+    /*private BarChartModel initBarModel() {
     	
 //    	<p:chart type="bar" model="#{graficoMB.barModel}" style="height:400px; width: 100%"/>
     	
@@ -121,23 +115,23 @@ public class GraficoMB implements Serializable {
         model.setShowPointLabels(true);
         model.setMouseoverHighlight(false);
         return model;
-    }
+    }*/
      
-    private void createBarModels() {
+    /*private void createBarModels() {
         createBarModel();
         createHorizontalBarModel();
 //        createPieModel();
-    }
+    }*/
      
-    public void createPieModel() {
+    /*public void createPieModel() {
 		pieModel = initPieModel();
 		pieModel.setTitle("Reclamações por objeto reclado");
 		pieModel.setLegendPosition("e");
 //		pieModel.setSeriesColors("000, ccc, f00, 00f");
 		pieModel.setShowDataLabels(true);
-	}
+	}*/
 
-	private PieChartModel initPieModel() {
+	/*private PieChartModel initPieModel() {
 		pieModel = new PieChartModel();
 		
 		
@@ -151,9 +145,9 @@ public class GraficoMB implements Serializable {
 //		pieModel.set("Veículo", 20);
 //		pieModel.set("Outros", 10);
 		return pieModel;
-	}
+	}*/
 
-	private void createBarModel() {
+	/*private void createBarModel() {
         barModel = initBarModel();
          
         barModel.setTitle("Reclamações mensais");
@@ -169,9 +163,9 @@ public class GraficoMB implements Serializable {
         yAxis.setMin(0);
 //        yAxis.setMax(60);
         yAxis.setMax(110);
-    }
+    }*/
      
-    private void createHorizontalBarModel() {
+    /*private void createHorizontalBarModel() {
         horizontalBarModel = new HorizontalBarChartModel();
  
         ChartSeries boys = new ChartSeries();
@@ -204,7 +198,7 @@ public class GraficoMB implements Serializable {
          
         Axis yAxis = horizontalBarModel.getAxis(AxisType.Y);
         yAxis.setLabel("Gender");        
-    }
+    }*/
     
     public PieChartModel gerarGraficoMensal() {
 		pieModel = new PieChartModel();
@@ -213,13 +207,58 @@ public class GraficoMB implements Serializable {
 		pieModel.setShowDataLabels(true);
 		
 		int mesAtual = Calendar.getInstance().get(Calendar.MONTH) + 1;
-		List<ReclamacaoDTO> reclamados = reclamacaoBC.listReclamadosPorMes(mesAtual);
+		List<ReclamacaoDTO> reclamados = reclamacaoBC.listObjetosMaisReclamados(mesAtual);
 		for (ReclamacaoDTO reclamacao : reclamados) {
 			pieModel.set(reclamacao.getObjetoReclamado(), reclamacao.getTotalReclamacoes());
 		}
 		
 		return pieModel;
 	}
+    
+    public PieChartModel gerarGraficoPrincipaisReclamacoes() {
+    	pieModel = new PieChartModel();
+    	
+    	pieModel.setLegendPosition("e");
+    	pieModel.setShowDataLabels(true);
+    	
+    	int mesAtual = Calendar.getInstance().get(Calendar.MONTH) + 1;
+    	List<ReclamacaoDTO> reclamados = reclamacaoBC.listPrincipaisReclamacoes(mesAtual);
+    	for (ReclamacaoDTO reclamacao : reclamados) {
+    		pieModel.set(reclamacao.getTipoReclamacao(), reclamacao.getTotalReclamacoes());
+    	}
+    	
+    	return pieModel;
+    }
+    
+    public PieChartModel gerarGraficoLinhasMaisReclamadas() {
+    	pieModel = new PieChartModel();
+    	
+    	pieModel.setLegendPosition("e");
+    	pieModel.setShowDataLabels(true);
+    	
+    	int mesAtual = Calendar.getInstance().get(Calendar.MONTH) + 1;
+    	List<ReclamacaoDTO> reclamados = reclamacaoBC.listLinhasMaisReclamadas(mesAtual);
+    	for (ReclamacaoDTO reclamacao : reclamados) {
+    		pieModel.set(reclamacao.getNumeroLinha(), reclamacao.getTotalReclamacoes());
+    	}
+    	
+    	return pieModel;
+    }
+    
+    public PieChartModel gerarGraficoEmpresasMaisReclamadas() {
+    	pieModel = new PieChartModel();
+    	
+    	pieModel.setLegendPosition("e");
+    	pieModel.setShowDataLabels(true);
+    	
+    	int mesAtual = Calendar.getInstance().get(Calendar.MONTH) + 1;
+    	List<ReclamacaoDTO> reclamados = reclamacaoBC.listEmpresasMaisReclamadas(mesAtual);
+    	for (ReclamacaoDTO reclamacao : reclamados) {
+    		pieModel.set(reclamacao.getEmpresa(), reclamacao.getTotalReclamacoes());
+    	}
+    	
+    	return pieModel;
+    }
     
     public String getMesCorrente() {
     	return Mes.getFromOrdinal(Calendar.getInstance().get(Calendar.MONTH)).getDescricao();

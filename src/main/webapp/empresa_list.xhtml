@@ -6,7 +6,7 @@
 
 	<ui:define name="titulo">
 		<div class="barra_titulo">
-			<h1><h:outputText value="#{messages['empresa.label']}" /></h1>
+			<h1><h:outputText value="Empresas" /></h1>
 		</div>
 	</ui:define>
 	
@@ -23,9 +23,9 @@
 		<h:form prependId="false" id="form">
 		
 			<p:fieldset legend="Pesquisa">
-				<p:outputLabel value="Nome"></p:outputLabel>
+				<p:outputLabel value="Nome "></p:outputLabel>
 				<p:inputText id="nome" value="#{empresaListMB.nome}"/>
-				<p:commandButton action="#{empresaListMB.findByNome}" icon="ui-icon-search" ajax="false"/>
+				<h:outputText value="&#160;" /><p:commandButton action="#{empresaListMB.findByNome}" icon="ui-icon-search" ajax="false"/>
 			</p:fieldset>
 			
 			<br />

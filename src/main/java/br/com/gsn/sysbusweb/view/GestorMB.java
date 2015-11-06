@@ -72,6 +72,9 @@ public class GestorMB implements Serializable {
 	}
 
 	public List<Reclamacao> getListReclamacoesPorMes() {
+		if (listReclamacoesPorMes.isEmpty()) {
+			pesquisarReclamacoesPorMes();
+		}
 		return listReclamacoesPorMes;
 	}
 
@@ -80,6 +83,9 @@ public class GestorMB implements Serializable {
 	}
 	
 	public List<Reclamacao> getListReclamacoesPorPeriodo() {
+		if (listReclamacoesPorPeriodo.isEmpty()) {
+			pesquisarReclamacoesPorPeriodo();
+		}
 		return listReclamacoesPorPeriodo;
 	}
 
@@ -100,20 +106,40 @@ public class GestorMB implements Serializable {
 		return new Date();
 	}
 
+	/**
+	 * Lista os principais reclamados
+	 * @return
+	 */
 	public List<ReclamacaoDTO> listObjetosMaisReclamados() {
-		return reclamacaoBC.listObjetosMaisReclamados();
+		int mes = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		return reclamacaoBC.listObjetosMaisReclamados(mes);
 	}
 
+	/**
+	 * Lista as linhas mais reclamadas
+	 * @return
+	 */
 	public List<ReclamacaoDTO> listLinhasMaisReclamadas() {
-		return reclamacaoBC.listLinhasMaisReclamadas();
+		int mes = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		return reclamacaoBC.listLinhasMaisReclamadas(mes);
 	}
 
+	/**
+	 * Lista as empresas mais reclamadas
+	 * @return
+	 */
 	public List<ReclamacaoDTO> listEmpresasMaisReclamadas() {
-		return reclamacaoBC.listEmpresasMaisReclamadas();
+		int mes = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		return reclamacaoBC.listEmpresasMaisReclamadas(mes);
 	}
 
+	/**
+	 * Lista as principais reclamações registradas
+	 * @return
+	 */
 	public List<ReclamacaoDTO> listPrincipaisReclamacoes() {
-		return reclamacaoBC.listPrincipaisReclamacoes();
+		int mes = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		return reclamacaoBC.listPrincipaisReclamacoes(mes);
 	}
 	
 	@PostConstruct
@@ -219,6 +245,7 @@ public class GestorMB implements Serializable {
 	}
 	
 	public void pesquisarReclamacoesPorPeriodo() {
+		
 		if (dataInicio == null || dataFim == null) {
 			this.listReclamacoesPorPeriodo = this.reclamacaoBC.findAll();
 		} else {
@@ -232,5 +259,14 @@ public class GestorMB implements Serializable {
 			
 		}
 	}
-
+	
+	public List<ReclamacaoDTO> listarLinhasComMaisLotacao() {
+		return reclamacaoBC.listarLinhasComMaisLotacao();
+	}
+	
+	public List<ReclamacaoDTO> listarHorarioComMaiorLotacao() {
+		return reclamacaoBC.listarHorarioComMaiorLotacao();
+	}
+	
+	
 }

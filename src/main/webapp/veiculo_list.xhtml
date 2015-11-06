@@ -6,7 +6,7 @@
 
 	<ui:define name="titulo">
 		<div class="barra_titulo">
-			<h1><h:outputText value="#{messages['veiculo.label']}" /></h1>
+			<h1><h:outputText value="Veículos" /></h1>
 		</div>
 	</ui:define>
 	
@@ -24,12 +24,12 @@
 		
 			<p:fieldset legend="#{messages['fieldset.pesquisa.label']}">
 				
-				<p:outputLabel value="#{messages['veiculo.label.numeroRegistro']}" for="numero"></p:outputLabel>
+				<p:outputLabel value="#{messages['veiculo.label.numeroRegistro']} " for="numero"></p:outputLabel>
 				<p:inputText id="numero" value="#{veiculoListMB.numeroRegistro}"/>
-				
-				<p:outputLabel value="#{messages['veiculo.label.placa']}" for="placa" converter="ConversorPlaca"></p:outputLabel>
+				<h:outputText value="&#160;" />
+				<p:outputLabel value="#{messages['veiculo.label.placa']} " for="placa" converter="ConversorPlaca"></p:outputLabel>
 				<p:inputText id="placa" value="#{veiculoListMB.placa}"/>
-				
+				<h:outputText value="&#160;" />
 				<p:commandButton action="#{veiculoListMB.pesquisar}" icon="ui-icon-search" ajax="false"/>
 			</p:fieldset>
 			

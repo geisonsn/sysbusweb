@@ -111,20 +111,28 @@ public class ReclamacaoBC extends DelegateCrud<Reclamacao, Long, ReclamacaoDAO> 
 		return getDelegate().listPrincipaisReclamacoesPorLinha(idLinha, quantidade);
 	}
 
-	public List<ReclamacaoDTO> listObjetosMaisReclamados() {
-		return getDelegate().listObjetosMaisReclamados();
+	public List<ReclamacaoDTO> listObjetosMaisReclamados(int mes) {
+		return getDelegate().listObjetosMaisReclamados(mes);
 	}
 
-	public List<ReclamacaoDTO> listLinhasMaisReclamadas() {
-		return getDelegate().listLinhasMaisReclamadas();
+	public List<ReclamacaoDTO> listLinhasMaisReclamadas(int mes) {
+		return getDelegate().listLinhasMaisReclamadas(mes);
 	}
 
-	public List<ReclamacaoDTO> listEmpresasMaisReclamadas() {
-		return getDelegate().listEmpresasMaisReclamadas();
+	public List<ReclamacaoDTO> listEmpresasMaisReclamadas(int mes) {
+		return getDelegate().listEmpresasMaisReclamadas(mes);
 	}
 
-	public List<ReclamacaoDTO> listPrincipaisReclamacoes() {
-		return getDelegate().listPrincipaisReclamacoes();
+	public List<ReclamacaoDTO> listPrincipaisReclamacoes(int mes) {
+		return getDelegate().listPrincipaisReclamacoes(mes);
+	}
+	
+	public List<ReclamacaoDTO> listarHorarioComMaiorLotacao() {
+		return getDelegate().listarHorarioComMaiorLotacao();
+	}
+	
+	public List<ReclamacaoDTO> listarLinhasComMaisLotacao() {
+		return getDelegate().listarLinhasComMaisLotacao();
 	}
 
 }

@@ -14,6 +14,8 @@
 	<ui:define name="toolbar">
 		<h:form prependId="false" id="frmToolbar">
 			<div class="barra_ferramentas">
+				<p:commandButton title="Voltar para a página principal" icon="ui-icon-circle-arrow-w" action="gestor?faces-redirect=true"
+					ajax="false" rendered="#{loginMB.usuario.gestor}"/>
 				<p:commandButton actionListener="#{gestorMB.imprimirRelatorioPorPeriodo}" ajax="false" 
 					icon="ui-icon-print"	title="Imprimir" alt="Imprimir" rendered="#{not empty gestorMB.listReclamacoesPorPeriodo}">
 				</p:commandButton>

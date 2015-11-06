@@ -6,20 +6,20 @@
 
 	<ui:define name="titulo">
 		<div class="barra_titulo">
-			<h1><h:outputText value="Reclamações do mês de #{graficoMB.mesCorrente}"/></h1>
+			<h1><h:outputText value="Linhas mais reclamadas em #{graficoMB.mesCorrente}"/></h1>
 		</div>
 	</ui:define>
 	
 	<ui:define name="toolbar">
 		<h:form prependId="false" id="frmToolbar">
 			<div class="barra_ferramentas">
-				<p:commandButton title="Ir para a pesquisa" icon="ui-icon-search" action="#" ajax="false" />
+				<p:commandButton title="Voltar para a página principal" icon="ui-icon-circle-arrow-w" action="gestor?faces-redirect=true"  ajax="false" />
 			</div>
 		</h:form>
 	</ui:define>
 		
 	<ui:define name="conteudo">
-		<p:chart type="pie" model="#{graficoMB.gerarGraficoMensal()}" style="height:400px; width: 100%" />
+		<p:chart type="pie" model="#{graficoMB.gerarGraficoLinhasMaisReclamadas()}" style="height:400px; width: 100%" />
 	</ui:define>
 			
 </ui:composition>
