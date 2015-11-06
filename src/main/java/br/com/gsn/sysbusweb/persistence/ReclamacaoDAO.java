@@ -129,7 +129,8 @@ public class ReclamacaoDAO extends JPACrud<Reclamacao, Long> {
 		sql.append("AND reclamacao.data_registro >= date_sub(sysdate(), interval 1 MONTH) \n");
 		sql.append("GROUP BY \n");
 		sql.append("  tipo_reclamacao.id \n");
-		sql.append("ORDER BY \n");
+		sql.append("ORDER BY ");
+		sql.append("  quantidade desc, ");
 		sql.append("  CASE \n");
 		sql.append("    WHEN objeto_reclamado_desc = 'Cobrador' \n");
 		sql.append("    THEN 1 \n");
